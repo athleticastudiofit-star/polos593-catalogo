@@ -140,6 +140,41 @@ nav{position:sticky;top:0;z-index:90;background:rgba(244,238,226,.9);backdrop-fi
 @media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:.7rem;padding:0 .7rem}}
 @media(max-width:360px){.grid{grid-template-columns:1fr;padding:0 1rem}}
 
+/* ── CARD DESLIZABLE (multi-color) ── */
+.card-swipe{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--paper-3)}
+.swipe-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.swipe-track::-webkit-scrollbar{display:none}
+.swipe-slide{flex:0 0 100%;height:100%;scroll-snap-align:center}
+.swipe-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.swipe-dots{position:absolute;bottom:.6rem;left:0;right:0;display:flex;justify-content:center;gap:.32rem;pointer-events:none}
+.swipe-dot{width:5px;height:5px;border-radius:50%;background:rgba(43,38,32,.28);transition:background .25s,transform .25s}
+.swipe-dot.on{background:var(--ink);transform:scale(1.35)}
+.swipe-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border:none;border-radius:50%;background:rgba(244,238,226,.86);color:var(--ink);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:2;box-shadow:0 1px 6px rgba(0,0,0,.16)}
+.swipe-arrow svg{width:13px;height:13px}
+.swipe-arrow.prev{left:.5rem} .swipe-arrow.next{right:.5rem}
+.swipe-arrow:disabled{opacity:.3;cursor:default}
+@media(hover:hover){ .card:hover .swipe-arrow{display:flex} }
+.swipe-count{position:absolute;top:.6rem;right:.6rem;font-size:9px;letter-spacing:.12em;background:rgba(244,238,226,.9);color:var(--ink);padding:.18rem .42rem;border-radius:2px}
+
+/* ── BANNER NOVEDADES ── */
+.nuevo-band{background:var(--ink);color:var(--paper);padding:2.2rem 1.5rem;position:relative;overflow:hidden}
+.nuevo-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:2.4rem}
+.nuevo-copy{flex:1;min-width:0}
+.nuevo-tag{display:inline-block;font-size:9.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);background:var(--gold);padding:.3rem .7rem;margin-bottom:.9rem}
+.nuevo-title{font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.7rem);font-weight:300;line-height:1.1;margin-bottom:.6rem}
+.nuevo-title em{font-style:italic;color:var(--gold)}
+.nuevo-desc{font-size:12.5px;line-height:1.7;color:rgba(244,238,226,.75);max-width:46ch}
+.nuevo-cta{display:inline-flex;align-items:center;gap:.7rem;margin-top:1.3rem;border-bottom:1px solid var(--gold);padding-bottom:.3rem;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);transition:gap .25s}
+.nuevo-cta:hover{gap:1.1rem}
+.nuevo-thumbs{display:flex;gap:.6rem;flex-shrink:0}
+.nuevo-thumbs img{width:104px;height:139px;object-fit:cover;border:1px solid rgba(169,133,79,.35)}
+@media(max-width:900px){
+  .nuevo-inner{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .nuevo-thumbs{width:100%;overflow-x:auto;padding-bottom:.3rem}
+  .nuevo-thumbs img{width:96px;height:128px;flex-shrink:0}
+}
+@media(max-width:480px){.nuevo-band{padding:1.8rem 1.1rem}}
+
 /* ── CARD ── */
 .card{display:flex;flex-direction:column}
 .card-img{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--paper-3);cursor:pointer}
@@ -153,13 +188,18 @@ nav{position:sticky;top:0;z-index:90;background:rgba(244,238,226,.9);backdrop-fi
 /* flip por toque (mobile) */
 .card.flipped .img-model{opacity:0}
 .card.flipped .img-flat{opacity:1}
+/* tarjetas sin flat-lay: la foto de modelo nunca se desvanece */
+.card.no-flip .img-model{opacity:1}
+.card.no-flip .card-img{cursor:default}
 .card-color-dot{position:absolute;bottom:.7rem;right:.7rem;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .card-body{padding:.8rem .2rem .2rem}
 .card-brand{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft)}
 .card-name{font-family:var(--serif);font-size:17px;font-weight:400;line-height:1.2;margin:.2rem 0}
 .card-color{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.6rem}
-.card-footer{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.5rem}
-.card-price{font-family:var(--serif);font-size:18px;font-weight:500}
+.card-footer{display:flex;align-items:center;justify-content:flex-start;gap:.5rem;margin-top:.5rem}
+.card-price{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--olive)}
+.card-price-old{font-family:var(--serif);font-size:14px;font-weight:400;color:var(--ink-soft);text-decoration:line-through;opacity:.7}
+.card-promo-tag{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;background:var(--olive);color:var(--paper);padding:.15rem .4rem;border-radius:3px;font-weight:600;margin-left:auto}
 .card-wa{display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--ink);color:var(--ink);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:.45rem .7rem;transition:all .25s;white-space:nowrap}
 .card-wa:hover{background:var(--olive);border-color:var(--olive);color:var(--paper)}
 .card-wa svg{width:12px;height:12px;flex:none}
@@ -228,6 +268,9 @@ nav{position:sticky;top:0;z-index:90;background:rgba(244,238,226,.9);backdrop-fi
 .cart-total{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.2rem}
 .cart-total span:first-child{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
 .cart-total-price{font-family:var(--serif);font-size:26px;font-weight:500}
+#cart-promo:empty{display:none}
+.cart-ahorro{background:var(--olive,#5a6b3b);color:#fff;font-size:12px;font-weight:600;text-align:center;padding:.5rem;border-radius:6px;margin-bottom:.5rem;letter-spacing:.02em}
+.cart-hint{font-size:11px;color:var(--ink-soft,#888);text-align:center;margin-bottom:.6rem;line-height:1.5}
 .cart-wa-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:.6rem;background:var(--ink);color:var(--paper);border:none;font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;padding:1rem;cursor:pointer;transition:background .25s}
 .cart-wa-btn:hover{background:var(--olive)}
 .cart-wa-btn svg{width:16px;height:16px;flex:none}
@@ -286,7 +329,7 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .reveal.vis{opacity:1;transform:none}
 
-/* ── DÍA DEL PADRE ── */
+/* ── PROMOCIÓN PRECIOS REBAJADOS ── */
 .papa-section{background:linear-gradient(90deg,rgba(43,38,32,.97) 25%,rgba(43,38,32,.6) 55%,rgba(43,38,32,.75) 100%),url('assets/flatlat-regalo-bg.jpg') right center / cover var(--ink);color:var(--paper);padding:0;position:relative;overflow:hidden}
 .papa-bg{display:none}
 .papa-inner{position:relative;padding:3.5rem 2.6rem}
@@ -307,7 +350,7 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 .papa-prod-name{font-family:var(--serif);font-size:18px;font-weight:400;margin-bottom:.2rem}
 .papa-prod-desc{font-size:11.5px;opacity:.6;letter-spacing:.05em}
 .papa-prod-price{margin-left:auto;font-family:var(--serif);font-size:20px;color:var(--gold)}
-/* ── URGENCY STRIPS DÍA DEL PADRE ── */
+/* ── URGENCY STRIPS PROMOCIÓN PRECIOS REBAJADOS ── */
 .papa-strip{background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:1.6rem;padding:.55rem 1rem;overflow:hidden;position:relative;z-index:4;box-shadow:0 2px 12px rgba(0,0,0,.3)}
 .papa-strip span{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap}
 .papa-strip .pdot{opacity:.4;font-size:10px}
@@ -325,13 +368,13 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <span class="tb-main">🎁 <span style="letter-spacing:.28em">Día del Padre — 15 Junio</span> 🎁</span>
+  <span class="tb-main">🔥 <span style="letter-spacing:.28em">PROMOCIÓN — Precios Rebajados</span> 🔥</span>
   <span class="dot">·</span>
-  <span>Camisas premium desde $39.99</span>
+  <span>Camisas antes $39.99 ahora $34.99</span>
+  <span class="dot">·</span>
+  <span>Polos antes $29.99 ahora $24.99</span>
   <span class="dot">·</span>
   <span>Envíos a todo Ecuador en 24h</span>
-  <span class="dot">·</span>
-  <span>Solo hasta el 15 de junio</span>
 </div>
 
 <!-- NAV -->
@@ -345,11 +388,14 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     </div>
   </a>
   <div class="nav-links">
-    <a href="#papa" style="color:var(--gold);font-weight:500">🎁 Día del Padre</a>
+    <a href="#papa" style="color:var(--gold);font-weight:500">🔥 Promoción</a>
     <a href="#mujer">Mujer</a>
+    <a href="#vestidos">Vestidos</a>
     <a href="#hombre">Hombre</a>
+    <a href="#rayadas">Rayadas</a>
     <a href="#polo-rl">Polo RL</a>
     <a href="#polo-lc">Polo Clásico</a>
+    <a href="#bermudas">Bermudas</a>
     <a href="#comprar">Cómo comprar</a>
   </div>
   <div class="nav-right">
@@ -368,16 +414,19 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
   <div class="drawer-body">
-    <a class="drawer-link highlight" href="#papa" onclick="closeDrawer()">🎁 Día del Padre</a>
+    <a class="drawer-link highlight" href="#papa" onclick="closeDrawer()">🔥 Promoción</a>
     <a class="drawer-link" href="#mujer" onclick="closeDrawer()">👩 Mujer — Camisas Oxford</a>
+    <a class="drawer-link" href="#vestidos" onclick="closeDrawer()">👗 Vestidos Polo Mujer</a>
     <button class="drawer-link" onclick="toggleDrawerSub(this)">
       👨 Hombre
       <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
     </button>
     <div class="drawer-sub" id="drawerSubHombre">
       <a class="drawer-sub-link" href="#hombre" onclick="closeDrawer()">· Camisas Oxford</a>
+      <a class="drawer-sub-link" href="#rayadas" onclick="closeDrawer()">· Camisas Rayadas</a>
       <a class="drawer-sub-link" href="#polo-rl" onclick="closeDrawer()">· Polo Piqué RL</a>
       <a class="drawer-sub-link" href="#polo-lc" onclick="closeDrawer()">· Polo Clásico Lacoste</a>
+      <a class="drawer-sub-link" href="#bermudas" onclick="closeDrawer()">· Bermudas</a>
     </div>
     <a class="drawer-link" href="#comprar" onclick="closeDrawer()">Cómo comprar</a>
   </div>
@@ -398,69 +447,90 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
   </div>
 </section>
 
-<!-- ═══════════════ DÍA DEL PADRE ═══════════════ -->
+<!-- ═══════════════ BANNER NOVEDADES ═══════════════ -->
+<section class="nuevo-band">
+  <div class="nuevo-inner">
+    <div class="nuevo-copy reveal">
+      <span class="nuevo-tag">✨ Recién llegadas</span>
+      <h2 class="nuevo-title">Mira lo <em>nuevo</em> que llegó</h2>
+      <p class="nuevo-desc">Camisas rayadas premium para hombre — 8 colores nuevos, corte slim fit, algodón 100% con bordado decorativo. Perfectas para oficina y ocasiones formales.</p>
+      <a class="nuevo-cta" href="#rayadas">
+        Ver las nuevas
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="4" x2="14" y2="4"/><polyline points="10,1 14,4 10,7"/></svg>
+      </a>
+    </div>
+    <div class="nuevo-thumbs reveal">
+      <img src="assets/rayadas/model-h-rayas-azul-marino.jpg" alt="Camisa rayada Azul Marino" loading="lazy"/>
+      <img src="assets/rayadas/model-h-rayas-cobalto.jpg"     alt="Camisa rayada Cobalto" loading="lazy"/>
+      <img src="assets/rayadas/model-h-rayas-rojo.jpg"        alt="Camisa rayada Rojo" loading="lazy"/>
+      <img src="assets/rayadas/model-h-rayas-verde-nilo.jpg"  alt="Camisa rayada Verde Nilo" loading="lazy"/>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PROMOCIÓN PRECIOS REBAJADOS ═══════════════ -->
 <section class="papa-section" id="papa">
   <!-- Strip superior -->
   <div class="papa-strip">
-    <span class="ps-main">🎁 Día del Padre · 15 de Junio</span>
+    <span class="ps-main">🔥 Promoción · Precios Rebajados</span>
     <span class="pdot">·</span>
-    <span>Camisas premium desde $39.99</span>
+    <span>Camisas $̶3̶9̶.̶9̶9̶ ahora $34.99</span>
     <span class="pdot">·</span>
-    <span>Polos Piqué desde $29.99</span>
+    <span>Polos $̶2̶9̶.̶9̶9̶ ahora $24.99</span>
     <span class="pdot">·</span>
-    <span>⏳ Solo hasta el 15 de junio</span>
+    <span>⏳ Por tiempo limitado</span>
     <span class="pdot">·</span>
-    <span>Envío 24h 🇪🇨</span>
+    <span>Entrega 24h 🇪🇨</span>
   </div>
   <div class="papa-bg"></div>
   <div class="papa-inner">
     <div class="reveal">
-      <p class="papa-tag">🎁 Especial · 15 de Junio</p>
-      <h2 class="papa-title">El regalo <em>perfecto</em><br/>para papá</h2>
-      <p class="papa-desc">Dale algo que ya quería pero no se compraba. Camisas premium y Polos Piqué de primera calidad desde $29.99. El mejor regalo es el que se usa todos los días.</p>
-      <div class="papa-countdown">⏳ Solo hasta el 15 de junio · Envío en 24h</div>
+      <p class="papa-tag">🔥 Promoción de combos</p>
+      <h2 class="papa-title">Lleva <em>3</em> y<br/>paga menos</h2>
+      <p class="papa-desc">Arma tu combo: <strong>3 camisas por $94.99</strong> o <strong>3 camisetas por $69.99</strong>. Elige tus colores y tallas, agrégalas al carrito y el descuento se aplica solo. La misma calidad de siempre, a mejor precio.</p>
+      <div class="papa-countdown">⏳ Combos por tiempo limitado · Descuento automático en el carrito</div>
       <br/>
-      <a class="papa-cta" href="https://wa.me/593982265740?text=Hola%21%20Busco%20un%20regalo%20para%20el%20D%C3%ADa%20del%20Padre%20%F0%9F%8E%81%20%C2%BFqu%C3%A9%20tienen%20disponible%3F" target="_blank" rel="noopener">
+      <a class="papa-cta" id="wa-envio" href="#" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Regalar a papá por WhatsApp
+        Aprovechar la promoción
       </a>
     </div>
     <div class="papa-products reveal">
       <div class="papa-prod">
         <div class="papa-prod-num">i</div>
         <div class="papa-prod-info">
-          <p class="papa-prod-name">Camisa Premium</p>
-          <p class="papa-prod-desc">10 colores · Classic Fit · 100% algodón</p>
+          <p class="papa-prod-name">Camisas Premium</p>
+          <p class="papa-prod-desc">Combo de 3 · Elige colores y tallas</p>
         </div>
-        <div class="papa-prod-price">$39.99</div>
+        <div class="papa-prod-price">3 x <span style="text-decoration:line-through;opacity:.55;font-size:14px">$104.97</span> $94.99</div>
       </div>
       <div class="papa-prod">
         <div class="papa-prod-num">ii</div>
         <div class="papa-prod-info">
-          <p class="papa-prod-name">Polo Piqué AAA</p>
-          <p class="papa-prod-desc">16 colores · Custom Fit · Tejido piqué premium</p>
+          <p class="papa-prod-name">Camisetas Premium</p>
+          <p class="papa-prod-desc">Combo de 3 · Elige colores y tallas</p>
         </div>
-        <div class="papa-prod-price">$29.99</div>
+        <div class="papa-prod-price">3 x <span style="text-decoration:line-through;opacity:.55;font-size:14px">$74.97</span> $69.99</div>
       </div>
       <div class="papa-prod">
         <div class="papa-prod-num">iii</div>
         <div class="papa-prod-info">
-          <p class="papa-prod-name">Polo Clásico Piqué AAA</p>
-          <p class="papa-prod-desc">6 colores · Classic Fit · Bordado premium</p>
+          <p class="papa-prod-name">Unidad individual</p>
+          <p class="papa-prod-desc">Camisa $34.99 · Camiseta $24.99</p>
         </div>
-        <div class="papa-prod-price">$29.99</div>
+        <div class="papa-prod-price">Desde $24.99</div>
       </div>
     </div>
   </div>
   <!-- Strip inferior -->
   <div class="papa-strip">
-    <span class="ps-main">📦 Contra entrega en Quito · Servientrega a todo Ecuador</span>
+    <span class="ps-main">🔥 Precios rebajados por tiempo limitado</span>
     <span class="pdot">·</span>
     <span>Escríbenos por WhatsApp</span>
     <span class="pdot">·</span>
     <span>⚡ Entrega en 24h</span>
     <span class="pdot">·</span>
-    <span>🎁 Solo hasta el 15 de junio</span>
+    <span>📦 Envíos a todo Ecuador</span>
   </div>
 </section>
 
@@ -499,13 +569,27 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 
 <div class="section-divider"></div>
 
+<!-- ═══════════════ VESTIDOS POLO MUJER ═══════════════ -->
+<section class="section" id="vestidos">
+  <div class="section-head reveal">
+    <div>
+      <p class="section-label">✨ Recién llegadas</p>
+      <h2 class="section-title">Vestidos <em>Polo</em></h2>
+      <p class="section-desc">Vestido polo premium para mujer, largo sobre la rodilla. Tejido piqué 100% algodón, cuello camisero y bordado decorativo. <strong style="color:var(--tobacco)">Desliza sobre la foto para ver todos los colores.</strong></p>
+    </div>
+  </div>
+  <div class="grid" id="grid-vestidos"></div>
+</section>
+
+<div class="section-divider"></div>
+
 <!-- ═══════════════ SECCIÓN HOMBRE ═══════════════ -->
 <section class="section" id="hombre">
   <div class="section-head reveal">
     <div>
-      <p class="section-label">🎁 Regalo ideal · Día del Padre</p>
+      <p class="section-label">🔥 Promoción · Precios rebajados</p>
       <h2 class="section-title"><em>Hombre</em> — Polos RL</h2>
-      <p class="section-desc">Camisa premium para hombre. 10 colores disponibles, corte classic fit, tejido 100% algodón de alto gramaje con bordado decorativo. <strong style="color:var(--tobacco)">El regalo perfecto para el 15 de junio.</strong></p>
+      <p class="section-desc">Camisa premium para hombre. 10 colores disponibles, corte classic fit, tejido 100% algodón de alto gramaje con bordado decorativo. <strong style="color:var(--tobacco)">Ahora a precio promocional por tiempo limitado.</strong></p>
     </div>
   </div>
 
@@ -534,6 +618,20 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 
 <div class="section-divider"></div>
 
+<!-- ═══════════════ CAMISAS RAYADAS ═══════════════ -->
+<section class="section" id="rayadas">
+  <div class="section-head reveal">
+    <div>
+      <p class="section-label">✨ Recién llegadas</p>
+      <h2 class="section-title">Camisas <em>Rayadas</em></h2>
+      <p class="section-desc">Camisa rayada premium para hombre. 8 colores disponibles, corte slim fit, tejido 100% algodón con bordado decorativo. Ideal para oficina y ocasiones formales.</p>
+    </div>
+  </div>
+  <div class="grid" id="grid-rayadas"></div>
+</section>
+
+<div class="section-divider"></div>
+
 <!-- ═══════════════ POLO PIQUÉ PREMIUM ═══════════════ -->
 <section class="section" id="polo-rl">
   <div class="section-head reveal">
@@ -558,6 +656,20 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     </div>
   </div>
   <div class="grid" id="grid-polo-lc"></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ BERMUDAS ═══════════════ -->
+<section class="section" id="bermudas">
+  <div class="section-head reveal">
+    <div>
+      <p class="section-label">✨ Recién llegadas</p>
+      <h2 class="section-title">Bermudas <em>Premium</em></h2>
+      <p class="section-desc">Bermuda premium para hombre. 6 colores disponibles, cintura elástica con cordón, tejido liviano de secado rápido y bordado decorativo. Ideal para playa, piscina y clima cálido.</p>
+    </div>
+  </div>
+  <div class="grid" id="grid-bermudas"></div>
 </section>
 
 <!-- CÓMO COMPRAR -->
@@ -637,6 +749,7 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     </div>
   </div>
   <div class="cart-foot">
+    <div id="cart-promo"></div>
     <div class="cart-total">
       <span>Total estimado</span>
       <span class="cart-total-price" id="cart-total">$0.00</span>
@@ -659,14 +772,17 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
           <div class="b2" style="color:rgba(244,238,226,.55)">ECUADOR</div>
         </div>
       </div>
-      <p class="foot-desc">Prendas de calidad AAA para quienes aprecian el detalle. Envíos a todo Ecuador.</p>
+      <p class="foot-desc">Prendas premium para quienes aprecian el detalle. Envíos a todo Ecuador.</p>
     </div>
     <div class="foot-col">
       <h6>Navegar</h6>
       <a href="#mujer">Camisa Polos Mujer</a>
+      <a href="#vestidos">Vestido Polo Mujer</a>
       <a href="#hombre">Camisa Polos Hombre</a>
+      <a href="#rayadas">Camisa Rayada Hombre</a>
       <a href="#polo-rl">Polo Piqué Premium</a>
       <a href="#polo-lc">Polo Clásico</a>
+      <a href="#bermudas">Bermudas Hombre</a>
       <a href="#comprar">Cómo comprar</a>
       <a href="#tienda">Tienda física</a>
     </div>
@@ -684,12 +800,25 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 <script>
 /* ── WhatsApp ── */
 const WA = "593982265740";
-function waLink(msg){ return "https://wa.me/"+WA+"?text="+encodeURIComponent(msg); }
+/* Atribución de pauta: si la visita llega con ?src=ads, marcar todos los mensajes de WhatsApp */
+const SRC_ADS = (function(){
+  try{
+    const p = new URLSearchParams(window.location.search).get('src');
+    if(p){ sessionStorage.setItem('p593_src', p); return p==='ads'; }
+    return sessionStorage.getItem('p593_src')==='ads';
+  }catch(e){ return false; }
+})();
+function waLink(msg){
+  if(SRC_ADS) msg += ' [Vi su anuncio 📱]';
+  return "https://wa.me/"+WA+"?text="+encodeURIComponent(msg);
+}
 function setWaLinks(){
   document.querySelectorAll('[id^="wa-"]').forEach(el=>{
     if(el.id==='wa-nav')   el.href=waLink('Hola! Me interesa conocer el catálogo de Polos593 Ecuador 👕');
     if(el.id==='wa-foot')  el.href=waLink('Hola! Quisiera más información sobre sus prendas.');
     if(el.id==='wa-tienda') el.href=waLink('Hola! Quisiera que me avisen cuando abra la tienda física de Polos593 Ecuador 🏪');
+    if(el.id==='wa-envio')  el.href=waLink('Hola! Vi la promoción de precios rebajados 🔥 ¿qué tienen disponible?');
+    el.addEventListener('click',()=>{ if(typeof fbq!=='undefined') fbq('track','Contact'); });
   });
 }
 
@@ -745,6 +874,18 @@ const POLO_RL = [
   {color:'Verde Menta',   model:'assets/model-rl-16.jpg', flat:'assets/polo-rl-16.jpg'},
 ];
 
+/* Camisas rayadas hombre — sin flat-lay por ahora (tarjeta sin flip) */
+const RAYADAS_H = [
+  {color:'Azul Marino', hex:'#23305E', model:'assets/rayadas/model-h-rayas-azul-marino.jpg'},
+  {color:'Cobalto',     hex:'#3E5F94', model:'assets/rayadas/model-h-rayas-cobalto.jpg'},
+  {color:'Celeste',     hex:'#A9C3E6', model:'assets/rayadas/model-h-rayas-celeste.jpg'},
+  {color:'Verde Agua',  hex:'#3FC3DC', model:'assets/rayadas/model-h-rayas-verde-agua.jpg'},
+  {color:'Verde Nilo',  hex:'#8FAF92', model:'assets/rayadas/model-h-rayas-verde-nilo.jpg'},
+  {color:'Rosado',      hex:'#E9A9C1', model:'assets/rayadas/model-h-rayas-rosado.jpg'},
+  {color:'Rojo',        hex:'#C25A58', model:'assets/rayadas/model-h-rayas-rojo.jpg'},
+  {color:'Negro',       hex:'#1C1C22', model:'assets/rayadas/model-h-rayas-negro.jpg'},
+];
+
 const POLO_LC = [
   {color:'Azul Marino',    model:'assets/model-lc-01.jpg', flat:'assets/polo-lc-01.jpg'},
   {color:'Verde Agua',     model:'assets/model-lc-02.jpg', flat:'assets/polo-lc-02.jpg'},
@@ -752,6 +893,47 @@ const POLO_LC = [
   {color:'Verde Bosque',   model:'assets/model-lc-04.jpg', flat:'assets/polo-lc-04.jpg'},
   {color:'Celeste Pastel', model:'assets/model-lc-05.jpg', flat:'assets/polo-lc-05.jpg'},
   {color:'Amarillo',       model:'assets/model-lc-06.jpg', flat:'assets/polo-lc-06.jpg'},
+];
+
+/* Vestidos polo mujer — tarjeta deslizable: slide 0 = foto con modelo, resto = colores */
+const PRECIO_VESTIDO = 24.99;
+const VESTIDOS = [
+  {
+    id:'polo-rl', nombre:'Vestido Polo Piqué', linea:'Vestido Polo',
+    slides:[
+      {color:'Azul Marino', hex:'#1B2A4A', img:'assets/vestidos/vestido-polo-rl-modelo-azul-marino.jpg'},
+      {color:'Azul Marino', hex:'#1B2A4A', img:'assets/vestidos/vestido-polo-rl-color-azul-marino.jpg'},
+      {color:'Rojo',        hex:'#D50000', img:'assets/vestidos/vestido-polo-rl-color-rojo.jpg'},
+      {color:'Blanco',      hex:'#EFEFF2', img:'assets/vestidos/vestido-polo-rl-color-blanco.jpg'},
+      {color:'Negro',       hex:'#111111', img:'assets/vestidos/vestido-polo-rl-color-negro.jpg'},
+      {color:'Celeste',     hex:'#97B0CE', img:'assets/vestidos/vestido-polo-rl-color-celeste.jpg'},
+      {color:'Azul Rey',    hex:'#0046B7', img:'assets/vestidos/vestido-polo-rl-color-azul-rey.jpg'},
+      {color:'Beige',       hex:'#C7A27A', img:'assets/vestidos/vestido-polo-rl-color-beige.jpg'},
+      {color:'Rosado',      hex:'#F9A5AE', img:'assets/vestidos/vestido-polo-rl-color-rosado.jpg'},
+    ]
+  },
+  {
+    id:'tommy', nombre:'Vestido Polo Clásico', linea:'Vestido Polo',
+    slides:[
+      {color:'Rojo',        hex:'#A40002', img:'assets/vestidos/vestido-tommy-modelo-rojo.jpg'},
+      {color:'Rojo',        hex:'#A40002', img:'assets/vestidos/vestido-tommy-color-rojo.jpg'},
+      {color:'Negro',       hex:'#171717', img:'assets/vestidos/vestido-tommy-color-negro.jpg'},
+      {color:'Azul Marino', hex:'#1B2338', img:'assets/vestidos/vestido-tommy-color-azul-marino.jpg'},
+      {color:'Celeste',     hex:'#93ACC9', img:'assets/vestidos/vestido-tommy-color-celeste.jpg'},
+      {color:'Rosado',      hex:'#F09CA7', img:'assets/vestidos/vestido-tommy-color-rosado.jpg'},
+      {color:'Blanco',      hex:'#EFEFF2', img:'assets/vestidos/vestido-tommy-color-blanco.jpg'},
+    ]
+  },
+];
+
+/* Bermudas hombre — solo flat-lay (tarjeta sin flip) */
+const BERMUDAS_H = [
+  {color:'Azul Marino', hex:'#1C2B4A', flat:'assets/bermudas/bermuda-lc-azul-marino.jpg'},
+  {color:'Celeste',     hex:'#7AB8CC', flat:'assets/bermudas/bermuda-lc-celeste.jpg'},
+  {color:'Turquesa',    hex:'#09B7EB', flat:'assets/bermudas/bermuda-lc-turquesa.jpg'},
+  {color:'Camel',       hex:'#BD8544', flat:'assets/bermudas/bermuda-lc-camel.jpg'},
+  {color:'Rojo',        hex:'#D2001B', flat:'assets/bermudas/bermuda-lc-rojo.jpg'},
+  {color:'Blanco',      hex:'#EFEFF2', flat:'assets/bermudas/bermuda-lc-blanco.jpg'},
 ];
 
 const WA_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
@@ -824,12 +1006,34 @@ function removeFromCart(id){
 // Cerrar modal al tocar el overlay
 document.addEventListener('click', e=>{ if(e.target.id==='size-modal-overlay') closeSizePicker(); });
 
+/* ── Combos: 3 camisas $94.99 · 3 camisetas $69.99 (descuento automático) ── */
+const PRECIO_BASE = { camisa: 34.99, polo: 24.99 };
+const COMBO       = { camisa: 94.99, polo: 69.99 };
+function categoriaItem(nombre){ return nombre.indexOf('Camisa Premium')>-1 ? 'camisa' : 'polo'; }
+function calcularTotal(){
+  let nC=0, nP=0, surcharge=0, sinCombo=0;
+  cart.forEach(i=>{
+    const cat = categoriaItem(i.nombre);
+    surcharge += (i.precio - PRECIO_BASE[cat]); // +$5 tallas grandes
+    sinCombo  += i.precio;
+    if(cat==='camisa') nC++; else nP++;
+  });
+  const baseC = Math.floor(nC/3)*COMBO.camisa + (nC%3)*PRECIO_BASE.camisa;
+  const baseP = Math.floor(nP/3)*COMBO.polo   + (nP%3)*PRECIO_BASE.polo;
+  const total = baseC + baseP + surcharge;
+  return { total, ahorro: Math.max(0, sinCombo-total), nC, nP,
+           combosC: Math.floor(nC/3), combosP: Math.floor(nP/3),
+           faltaC: nC%3===0?0:3-(nC%3), faltaP: nP%3===0?0:3-(nP%3) };
+}
+
 function renderCart(){
-  const total = cart.reduce((s,i)=>s+i.precio,0);
+  const calc = calcularTotal();
+  const total = calc.total;
   const badge = document.getElementById('cart-badge');
   const itemsEl = document.getElementById('cart-items');
   const totalEl = document.getElementById('cart-total');
   const btnWA   = document.getElementById('cart-wa-btn');
+  const promoEl = document.getElementById('cart-promo');
 
   // Badge
   badge.textContent = cart.length;
@@ -837,6 +1041,19 @@ function renderCart(){
 
   // Total
   totalEl.textContent = '$'+total.toFixed(2);
+
+  // Promo / ahorro
+  if(promoEl){
+    let html = '';
+    if(calc.ahorro > 0){
+      html += `<div class="cart-ahorro">🔥 Ahorras $${calc.ahorro.toFixed(2)} con la promo de combos</div>`;
+    }
+    const hints = [];
+    if(calc.nC>0 && calc.faltaC>0) hints.push(`Agrega ${calc.faltaC} camisa${calc.faltaC>1?'s':''} más y llévate 3 x $94.99`);
+    if(calc.nP>0 && calc.faltaP>0) hints.push(`Agrega ${calc.faltaP} camiseta${calc.faltaP>1?'s':''} más y llévate 3 x $69.99`);
+    if(hints.length) html += `<div class="cart-hint">${hints.join('<br>')}</div>`;
+    promoEl.innerHTML = html;
+  }
 
   // Botón WA
   btnWA.disabled = cart.length === 0;
@@ -863,10 +1080,12 @@ function toggleCart(){ cartOpen ? closeCart() : openCart(); }
 
 function enviarPedido(){
   if(cart.length===0) return;
-  const total = cart.reduce((s,i)=>s+i.precio,0);
+  const calc = calcularTotal();
+  const total = calc.total;
   if(typeof fbq!=='undefined') fbq('track','InitiateCheckout',{num_items:cart.length,value:total,currency:'USD'});
   let msg = 'Hola! Quiero hacer el siguiente pedido 🛒\n\n';
   cart.forEach((i,n)=>{ msg += `${n+1}. ${i.nombre} — Color: ${i.color} — Talla: ${i.talla} — $${i.precio.toFixed(2)}\n`; });
+  if(calc.ahorro>0){ msg += `\n🔥 Promo combos aplicada — ahorras $${calc.ahorro.toFixed(2)}`; }
   msg += `\n*Total estimado: $${total.toFixed(2)}*\n\n¿Tienen disponibilidad?`;
   // Intentar enviar al bot directamente (si hay número en URL o localStorage)
   const urlPhone = new URLSearchParams(window.location.search).get('phone');
@@ -882,6 +1101,7 @@ function enviarPedido(){
       })
     }).catch(()=>{});
   }
+  if(typeof fbq!=='undefined') fbq('track','Contact');
   window.open(waLink(msg),'_blank');
 }
 
@@ -892,7 +1112,8 @@ const CART_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 
 function makeCard(item, genero){
   const nombre = `Camisa Premium ${genero==='mujer'?'Mujer':'Hombre'}`;
-  const base = 39.99;
+  const base = 34.99;
+  const antes = 39.99;
   const dotBorder = item.hex==='#F5F5F3'||item.hex==='#F3E37A'?'2px solid rgba(0,0,0,.25)':'2px solid rgba(255,255,255,.6)';
   return `<article class="card reveal">
   <div class="card-img">
@@ -904,7 +1125,108 @@ function makeCard(item, genero){
     <p class="card-brand">Polos593</p>
     <p class="card-name">Camisa Premium</p>
     <p class="card-color">${item.color}</p>
-    <div class="card-footer"><span class="card-price">$${base.toFixed(2)}</span></div>
+    <div class="card-footer"><span class="card-price-old">$${antes.toFixed(2)}</span><span class="card-price">$${base}</span><span class="card-promo-tag">Promo</span></div>
+    <button class="card-agregar" onclick="abrirSizePicker('${nombre}','${item.color}',${base})">${CART_SVG} Agregar al pedido</button>
+  </div>
+</article>`;
+}
+
+function makeVestidoCard(v){
+  const base = PRECIO_VESTIDO;
+  const s0 = v.slides[0];
+  const dot = h => h==='#EFEFF2' ? '2px solid rgba(0,0,0,.25)' : '2px solid rgba(255,255,255,.6)';
+  const slides = v.slides.map((s,i)=>`<div class="swipe-slide"><img src="${s.img}" alt="${v.nombre} ${s.color}" loading="${i===0?'eager':'lazy'}"/></div>`).join('');
+  const dots = v.slides.map((_,i)=>`<span class="swipe-dot${i===0?' on':''}"></span>`).join('');
+  return `<article class="card reveal" data-vestido="${v.id}">
+  <div class="card-swipe">
+    <div class="swipe-track" id="track-${v.id}" onscroll="onSwipe('${v.id}')">${slides}</div>
+    <span class="swipe-count" id="count-${v.id}">1/${v.slides.length}</span>
+    <span class="card-color-dot" id="dot-${v.id}" style="background:${s0.hex};border:${dot(s0.hex)}"></span>
+    <div class="swipe-dots" id="dots-${v.id}">${dots}</div>
+    <button class="swipe-arrow prev" onclick="swipeGo('${v.id}',-1)" aria-label="Color anterior" disabled>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="10,2 4,8 10,14"/></svg>
+    </button>
+    <button class="swipe-arrow next" onclick="swipeGo('${v.id}',1)" aria-label="Siguiente color">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,2 12,8 6,14"/></svg>
+    </button>
+  </div>
+  <div class="card-body">
+    <p class="card-brand">Polos593</p>
+    <p class="card-name">${v.linea}</p>
+    <p class="card-color" id="color-${v.id}">${s0.color}</p>
+    <div class="card-footer"><span class="card-price">$${base.toFixed(2)}</span><span class="card-promo-tag">Nuevo</span></div>
+    <button class="card-agregar" onclick="agregarVestido('${v.id}')">${CART_SVG} Agregar al pedido</button>
+  </div>
+</article>`;
+}
+
+/* indice visible de cada carrusel */
+const vestidoIdx = {};
+/* pinta el estado del carrusel para el slide i */
+function setVestidoSlide(id, i){
+  const v = VESTIDOS.find(x=>x.id===id), s = v && v.slides[i];
+  if(!s || vestidoIdx[id] === i) return;
+  vestidoIdx[id] = i;
+  document.getElementById('color-'+id).textContent = s.color;
+  document.getElementById('count-'+id).textContent = (i+1)+'/'+v.slides.length;
+  const d = document.getElementById('dot-'+id);
+  d.style.background = s.hex;
+  d.style.border = s.hex==='#EFEFF2' ? '2px solid rgba(0,0,0,.25)' : '2px solid rgba(255,255,255,.6)';
+  [...document.getElementById('dots-'+id).children].forEach((el,n)=>el.classList.toggle('on',n===i));
+  const card = document.querySelector('[data-vestido="'+id+'"]');
+  card.querySelector('.swipe-arrow.prev').disabled = i===0;
+  card.querySelector('.swipe-arrow.next').disabled = i===v.slides.length-1;
+}
+function onSwipe(id){
+  const t = document.getElementById('track-'+id);
+  setVestidoSlide(id, Math.round(t.scrollLeft / t.clientWidth));
+}
+function swipeGo(id,dir){
+  const t = document.getElementById('track-'+id);
+  const v = VESTIDOS.find(x=>x.id===id);
+  const i = Math.min(v.slides.length-1, Math.max(0,(vestidoIdx[id]||0)+dir));
+  setVestidoSlide(id, i);                       // estado ya, no espera al evento scroll
+  t.scrollTo({left:i*t.clientWidth});            // suavidad la da scroll-behavior del CSS
+}
+function agregarVestido(id){
+  const v = VESTIDOS.find(x=>x.id===id);
+  const s = v.slides[vestidoIdx[id]||0];
+  abrirSizePicker(v.nombre, s.color, PRECIO_VESTIDO);
+}
+
+function makeBermudaCard(item){
+  const nombre = `Bermuda Hombre`;
+  const base = 23.00;
+  const dotBorder = item.hex==='#EFEFF2'?'2px solid rgba(0,0,0,.25)':'2px solid rgba(255,255,255,.6)';
+  return `<article class="card no-flip reveal">
+  <div class="card-img">
+    <img class="img-model" src="${item.flat}" alt="Bermuda Hombre ${item.color}" loading="lazy"/>
+    <span class="card-color-dot" style="background:${item.hex};border:${dotBorder}"></span>
+  </div>
+  <div class="card-body">
+    <p class="card-brand">Polos593</p>
+    <p class="card-name">Bermuda</p>
+    <p class="card-color">${item.color}</p>
+    <div class="card-footer"><span class="card-price">$${base.toFixed(2)}</span><span class="card-promo-tag">Nuevo</span></div>
+    <button class="card-agregar" onclick="abrirSizePicker('${nombre}','${item.color}',${base})">${CART_SVG} Agregar al pedido</button>
+  </div>
+</article>`;
+}
+
+function makeRayadaCard(item){
+  const nombre = `Camisa Rayada Hombre`;
+  const base = 39.90;
+  const dotBorder = '2px solid rgba(255,255,255,.6)';
+  return `<article class="card no-flip reveal">
+  <div class="card-img">
+    <img class="img-model" src="${item.model}" alt="Camisa Rayada Hombre ${item.color}" loading="lazy"/>
+    <span class="card-color-dot" style="background:${item.hex};border:${dotBorder}"></span>
+  </div>
+  <div class="card-body">
+    <p class="card-brand">Polos593</p>
+    <p class="card-name">Camisa Rayada</p>
+    <p class="card-color">${item.color}</p>
+    <div class="card-footer"><span class="card-price">$${base.toFixed(2)}</span><span class="card-promo-tag">Nuevo</span></div>
     <button class="card-agregar" onclick="abrirSizePicker('${nombre}','${item.color}',${base})">${CART_SVG} Agregar al pedido</button>
   </div>
 </article>`;
@@ -912,7 +1234,8 @@ function makeCard(item, genero){
 
 function makePoloCard(item, marca){
   const nombre = `Polo Piqué Premium`;
-  const base = 29.99;
+  const base = 24.99;
+  const antes = 29.99;
   return `<article class="card reveal">
   <div class="card-img">
     <img class="img-model" src="${item.model}" alt="Polo ${marca} ${item.color}" loading="lazy"/>
@@ -922,7 +1245,7 @@ function makePoloCard(item, marca){
     <p class="card-brand">Polos593</p>
     <p class="card-name">Polo Piqué</p>
     <p class="card-color">${item.color}</p>
-    <div class="card-footer"><span class="card-price">$${base.toFixed(2)}</span></div>
+    <div class="card-footer"><span class="card-price-old">$${antes.toFixed(2)}</span><span class="card-price">$${base}</span><span class="card-promo-tag">Promo</span></div>
     <button class="card-agregar" onclick="abrirSizePicker('${nombre}','${item.color}',${base})">${CART_SVG} Agregar al pedido</button>
   </div>
 </article>`;
@@ -930,9 +1253,12 @@ function makePoloCard(item, marca){
 
 function renderGrids(){
   document.getElementById('grid-m').innerHTML = COLORES_M.map(c=>makeCard(c,'mujer')).join('');
+  document.getElementById('grid-vestidos').innerHTML = VESTIDOS.map(v=>makeVestidoCard(v)).join('');
   document.getElementById('grid-h').innerHTML = COLORES_H.map(c=>makeCard(c,'hombre')).join('');
+  document.getElementById('grid-rayadas').innerHTML = RAYADAS_H.map(c=>makeRayadaCard(c)).join('');
   document.getElementById('grid-polo-rl').innerHTML = POLO_RL.map(c=>makePoloCard(c,"Premium","hombre")).join('');
   document.getElementById('grid-polo-lc').innerHTML = POLO_LC.map(c=>makePoloCard(c,"Clásico","hombre")).join('');
+  document.getElementById('grid-bermudas').innerHTML = BERMUDAS_H.map(c=>makeBermudaCard(c)).join('');
 }
 
 /* ── Carousel ── */
@@ -1064,6 +1390,7 @@ document.addEventListener('touchend', e=>{
   if(!cardImg) return;
   e.preventDefault();
   const card = cardImg.closest('.card');
+  if(card.classList.contains('no-flip')) return;
   card.classList.toggle('flipped');
 }, {passive:false});
 </script>
