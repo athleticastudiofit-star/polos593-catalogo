@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0E0D0B">
+<meta name="robots" content="noindex">
+<title>Polos 593 · Vendedores</title>
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --negro:#0E0D0B; --negro-2:#1B1915; --negro-3:#26231D;
+  --oro:#C9A84C; --oro-claro:#E7D08F; --oro-osc:#9C7E2E;
+  --crema:#F6F1E7; --crema-2:#EDE5D4; --crema-3:#E2D7C1;
+  --tinta:#1B1A17; --gris:#6E685D; --linea:#DCD2BE;
+  --verde:#2F7A4B; --verde-bg:#E3F0E6; --rojo:#A63A2B; --rojo-bg:#F5E1DC; --azul:#2D5B8A; --azul-bg:#E1EAF3; --ambar:#94690F; --ambar-bg:#F6EBCB;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--crema);color:var(--tinta);font-family:var(--sans);font-size:15px;line-height:1.45;min-height:100vh}
+button,input,select,textarea{font-family:inherit;font-size:16px;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.hide{display:none!important}
+
+/* ── Acceso ── */
+#auth{min-height:100vh;background:var(--negro);color:#fff;display:flex;flex-direction:column;align-items:center;padding:48px 20px 32px}
+#auth .logo{width:96px;height:96px}
+#auth h1{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.05;text-align:center;margin-top:18px}
+#auth h1 em{color:var(--oro-claro)}
+#auth .sub{color:#B9B0A0;text-align:center;margin-top:8px;max-width:320px}
+.auth-card{width:100%;max-width:360px;margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.auth-card label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#A79E8C}
+.dark-in{background:var(--negro-2);border:1px solid var(--negro-3);border-radius:12px;padding:14px;color:#fff;width:100%;outline:none}
+.dark-in:focus{border-color:var(--oro)}
+.auth-switch{background:none;border:none;color:var(--oro-claro);margin-top:6px;text-decoration:underline;text-underline-offset:3px;font-size:15px}
+.err{color:#F0A796;font-size:14px;min-height:20px;text-align:center}
+
+/* ── App ── */
+.top{position:sticky;top:0;z-index:40;background:var(--negro);color:#fff;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px}
+.top img{width:34px;height:34px}
+.top .who{flex:1;min-width:0}
+.top .who b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .who span{font-size:12px;color:var(--oro-claro);letter-spacing:.08em}
+main{max-width:560px;margin:0 auto;padding:18px 16px calc(96px + env(safe-area-inset-bottom))}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--negro);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;background:none;border:none;color:#8F877A;padding:10px 4px 9px;font-size:11px;letter-spacing:.04em;display:flex;flex-direction:column;align-items:center;gap:3px}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--oro)}
+.nav .dot{position:relative}
+.nav .dot i{position:absolute;top:-3px;right:-8px;background:var(--oro);color:var(--negro);font-style:normal;font-size:10px;font-weight:600;border-radius:9px;padding:0 5px;line-height:16px}
+
+h2{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.05;margin-bottom:4px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--oro-osc);font-weight:600;margin-bottom:6px}
+.lead{color:var(--gris);margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--linea);border-radius:16px;padding:16px;margin-bottom:14px}
+.card.dark{background:var(--negro);color:#fff;border-color:var(--negro)}
+.card h3{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.15;margin-bottom:6px}
+.muted{color:var(--gris)}
+.small{font-size:13px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;padding:14px 16px;font-weight:600;font-size:16px;text-decoration:none;width:100%}
+.btn-oro{background:var(--oro);color:var(--negro)}
+.btn-negro{background:var(--negro);color:#fff}
+.btn-linea{background:transparent;border:1px solid var(--linea);color:var(--tinta)}
+.dark .btn-linea{border-color:#3A362E;color:#fff}
+.btn-sm{padding:9px 12px;font-size:14px;width:auto;border-radius:10px}
+.btn:disabled{opacity:.5}
+.fld{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:13px 14px;width:100%;outline:none}
+.fld:focus{border-color:var(--oro)}
+label.lbl{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin:14px 0 6px;font-weight:500}
+.money{font-family:var(--serif);font-weight:600;line-height:1}
+.chip{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:3px 10px;white-space:nowrap}
+.c-verde{background:var(--verde-bg);color:var(--verde)} .c-rojo{background:var(--rojo-bg);color:var(--rojo)}
+.c-azul{background:var(--azul-bg);color:var(--azul)} .c-ambar{background:var(--ambar-bg);color:var(--ambar)}
+.c-gris{background:var(--crema-2);color:var(--gris)} .c-oro{background:var(--negro);color:var(--oro-claro)}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--negro);color:#fff;padding:12px 18px;border-radius:12px;opacity:0;transition:.25s;z-index:99;pointer-events:none;max-width:90%;text-align:center;font-size:14px}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.empty{text-align:center;color:var(--gris);padding:28px 10px}
+
+/* Inicio */
+.saldo{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.saldo .money{font-size:52px;color:var(--oro)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:12px 14px}
+.kpi .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris)}
+.kpi .money{font-size:28px;margin-top:4px}
+.prog{height:10px;background:var(--crema-2);border-radius:6px;overflow:hidden;margin:10px 0 6px;position:relative}
+.prog b{display:block;height:100%;background:linear-gradient(90deg,var(--oro-osc),var(--oro))}
+.marks{display:flex;justify-content:space-between;font-size:12px;color:var(--gris)}
+.copybox{display:flex;align-items:center;gap:8px;background:var(--crema);border:1px dashed var(--crema-3);border-radius:12px;padding:10px 12px;font-size:14px;word-break:break-all}
+.dark .copybox{background:var(--negro-2);border-color:#3A362E;color:var(--oro-claro)}
+
+/* Pedido */
+.steps{display:flex;gap:6px;margin-bottom:14px}
+.steps span{flex:1;height:4px;border-radius:2px;background:var(--crema-3)}
+.steps span.on{background:var(--oro)}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pick.c3{grid-template-columns:1fr 1fr 1fr}
+.pick.c4{grid-template-columns:repeat(4,1fr)}
+.opt{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:14px 8px;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-weight:500;line-height:1.2}
+.opt:active{border-color:var(--oro);background:var(--crema-2)}
+.opt .s{font-size:12px;color:var(--gris);font-weight:400}
+.opt .g{font-size:12px;color:var(--verde);font-weight:600}
+.sw{width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:12px}
+.crumbs span{background:var(--negro);color:var(--oro-claro);border-radius:20px;padding:4px 11px;font-size:13px}
+.crumbs button{margin-left:auto;background:none;border:none;color:var(--gris);font-size:14px}
+.line{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--linea)}
+.line:last-child{border-bottom:none}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:32px;height:32px;border-radius:9px;border:1px solid var(--linea);background:#fff;font-size:18px;font-weight:600;line-height:1}
+.tot{display:flex;justify-content:space-between;padding:5px 0}
+.tot.big{font-size:18px;font-weight:600;border-top:1px solid var(--linea);margin-top:6px;padding-top:10px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{border:1px solid var(--linea);background:#fff;border-radius:12px;padding:12px 8px;font-weight:600;font-size:15px;line-height:1.2}
+.seg button small{display:block;font-weight:400;font-size:12px;color:var(--gris);margin-top:2px}
+.seg button.on{background:var(--negro);color:#fff;border-color:var(--negro)}
+.seg button.on small{color:var(--oro-claro)}
+.upload{display:flex;align-items:center;justify-content:center;gap:10px;border:1.5px dashed var(--crema-3);border-radius:14px;padding:16px;background:var(--crema);text-align:center;color:var(--gris)}
+.upload img{max-height:120px;border-radius:8px}
+.gana{background:var(--verde-bg);color:var(--verde);border-radius:12px;padding:10px 12px;font-weight:600;display:flex;justify-content:space-between;margin-top:8px}
+
+/* Pedidos */
+.filters{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters button{border:1px solid var(--linea);background:#fff;border-radius:20px;padding:7px 13px;font-size:14px;white-space:nowrap}
+.filters button.on{background:var(--negro);color:#fff;border-color:var(--negro)}
+.ped .items{font-size:13px;color:var(--gris);margin:6px 0}
+.ped .foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--linea);padding-top:8px;margin-top:8px;font-size:14px}
+.ped.rech{opacity:.85}
+.motivo{background:var(--rojo-bg);color:var(--rojo);border-radius:10px;padding:8px 10px;font-size:13px;margin-top:6px}
+.track{font-size:13px;margin-top:4px}
+.track a{color:var(--azul)}
+@media (min-width:600px){ .saldo .money{font-size:60px} }
+</style>
+</head>
+<body>
+
+<!-- ACCESO -->
+<section id="auth">
+  <img class="logo" src="logo.png" alt="Polos 593 Ecuador">
+  <h1>Programa de <em>vendedores</em></h1>
+  <p class="sub" id="auth-sub">Entra para ver tus ventas, tus comisiones y subir pedidos.</p>
+
+  <div class="auth-card" id="f-login">
+    <label for="l-tel">Tu celular</label>
+    <input class="dark-in" id="l-tel" type="tel" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel">
+    <label for="l-pin">PIN</label>
+    <input class="dark-in" id="l-pin" type="password" inputmode="numeric" maxlength="6" placeholder="4 a 6 números" autocomplete="current-password">
+    <button class="btn btn-oro" id="b-login" onclick="login()">Entrar</button>
+    <div class="err" id="e-login"></div>
+    <button class="auth-switch" onclick="authModo('registro')">¿Eres nuevo? Crea tu cuenta</button>
+  </div>
+
+  <div class="auth-card hide" id="f-registro">
+    <label for="r-nombre">Nombre y apellido</label>
+    <input class="dark-in" id="r-nombre" placeholder="Como aparece en tu cédula" autocomplete="name">
+    <label for="r-tel">Tu celular (WhatsApp)</label>
+    <input class="dark-in" id="r-tel" type="tel" inputmode="tel" placeholder="09XXXXXXXX" autocomplete="tel">
+    <div class="grid2">
+      <div><label for="r-ciudad">Ciudad</label><input class="dark-in" id="r-ciudad" placeholder="Quito"></div>
+      <div><label for="r-cedula">Cédula</label><input class="dark-in" id="r-cedula" inputmode="numeric" placeholder="17…"></div>
+    </div>
+    <label for="r-pin">Crea tu PIN</label>
+    <input class="dark-in" id="r-pin" type="password" inputmode="numeric" maxlength="6" placeholder="4 a 6 números" autocomplete="new-password">
+    <input class="dark-in" id="r-pin2" type="password" inputmode="numeric" maxlength="6" placeholder="Repite el PIN" autocomplete="new-password">
+    <button class="btn btn-oro" id="b-registro" onclick="registro()">Crear mi cuenta</button>
+    <div class="err" id="e-registro"></div>
+    <button class="auth-switch" onclick="authModo('login')">Ya tengo cuenta</button>
+  </div>
+</section>
+
+<!-- APP -->
+<div id="app" class="hide">
+  <header class="top">
+    <img src="logo.png" alt="">
+    <div class="who"><b id="t-nombre"></b><span id="t-codigo"></span></div>
+    <button class="btn btn-sm btn-linea" style="color:#fff;border-color:#3A362E" onclick="cargar(true)" aria-label="Actualizar">↻</button>
+  </header>
+  <main id="view"></main>
+  <nav class="nav">
+    <button data-tab="inicio" onclick="ir('inicio')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Inicio</button>
+    <button data-tab="pedir" onclick="ir('pedir')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Subir pedido</button>
+    <button data-tab="pedidos" onclick="ir('pedidos')"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12l1 18H5z"/><path d="M9 7a3 3 0 0 0 6 0"/></svg><i id="n-proc" class="hide"></i></span>Mis pedidos</button>
+    <button data-tab="pagos" onclick="ir('pagos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>Mis pagos</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const db = supabase.createClient('https://zopeclhjnlfpgldflarp.supabase.co', 'sb_publishable_EzKXkvdHpyPs_m_76J9kZg_l3BJIoor');
+const CATALOGO_URL = 'https://athleticastudiofit-star.github.io/polos593-catalogo/';
+const BONOS = [{n:15,b:20},{n:30,b:50},{n:45,b:90}];
+const ERRORES = {
+  DATOS_INCORRECTOS:'Celular o PIN incorrectos.', CUENTA_PAUSADA:'Tu cuenta está pausada. Escríbenos por WhatsApp.',
+  TELEFONO_YA_REGISTRADO:'Ese celular ya tiene cuenta. Entra con tu PIN.', TELEFONO_INVALIDO:'Revisa tu celular: 10 números, empieza con 09.',
+  NOMBRE_INVALIDO:'Escribe tu nombre completo.', PIN_INVALIDO:'El PIN debe tener de 4 a 6 números.',
+  SESION_INVALIDA:'Tu sesión se cerró. Vuelve a entrar.', KIT_MINIMO:'Tu Kit de Inicio necesita mínimo 3 prendas.',
+  KIT_SOLO_TRANSFERENCIA:'El Kit de Inicio se paga por transferencia.', KIT_EN_REVISION:'Tu kit ya está en revisión. Te avisamos al aprobarlo.',
+  FALTA_COMPROBANTE:'Sube la foto del comprobante de pago.', COMPROBANTE_GRANDE:'La foto es muy pesada. Prueba con una captura de pantalla.',
+  FALTAN_DATOS_ENVIO:'Completa nombre, celular, ciudad y dirección del cliente.', PRODUCTO_NO_DISPONIBLE:'Una prenda ya no está disponible. Quítala y vuelve a intentar.',
+  PEDIDO_VACIO:'Agrega al menos una prenda.', PIN_ACTUAL_INCORRECTO:'Tu PIN actual no es correcto.'
+};
+const PRENDA = {
+  camisa_mujer:'Camisa manga larga', camisa_hombre:'Camisa manga larga', camisa_corta_hombre:'Camisa manga corta',
+  camisa_lacoste:'Camisa Lacoste', camisa_corta_lacoste:'Camisa manga corta Lacoste', camisa_rayada_hombre:'Camisa rayada',
+  polo_pique:'Polo piqué', polo_pique_mujer:'Polo piqué', polo_lacoste:'Polo Lacoste', bermuda_hombre:'Bermuda',
+  vestido_polo_rl:'Vestido polo', vestido_tommy:'Vestido Tommy', camiseta_rl:'Camiseta cuello redondo', camiseta_lacoste:'Camiseta Lacoste'
+};
+const ORDEN_PRENDA = Object.keys(PRENDA);
+const COLOR = {'Blanco':'#f5f5f5','Negro':'#1a1a1a','Celeste Claro':'#a8d8ea','Celeste':'#8ec5e6','Azul Marino':'#1b2a4a','Rosa Pastel':'#f4c2c2','Rosado':'#f2a7b8','Amarillo':'#f4d03f','Gris Jaspe':'#9e9e9e','Verde Oliva':'#6b7a3a','Rojo Intenso':'#a93226','Café':'#6f4e37','Camel':'#c19a6b','Turquesa':'#40e0d0','Rojo':'#c0392b','Azul Rey':'#1e3a8a','Cobalto':'#1f4fb5','Naranja':'#e67e22','Celeste Cielo':'#87ceeb','Verde Bosque':'#1e5a3a','Verde Agua':'#2dd4bf','Celeste 2':'#b0e0e6','Verde Lima':'#a3e635','Gris Oscuro':'#555555','Verde Menta':'#98e8b0','Verde Nilo':'#9fd3b8','Celeste Pastel':'#cce7f0','Beige':'#d8c3a5'};
+const TALLAS = ['XS','S','M','L','XL','2XL','3XL'];
+
+let TOKEN = leer('p593v_token');
+let P = null;          // panel: vendedor, config, saldo, pedidos, pagos
+let CAT = null;        // catálogo
+let TAB = 'inicio';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '$' + (Number(n)||0).toFixed(2).replace(/\.00$/,'');
+const money2 = n => '$' + (Number(n)||0).toFixed(2);
+function leer(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function guardar(k,v){ try{ v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v); }catch(e){} }
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),2600); }
+function msgError(e){
+  const m = (e && (e.message||e.details)) || String(e);
+  const k = Object.keys(ERRORES).find(c => m.includes(c));
+  return k ? ERRORES[k] : 'No se pudo completar. Revisa tu conexión e intenta de nuevo.';
+}
+async function rpc(fn, args){
+  const { data, error } = await db.rpc(fn, args);
+  if(error){
+    if(String(error.message).includes('SESION_INVALIDA')){ salirLocal(); }
+    throw error;
+  }
+  return data;
+}
+const fecha = d => new Date(d).toLocaleDateString('es-EC',{day:'numeric',month:'short'});
+const nombreMes = m => { const [y,mm]=m.split('-'); return new Date(+y, +mm-1, 1).toLocaleDateString('es-EC',{month:'long'}); };
+const linkRef = () => CATALOGO_URL + '?ref=' + encodeURIComponent(P.vendedor.codigo);
+const waUrl = (num, txt) => 'https://wa.me/' + num + '?text=' + encodeURIComponent(txt);
+
+// ════════════ ACCESO ════════════
+function authModo(m){
+  $('f-login').classList.toggle('hide', m!=='login');
+  $('f-registro').classList.toggle('hide', m!=='registro');
+  $('auth-sub').textContent = m==='login' ? 'Entra para ver tus ventas, tus comisiones y subir pedidos.'
+    : 'Crea tu cuenta en un minuto. Después armas tu Kit de Inicio y empiezas a vender.';
+}
+async function login(){
+  const b=$('b-login'), e=$('e-login'); e.textContent='';
+  b.disabled=true; b.textContent='Entrando…';
+  try{
+    const r = await rpc('rev_login', { p_telefono:$('l-tel').value, p_pin:$('l-pin').value });
+    TOKEN=r.token; guardar('p593v_token',TOKEN); await entrar();
+  }catch(err){ e.textContent=msgError(err); }
+  b.disabled=false; b.textContent='Entrar';
+}
+async function registro(){
+  const b=$('b-registro'), e=$('e-registro'); e.textContent='';
+  if($('r-pin').value !== $('r-pin2').value){ e.textContent='Los dos PIN no coinciden.'; return; }
+  b.disabled=true; b.textContent='Creando…';
+  try{
+    const r = await rpc('rev_registro', { p_nombre:$('r-nombre').value, p_telefono:$('r-tel').value, p_pin:$('r-pin').value,
+                                          p_ciudad:$('r-ciudad').value, p_cedula:$('r-cedula').value });
+    TOKEN=r.token; guardar('p593v_token',TOKEN); await entrar();
+    toast('¡Bienvenido al equipo!');
+  }catch(err){ e.textContent=msgError(err); }
+  b.disabled=false; b.textContent='Crear mi cuenta';
+}
+function salirLocal(){ TOKEN=null; P=null; guardar('p593v_token',null); $('app').classList.add('hide'); $('auth').classList.remove('hide'); authModo('login'); }
+async function salir(){ try{ await rpc('rev_salir',{p_token:TOKEN}); }catch(e){} salirLocal(); }
+
+async function entrar(){
+  await cargar();
+  $('auth').classList.add('hide'); $('app').classList.remove('hide');
+  ir(P.vendedor.estado==='pendiente_kit' && !kitEnRevision() ? 'inicio' : TAB);
+}
+async function cargar(repintar){
+  P = await rpc('rev_panel', { p_token: TOKEN });
+  $('t-nombre').textContent = P.vendedor.nombre;
+  $('t-codigo').textContent = 'CÓDIGO ' + P.vendedor.codigo;
+  const proc = P.pedidos.filter(p => p.com_estado==='por_revisar' || ['por_despachar','en_camino'].includes(p.envio_estado)).length;
+  $('n-proc').textContent = proc; $('n-proc').classList.toggle('hide', !proc);
+  if(repintar){ ir(TAB); toast('Actualizado'); }
+}
+const kitEnRevision = () => P.pedidos.some(p => p.tipo==='kit' && p.estado==='recibido');
+const esKit = () => P.vendedor.estado==='pendiente_kit';
+
+function ir(tab){
+  if(PEDIDO.paso==='listo' && tab!=='pedir') nuevoPedido();
+  TAB=tab;
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on', b.dataset.tab===tab));
+  ({inicio:vInicio, pedir:vPedir, pedidos:vPedidos, pagos:vPagos})[tab]();
+  window.scrollTo(0,0);
+}
+
+// ════════════ INICIO ════════════
+function mesActual(){ return (P.saldo.meses||[]).find(m=>m.mes===P.saldo.mes_actual) || {prendas:0, comision:0}; }
+function bonoHTML(prendas){
+  const sig = BONOS.find(x=>prendas<x.n);
+  const max = 45, pct = Math.min(100, prendas/max*100);
+  const actual = [...BONOS].reverse().find(x=>prendas>=x.n);
+  return `<div class="row between"><b>${prendas} prenda${prendas===1?'':'s'} este mes</b>
+      ${actual?`<span class="chip c-verde">Bono +${money(actual.b)}</span>`:''}</div>
+    <div class="prog"><b style="width:${pct}%"></b></div>
+    <div class="marks"><span>0</span>${BONOS.map(x=>`<span>${x.n} · +${money(x.b)}</span>`).join('')}</div>
+    <p class="small muted" style="margin-top:8px">${sig ? `Te faltan <b>${sig.n-prendas}</b> para el bono de <b>${money(sig.b)}</b>.` : '¡Llegaste al bono máximo del mes!'}
+    Cuentan las prendas ya cobradas.</p>`;
+}
+function vInicio(){
+  const v=P.vendedor, s=P.saldo, cfg=P.config;
+  const cuenta = cfg.cuenta_pago ? `<div class="copybox"><span style="flex:1;white-space:pre-line">${esc(cfg.cuenta_pago)}</span><button class="btn btn-sm btn-linea" onclick="copiar(P.config.cuenta_pago,'Cuenta copiada')">Copiar</button></div>`
+                                 : `<p class="small muted">Pídenos los datos de la cuenta por WhatsApp.</p>`;
+  if(esKit()){
+    const kit = P.pedidos.find(p=>p.tipo==='kit');
+    const enRev = kit && kit.estado==='recibido', rech = kit && kit.estado==='rechazado' && !enRev;
+    $('view').innerHTML = `
+      <div class="eyebrow">Hola, ${esc(v.nombre.split(' ')[0])}</div>
+      <h2>Activa tu cuenta</h2>
+      <p class="lead">Tu primer pedido es tu Kit de Inicio: mínimo ${cfg.kit_min} prendas para tus fotos, videos o para revender.</p>
+      ${enRev ? `<div class="card dark"><span class="chip c-oro">En revisión</span>
+          <h3 style="margin-top:10px">Recibimos tu kit</h3>
+          <p style="color:#D9D2C3">Pedido #${kit.id} por ${money2(kit.total)}. Verificamos tu pago y activamos tu cuenta. Te avisamos por WhatsApp.</p></div>`
+        : `<div class="card dark">
+          <h3>Kit de Inicio</h3>
+          <p style="color:#D9D2C3;margin-bottom:12px">Te recomendamos 3 camisas, nuestro producto estrella. O combina 3 prendas o más.</p>
+          <div class="row" style="align-items:flex-end;gap:14px;margin-bottom:14px">
+            <span class="money" style="font-size:54px;color:var(--oro)">$84</span>
+            <span class="small" style="color:#D9D2C3">3 camisas · envío incluido<br><s style="color:#8F877A">$104.97</s></span>
+          </div>
+          <p class="small" style="color:#B9B0A0;margin-bottom:14px">Cada prenda te sale al precio del catálogo menos tu comisión. Si las revendes, recuperas lo que pusiste y te queda tu ganancia.</p>
+          ${rech?`<div class="motivo" style="margin-bottom:12px">Tu kit anterior no se aprobó${kit.motivo_rechazo?': '+esc(kit.motivo_rechazo):''}. Puedes subirlo de nuevo.</div>`:''}
+          <button class="btn btn-oro" onclick="ir('pedir')">Armar mi kit</button></div>`}
+      <div class="card"><h3>Paga tu kit a esta cuenta</h3>${cuenta}</div>
+      <div class="card"><h3>¿Dudas?</h3><p class="muted small" style="margin-bottom:10px">Escríbenos y te ayudamos a armar tu kit.</p>
+        <a class="btn btn-linea" href="${waUrl(cfg.whatsapp,'Hola, soy '+v.nombre+' ('+v.codigo+'). Tengo una duda sobre mi Kit de Inicio.')}" target="_blank" rel="noopener">WhatsApp de Polos593</a></div>`;
+    return;
+  }
+  const m = mesActual();
+  const ultimos = P.pedidos.filter(p=>p.tipo==='venta').slice(0,3);
+  $('view').innerHTML = `
+    <div class="eyebrow">Hola, ${esc(v.nombre.split(' ')[0])}</div>
+    <div class="card dark">
+      <div class="small" style="color:#B9B0A0;letter-spacing:.12em;text-transform:uppercase">Te pagamos el próximo lunes</div>
+      <div class="saldo"><span class="money">${money(s.por_cobrar)}</span>
+        <button class="btn btn-sm btn-linea" onclick="ir('pagos')">Ver pagos</button></div>
+      ${+s.bono_pendiente>0?`<p class="small" style="color:var(--oro-claro);margin-top:6px">Incluye bono de ${money(s.bono_pendiente)}</p>`:''}
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Ganado este mes</div><div class="money">${money(m.comision)}</div></div>
+      <div class="kpi"><div class="l">Por confirmar</div><div class="money" style="color:var(--ambar)">${money(s.en_camino)}</div><div class="small muted">contra entrega en camino</div></div>
+    </div>
+    <div class="card">${bonoHTML(m.prendas)}</div>
+    <button class="btn btn-negro" style="margin-bottom:14px" onclick="ir('pedir')">＋ Subir un pedido</button>
+    <div class="card">
+      <h3>Tu link del catálogo</h3>
+      <p class="small muted" style="margin-bottom:10px">Compártelo en tus redes. Si el cliente escribe desde tu link y nuestro equipo cierra la venta, también ganas ($2 menos por prenda).</p>
+      <div class="copybox"><span style="flex:1">${esc(linkRef())}</span></div>
+      <div class="grid2" style="margin-top:10px">
+        <button class="btn btn-linea" onclick="copiar(linkRef(),'Link copiado')">Copiar</button>
+        <a class="btn btn-oro" href="https://wa.me/?text=${encodeURIComponent('Mira las camisas y polos premium de Polos593 👔 Envíos a todo Ecuador: '+linkRef())}" target="_blank" rel="noopener">Compartir</a>
+      </div>
+    </div>
+    <div class="card"><h3>Cuenta donde paga tu cliente</h3>
+      <p class="small muted" style="margin-bottom:10px">Tu cliente siempre le paga directo a Polos593. Tú no manejas dinero.</p>${cuenta}</div>
+    ${ultimos.length?`<div class="row between" style="margin:6px 2px 10px"><b>Últimos pedidos</b><button class="btn btn-sm btn-linea" onclick="ir('pedidos')">Ver todos</button></div>
+      ${ultimos.map(pedCard).join('')}`:''}`;
+}
+async function copiar(txt, ok){
+  try{ await navigator.clipboard.writeText(txt); toast(ok); }
+  catch(e){ const t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast(ok); }
+}
+
+// ════════════ SUBIR PEDIDO ════════════
+let PEDIDO = nuevoEstado();
+function nuevoEstado(){ return { paso:'prendas', sel:{genero:null,tipo:null,color:null}, items:[], pago:'transferencia', comp:null, cliente:{} }; }
+function nuevoPedido(){ PEDIDO = nuevoEstado(); }
+async function asegurarCatalogo(){
+  if(CAT) return CAT;
+  const rows = await rpc('rev_catalogo', {});
+  CAT = rows.map(r=>({...r, precio:+r.precio, comision:+r.comision}));
+  return CAT;
+}
+const precioKit = it => it.precio - it.comision;      // en el kit cada prenda va al precio menos tu comisión
+function totales(){
+  const kit = esKit(), cfg = P.config;
+  const prendas = PEDIDO.items.reduce((s,i)=>s+i.cantidad,0);
+  const sub = PEDIDO.items.reduce((s,i)=>s+i.precio*i.cantidad,0);
+  const com = PEDIDO.items.reduce((s,i)=>s+i.comision*i.cantidad,0);
+  if(kit) return { prendas, sub, envio:0, total:Math.ceil(sub-com-1e-9), com:0, normal:sub };
+  const envio = PEDIDO.pago==='contraentrega' ? cfg.envio_contraentrega : cfg.envio_transferencia;
+  return { prendas, sub, envio, total: sub+envio, com };
+}
+async function vPedir(){
+  const view=$('view');
+  if(esKit() && kitEnRevision()){
+    view.innerHTML = `<div class="eyebrow">Kit de Inicio</div><h2>Tu kit está en revisión</h2>
+      <p class="lead">Apenas confirmemos tu pago activamos tu cuenta y podrás subir pedidos de tus clientes.</p>
+      <button class="btn btn-negro" onclick="ir('pedidos')">Ver mi kit</button>`;
+    return;
+  }
+  if(!CAT){ view.innerHTML='<div class="empty">Cargando catálogo…</div>'; try{ await asegurarCatalogo(); }catch(e){ view.innerHTML=`<div class="empty">${msgError(e)}</div>`; return; } }
+  if(PEDIDO.paso==='listo') return vListo();
+  const kit = esKit();
+  const titulo = kit ? `<div class="eyebrow">Kit de Inicio · mínimo ${P.config.kit_min} prendas</div><h2>Arma tu kit</h2>`
+                     : `<div class="eyebrow">Nuevo pedido</div><h2>¿Qué compró tu cliente?</h2>`;
+  view.innerHTML = `${titulo}
+    <div class="steps"><span class="on"></span><span class="${PEDIDO.paso==='datos'?'on':''}"></span></div>
+    <div id="p-body"></div>`;
+  if(PEDIDO.paso==='prendas') pintarPrendas(); else pintarDatos();
+}
+function pintarPrendas(){
+  const s=PEDIDO.sel, kit=esKit();
+  const crumbs = s.genero ? `<div class="crumbs"><span>${s.genero==='mujer'?'Mujer':'Hombre'}</span>${s.tipo?`<span>${esc(PRENDA[s.tipo]||s.tipo)}</span>`:''}${s.color?`<span>${esc(s.color)}</span>`:''}<button onclick="atras()">‹ Volver</button></div>` : '';
+  const pool = CAT.filter(p => !s.genero || p.genero===s.genero || p.genero==='unisex');
+  let body='';
+  if(!s.genero){
+    body = `<div class="pick"><button class="opt" onclick="sel('genero','mujer')"><span style="font-size:28px">👩</span>Mujer</button>
+      <button class="opt" onclick="sel('genero','hombre')"><span style="font-size:28px">👨</span>Hombre</button></div>`;
+  } else if(!s.tipo){
+    const tipos=[...new Set(pool.map(p=>p.tipo))].sort((a,b)=>ORDEN_PRENDA.indexOf(a)-ORDEN_PRENDA.indexOf(b));
+    body = `<div class="pick">${tipos.map(t=>{ const p=pool.find(x=>x.tipo===t);
+      return `<button class="opt" onclick="sel('tipo','${t}')">${esc(PRENDA[t]||p.nombre)}
+        <span class="s">${kit?money2(p.precio-p.comision)+' en tu kit':money2(p.precio)}</span>
+        ${kit?'':`<span class="g">Ganas ${money(p.comision)}</span>`}</button>`; }).join('')}</div>`;
+  } else if(!s.color){
+    const cols=[...new Set(pool.filter(p=>p.tipo===s.tipo).map(p=>p.color))].sort();
+    body = `<div class="pick c3">${cols.map(c=>`<button class="opt" onclick="sel('color',this.dataset.c)" data-c="${esc(c)}"><span class="sw" style="background:${COLOR[c]||'#bbb'}"></span><span class="s" style="color:var(--tinta)">${esc(c)}</span></button>`).join('')}</div>`;
+  } else {
+    const tallas=pool.filter(p=>p.tipo===s.tipo && p.color===s.color).sort((a,b)=>TALLAS.indexOf(a.talla)-TALLAS.indexOf(b.talla));
+    body = `<div class="pick c4">${tallas.map(p=>`<button class="opt" style="min-height:60px;font-size:18px;font-weight:600" onclick="agregar('${p.sku}')">${esc(p.talla)}</button>`).join('')}</div>`;
+  }
+  const t=totales();
+  const faltan = kit ? Math.max(0, P.config.kit_min - t.prendas) : 0;
+  $('p-body').innerHTML = `
+    <div class="card">${crumbs}<div class="small muted" style="margin-bottom:10px">${!s.genero?'¿Para quién es?':!s.tipo?'Elige la prenda':!s.color?'Elige el color':'Elige la talla'}</div>${body}</div>
+    <div class="card">
+      <div class="row between"><h3 style="margin:0">${kit?'Tu kit':'Pedido'}</h3><span class="muted small">${t.prendas} prenda${t.prendas===1?'':'s'}</span></div>
+      ${PEDIDO.items.length ? PEDIDO.items.map((i,n)=>`
+        <div class="line"><div style="flex:1;min-width:0"><div>${esc(PRENDA[i.tipo]||i.nombre)}</div>
+          <div class="small muted">${esc(i.color)} · ${esc(i.talla)} · ${kit?money2(precioKit(i)):money2(i.precio)}</div></div>
+          <div class="qty"><button onclick="cant(${n},-1)" aria-label="Quitar">−</button><b>${i.cantidad}</b><button onclick="cant(${n},1)" aria-label="Agregar">+</button></div></div>`).join('')
+        : '<div class="empty" style="padding:16px">Todavía no agregas prendas.</div>'}
+      ${PEDIDO.items.length?`<div class="tot big"><span>${kit?'Pagas por tu kit':'Prendas'}</span><span>${money2(kit?t.total:t.sub)}</span></div>
+        ${kit?`<div class="small muted">Precio normal ${money2(t.normal)} · envío incluido</div>`:`<div class="gana"><span>Tu comisión</span><span>${money2(t.com)}</span></div>`}`:''}
+    </div>
+    ${PEDIDO.items.length?`<button class="btn btn-negro" ${faltan?'disabled':''} onclick="aDatos()">${faltan?`Agrega ${faltan} prenda${faltan>1?'s':''} más`:'Continuar'}</button>`:''}`;
+}
+function sel(k,v){ PEDIDO.sel[k]=v; pintarPrendas(); }
+function atras(){ const s=PEDIDO.sel; if(s.color) s.color=null; else if(s.tipo) s.tipo=null; else s.genero=null; pintarPrendas(); }
+function agregar(sku){
+  const p=CAT.find(x=>x.sku===sku); if(!p) return;
+  const ex=PEDIDO.items.find(i=>i.sku===sku);
+  if(ex) ex.cantidad++; else PEDIDO.items.push({...p, cantidad:1});
+  PEDIDO.sel={genero:PEDIDO.sel.genero,tipo:null,color:null};
+  toast('Agregado: '+(PRENDA[p.tipo]||p.nombre)+' '+p.color+' '+p.talla);
+  pintarPrendas();
+}
+function cant(n,d){ const i=PEDIDO.items[n]; i.cantidad+=d; if(i.cantidad<=0) PEDIDO.items.splice(n,1); pintarPrendas(); }
+function aDatos(){
+  if(esKit() && !PEDIDO.cliente.cliente_nombre){
+    const v=P.vendedor; PEDIDO.cliente={cliente_nombre:v.nombre, cliente_telefono:v.telefono, cliente_cedula:v.cedula||'', ciudad:v.ciudad||''};
+  }
+  PEDIDO.paso='datos'; vPedir();
+}
+function pintarDatos(){
+  const kit=esKit(), c=PEDIDO.cliente, cfg=P.config;
+  if(kit) PEDIDO.pago='transferencia';
+  const t=totales();
+  const f=(id,ph,extra='')=>`<input class="fld" id="${id}" placeholder="${ph}" value="${esc(c[id]||'')}" oninput="PEDIDO.cliente['${id}']=this.value" ${extra}>`;
+  $('p-body').innerHTML = `
+    <div class="card">
+      <h3>${kit?'¿A dónde te lo enviamos?':'Datos del cliente para el envío'}</h3>
+      <label class="lbl">Nombre</label>${f('cliente_nombre','Nombre y apellido','autocomplete="off"')}
+      <div class="grid2"><div><label class="lbl">Celular</label>${f('cliente_telefono','09XXXXXXXX','type="tel" inputmode="tel"')}</div>
+        <div><label class="lbl">Cédula</label>${f('cliente_cedula','Opcional','inputmode="numeric"')}</div></div>
+      <label class="lbl">Ciudad</label>${f('ciudad','Ciudad')}
+      <label class="lbl">Dirección exacta</label>${f('direccion','Calle, número y referencia')}
+    </div>
+    <div class="card">
+      <h3>${kit?'Pago de tu kit':'¿Cómo paga tu cliente?'}</h3>
+      ${kit?'':`<div class="seg" style="margin:8px 0 4px">
+        <button class="${PEDIDO.pago==='transferencia'?'on':''}" onclick="pago('transferencia')">Transferencia<small>ya pagó · envío ${money(cfg.envio_transferencia)}</small></button>
+        <button class="${PEDIDO.pago==='contraentrega'?'on':''}" onclick="pago('contraentrega')">Contra entrega<small>paga al recibir · envío ${money(cfg.envio_contraentrega)}</small></button></div>`}
+      ${PEDIDO.pago==='transferencia'?`
+        ${cfg.cuenta_pago?`<p class="small muted" style="margin:10px 0 6px">${kit?'Transfiere':'Tu cliente transfiere'} a:</p><div class="copybox" style="margin-bottom:10px"><span style="flex:1;white-space:pre-line">${esc(cfg.cuenta_pago)}</span></div>`:''}
+        <label class="upload" for="comp">${PEDIDO.comp?`<img src="${PEDIDO.comp}" alt="Comprobante"><span>Cambiar foto</span>`:'<span>📎 Sube la foto del comprobante</span>'}</label>
+        <input id="comp" type="file" accept="image/*" class="hide" onchange="subirComp(this)">`
+      : `<p class="small muted" style="margin-top:8px">El courier le cobra al cliente cuando le entrega. Tu comisión se confirma cuando el cliente paga.</p>`}
+      <label class="lbl">Nota (opcional)</label>
+      <input class="fld" id="nota" placeholder="Ej: entregar en la tarde" value="${esc(c.nota||'')}" oninput="PEDIDO.cliente.nota=this.value">
+    </div>
+    <div class="card">
+      ${kit?`<div class="tot"><span class="muted">${t.prendas} prendas (precio normal ${money2(t.normal)})</span></div>
+        <div class="tot"><span class="muted">Envío</span><span>Incluido</span></div>
+        <div class="tot big"><span>Pagas</span><span>${money2(t.total)}</span></div>`
+      :`<div class="tot"><span class="muted">${t.prendas} prenda${t.prendas===1?'':'s'}</span><span>${money2(t.sub)}</span></div>
+        <div class="tot"><span class="muted">Envío</span><span>${money2(t.envio)}</span></div>
+        <div class="tot big"><span>${PEDIDO.pago==='contraentrega'?'Tu cliente paga al recibir':'Tu cliente paga'}</span><span>${money2(t.total)}</span></div>
+        <div class="gana"><span>Tu comisión</span><span>${money2(t.com)}</span></div>`}
+    </div>
+    <div class="grid2"><button class="btn btn-linea" onclick="PEDIDO.paso='prendas';vPedir()">‹ Prendas</button>
+      <button class="btn btn-oro" id="b-enviar" onclick="enviarPedido()">${kit?'Enviar mi kit':'Enviar pedido'}</button></div>
+    <div class="err" id="e-pedido" style="color:var(--rojo);margin-top:10px"></div>`;
+}
+function pago(p){ PEDIDO.pago=p; pintarDatos(); }
+function subirComp(inp){
+  const f=inp.files && inp.files[0]; if(!f) return;
+  const img=new Image(), url=URL.createObjectURL(f);
+  img.onload=()=>{
+    const max=1400, k=Math.min(1, max/Math.max(img.width,img.height));
+    const c=document.createElement('canvas'); c.width=Math.round(img.width*k); c.height=Math.round(img.height*k);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    PEDIDO.comp=c.toDataURL('image/jpeg',.72); URL.revokeObjectURL(url); pintarDatos();
+  };
+  img.onerror=()=>toast('No se pudo leer la foto');
+  img.src=url;
+}
+async function enviarPedido(){
+  const b=$('b-enviar'), e=$('e-pedido'); e.textContent='';
+  b.disabled=true; b.textContent='Enviando…';
+  const c=PEDIDO.cliente;
+  try{
+    const r = await rpc('rev_crear_pedido', { p_token:TOKEN, p_pedido:{
+      items: PEDIDO.items.map(i=>({sku:i.sku, cantidad:i.cantidad})),
+      metodo_pago: PEDIDO.pago, comprobante: PEDIDO.pago==='transferencia' ? PEDIDO.comp : null,
+      cliente_nombre:c.cliente_nombre, cliente_telefono:c.cliente_telefono, cliente_cedula:c.cliente_cedula,
+      ciudad:c.ciudad, direccion:c.direccion, nota:c.nota }});
+    PEDIDO.res = r; PEDIDO.paso='listo';
+    await cargar(); vListo();
+  }catch(err){ e.textContent=msgError(err); b.disabled=false; b.textContent=esKit()?'Enviar mi kit':'Enviar pedido'; }
+}
+function vListo(){
+  const r=PEDIDO.res, v=P.vendedor, kit=r.tipo==='kit';
+  const txt = kit ? `Hola, soy ${v.nombre} (${v.codigo}). Acabo de subir mi Kit de Inicio, pedido #${r.id} por ${money2(r.total)}.`
+                  : `Hola, soy ${v.nombre} (${v.codigo}). Subí el pedido #${r.id} de ${PEDIDO.cliente.cliente_nombre}: ${r.prendas} prenda(s), ${money2(r.total)}${PEDIDO.pago==='contraentrega'?' contra entrega':''}.`;
+  $('view').innerHTML = `
+    <div class="card dark" style="text-align:center;padding:28px 18px">
+      <div style="font-size:44px">✓</div>
+      <h2 style="color:#fff;margin:6px 0">${kit?'¡Kit recibido!':'¡Pedido recibido!'}</h2>
+      <p style="color:#D9D2C3;margin-bottom:6px">Pedido #${r.id} · ${money2(r.total)}</p>
+      ${kit?'':`<p style="color:var(--oro-claro);margin-bottom:16px">Tu comisión: ${money2(r.comision)}</p>`}
+      <p class="small" style="color:#B9B0A0;margin-bottom:18px">${kit?'Verificamos tu pago y activamos tu cuenta.':'Lo revisamos y lo despachamos. Sigue el estado en "Mis pedidos".'}</p>
+      <a class="btn btn-oro" href="${waUrl(P.config.whatsapp, txt)}" target="_blank" rel="noopener">Avisar por WhatsApp</a>
+    </div>
+    <div class="grid2"><button class="btn btn-linea" onclick="nuevoPedido();ir('pedir')">${kit?'Inicio':'Otro pedido'}</button>
+      <button class="btn btn-negro" onclick="nuevoPedido();ir('pedidos')">Mis pedidos</button></div>`;
+  if(kit){ nuevoPedido(); }
+}
+
+// ════════════ MIS PEDIDOS ════════════
+let FILTRO='todos';
+const ENVIO_TXT = {
+  recibido:['Por revisar','c-ambar'], aprobado:['Aprobado','c-azul'], por_despachar:['Preparando','c-azul'],
+  en_camino:['En camino','c-azul'], entregado:['Entregado','c-verde'], depositado:['Entregado','c-verde'],
+  rechazado:['Rechazado','c-rojo'], anulado:['Anulado','c-rojo']
+};
+const COM_TXT = {
+  ganada:['c-verde', i=>'Ganaste '+money2(i.com_monto)], pagada:['c-oro', i=>'Pagada '+money2(i.com_monto)],
+  en_camino:['c-ambar', i=>money2(i.com_monto)+' al cobrar'], por_revisar:['c-gris', i=>money2(i.comision)+' al aprobar'],
+  rechazado:['c-gris', ()=>'Sin comisión'], anulado:['c-gris', ()=>'Sin comisión'], kit:['c-oro', ()=>'Kit de Inicio']
+};
+function pedCard(p){
+  const [et,ec] = ENVIO_TXT[p.envio_estado] || ENVIO_TXT[p.estado] || ['—','c-gris'];
+  const [cc,cf] = COM_TXT[p.com_estado] || ['c-gris',()=>''];
+  const items = (p.items||[]).map(i=>`${i.cantidad}× ${esc(PRENDA[i.tipo]||i.nombre)} ${esc(i.color)} ${esc(i.talla)}`).join(' · ');
+  return `<div class="card ped ${p.estado==='rechazado'?'rech':''}">
+    <div class="row between"><b>${p.tipo==='kit'?'Kit de Inicio':esc(p.cliente_nombre||'Cliente')}</b><span class="chip ${ec}">${et}</span></div>
+    <div class="small muted">#${p.id} · ${fecha(p.created_at)} · ${p.metodo_pago==='contraentrega'?'Contra entrega':'Transferencia'}${p.modalidad==='equipo'?' · lo cerró nuestro equipo':''}${p.ciudad?' · '+esc(p.ciudad):''}</div>
+    <div class="items">${items}</div>
+    ${p.guia?`<div class="track">Guía <b>${esc(p.guia)}</b>${p.tracking_url?` · <a href="${esc(p.tracking_url)}" target="_blank" rel="noopener">Ver seguimiento</a>`:''}</div>`:''}
+    ${p.estado==='rechazado'&&p.motivo_rechazo?`<div class="motivo">${esc(p.motivo_rechazo)}</div>`:''}
+    <div class="foot"><span>${p.tipo==='kit'?'Pagaste':'Total'} <b>${money2(p.total)}</b></span><span class="chip ${cc}">${cf(p)}</span></div>
+  </div>`;
+}
+function vPedidos(){
+  const grupos = {
+    todos: ()=>true,
+    proceso: p=>p.com_estado==='por_revisar' || ['por_despachar','en_camino','aprobado'].includes(p.envio_estado),
+    entregados: p=>['entregado','depositado'].includes(p.envio_estado),
+    rechazados: p=>['rechazado','anulado'].includes(p.com_estado)
+  };
+  const lista = P.pedidos.filter(grupos[FILTRO]);
+  const btn=(k,l)=>`<button class="${FILTRO===k?'on':''}" onclick="FILTRO='${k}';vPedidos()">${l} <span class="muted">${P.pedidos.filter(grupos[k]).length}</span></button>`;
+  $('view').innerHTML = `<div class="eyebrow">Mis pedidos</div><h2>Tus ventas</h2>
+    <p class="lead">El estado se actualiza cuando aprobamos, despachamos y entregamos.</p>
+    <div class="filters">${btn('todos','Todos')}${btn('proceso','En proceso')}${btn('entregados','Entregados')}${btn('rechazados','Rechazados')}</div>
+    ${lista.length ? lista.map(pedCard).join('') : `<div class="empty">No hay pedidos aquí todavía.${esKit()?'':'<br><br><button class="btn btn-negro" onclick="ir(\'pedir\')">Subir mi primer pedido</button>'}</div>`}`;
+}
+
+// ════════════ MIS PAGOS ════════════
+function vPagos(){
+  const s=P.saldo, v=P.vendedor;
+  const meses=(s.meses||[]).slice(0,6);
+  $('view').innerHTML = `<div class="eyebrow">Mis pagos</div><h2>Tus comisiones</h2>
+    <p class="lead">Te pagamos cada lunes lo que ya cobramos de tus ventas.</p>
+    <div class="card dark">
+      <div class="small" style="color:#B9B0A0;letter-spacing:.12em;text-transform:uppercase">Por cobrar el lunes</div>
+      <div class="money" style="font-size:48px;color:var(--oro);margin:6px 0">${money2(s.por_cobrar)}</div>
+      <div class="small" style="color:#D9D2C3">Comisiones ${money2(s.comision_ganada)}${+s.bono_pendiente>0?` · Bono ${money2(s.bono_pendiente)}`:''}</div>
+      <div class="small" style="color:#B9B0A0;margin-top:8px">Ya te pagamos en total: <b style="color:#fff">${money2(s.pagado_total)}</b></div>
+    </div>
+    ${meses.length?`<div class="card"><h3>Por mes</h3>${meses.map(m=>`
+      <div class="line"><div style="flex:1"><b style="text-transform:capitalize">${nombreMes(m.mes)}</b>
+        <div class="small muted">${m.prendas} prendas cobradas</div></div>
+        <div style="text-align:right"><b>${money2(m.comision)}</b>${+m.bono>0?`<div class="small" style="color:var(--verde)">+ bono ${money(m.bono)}${m.bono_pagado?' (pagado)':''}</div>`:''}</div></div>`).join('')}</div>`:''}
+    <div class="card"><h3>Pagos recibidos</h3>
+      ${P.pagos.length?P.pagos.map(x=>`<div class="line"><div style="flex:1"><b>${fecha(x.fecha)}</b>
+        <div class="small muted">${x.pedidos} pedido${x.pedidos===1?'':'s'}${+x.bono>0?' + bono':''}${x.referencia?' · Ref. '+esc(x.referencia):''}</div></div><b>${money2(x.total)}</b></div>`).join('')
+        :'<p class="muted small">Aún no hay pagos. Aquí verás cada transferencia que te hagamos.</p>'}</div>
+    <div class="card"><h3>¿A dónde te pagamos?</h3>
+      <p class="small muted">Tu cuenta para recibir las comisiones.</p>
+      <label class="lbl">Banco</label><input class="fld" id="d-banco" value="${esc(v.banco||'')}" placeholder="Ej: Pichincha">
+      <div class="grid2"><div><label class="lbl">Tipo</label><select class="fld" id="d-tipo">
+          ${['Ahorros','Corriente'].map(t=>`<option ${v.tipo_cuenta===t?'selected':''}>${t}</option>`).join('')}</select></div>
+        <div><label class="lbl">Número</label><input class="fld" id="d-num" inputmode="numeric" value="${esc(v.numero_cuenta||'')}"></div></div>
+      <label class="lbl">Titular</label><input class="fld" id="d-tit" value="${esc(v.titular||v.nombre)}">
+      <label class="lbl">Cédula del titular</label><input class="fld" id="d-ced" inputmode="numeric" value="${esc(v.cedula||'')}">
+      <button class="btn btn-negro" style="margin-top:14px" onclick="guardarDatos(this)">Guardar</button>
+    </div>
+    <div class="card"><h3>Seguridad</h3>
+      <div class="grid2"><input class="fld" id="pin-a" type="password" inputmode="numeric" maxlength="6" placeholder="PIN actual">
+        <input class="fld" id="pin-n" type="password" inputmode="numeric" maxlength="6" placeholder="PIN nuevo"></div>
+      <button class="btn btn-linea" style="margin-top:10px" onclick="cambiarPin()">Cambiar PIN</button>
+      <button class="btn btn-linea" style="margin-top:10px;color:var(--rojo)" onclick="salir()">Cerrar sesión</button>
+    </div>`;
+}
+async function guardarDatos(b){
+  b.disabled=true;
+  try{
+    await rpc('rev_actualizar_datos', { p_token:TOKEN, p_datos:{ banco:$('d-banco').value, tipo_cuenta:$('d-tipo').value,
+      numero_cuenta:$('d-num').value, titular:$('d-tit').value, cedula:$('d-ced').value }});
+    await cargar(); toast('Datos guardados');
+  }catch(e){ toast(msgError(e)); }
+  b.disabled=false;
+}
+async function cambiarPin(){
+  try{
+    await rpc('rev_cambiar_pin', { p_token:TOKEN, p_actual:$('pin-a').value, p_nuevo:$('pin-n').value });
+    toast('PIN cambiado. Entra con tu PIN nuevo.'); salirLocal();
+  }catch(e){ toast(msgError(e)); }
+}
+
+// ════════════ ARRANQUE ════════════
+['l-tel','l-pin'].forEach(id=>$(id).addEventListener('keydown',e=>{ if(e.key==='Enter') login(); }));
+(async()=>{
+  if(new URLSearchParams(location.search).get('registro')!==null) authModo('registro');
+  if(!TOKEN) return;
+  try{ await entrar(); }catch(e){ if(!TOKEN) return; $('e-login').textContent=msgError(e); }
+})();
+</script>
+</body>
+</html>

@@ -808,8 +808,19 @@ const SRC_ADS = (function(){
     return sessionStorage.getItem('p593_src')==='ads';
   }catch(e){ return false; }
 })();
+/* Programa de vendedores: si la visita llega con ?ref=CODIGO, el mensaje lleva el código
+   del vendedor (30 días) para pagarle su comisión cuando nuestro equipo cierre la venta */
+const REF_VENDEDOR = (function(){
+  try{
+    const r = (new URLSearchParams(window.location.search).get('ref')||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12);
+    if(r){ localStorage.setItem('p593_ref', JSON.stringify({c:r, t:Date.now()})); return r; }
+    const g = JSON.parse(localStorage.getItem('p593_ref')||'null');
+    return (g && Date.now()-g.t < 30*864e5) ? g.c : '';
+  }catch(e){ return ''; }
+})();
 function waLink(msg){
   if(SRC_ADS) msg += ' [Vi su anuncio 📱]';
+  if(REF_VENDEDOR) msg += '\n\nCódigo de vendedor: ' + REF_VENDEDOR;
   return "https://wa.me/"+WA+"?text="+encodeURIComponent(msg);
 }
 function setWaLinks(){
