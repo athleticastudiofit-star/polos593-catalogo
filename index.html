@@ -392,7 +392,7 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     <a href="#mujer">Mujer</a>
     <a href="#vestidos">Vestidos</a>
     <a href="#hombre">Hombre</a>
-    <a href="#rayadas">Rayadas</a>
+    <a href="#rayadas-mujer">Rayadas</a>
     <a href="#polo-rl">Polo RL</a>
     <a href="#polo-lc">Polo Clásico</a>
     <a href="#bermudas">Bermudas</a>
@@ -423,7 +423,8 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     </button>
     <div class="drawer-sub" id="drawerSubHombre">
       <a class="drawer-sub-link" href="#hombre" onclick="closeDrawer()">· Camisas Oxford</a>
-      <a class="drawer-sub-link" href="#rayadas" onclick="closeDrawer()">· Camisas Rayadas</a>
+      <a class="drawer-sub-link" href="#rayadas-mujer" onclick="closeDrawer()">· Camisas Rayadas Mujer</a>
+      <a class="drawer-sub-link" href="#rayadas" onclick="closeDrawer()">· Camisas Rayadas Hombre</a>
       <a class="drawer-sub-link" href="#polo-rl" onclick="closeDrawer()">· Polo Piqué RL</a>
       <a class="drawer-sub-link" href="#polo-lc" onclick="closeDrawer()">· Polo Clásico Lacoste</a>
       <a class="drawer-sub-link" href="#bermudas" onclick="closeDrawer()">· Bermudas</a>
@@ -453,17 +454,17 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
     <div class="nuevo-copy reveal">
       <span class="nuevo-tag">✨ Recién llegadas</span>
       <h2 class="nuevo-title">Mira lo <em>nuevo</em> que llegó</h2>
-      <p class="nuevo-desc">Camisas rayadas premium para hombre — 8 colores nuevos, corte slim fit, algodón 100% con bordado decorativo. Perfectas para oficina y ocasiones formales.</p>
-      <a class="nuevo-cta" href="#rayadas">
+      <p class="nuevo-desc">Camisas rayadas premium para mujer — 11 colores nuevos, corte entallado con bordado decorativo. Perfectas para oficina y ocasiones formales.</p>
+      <a class="nuevo-cta" href="#rayadas-mujer">
         Ver las nuevas
         <svg width="16" height="8" viewBox="0 0 16 8" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="4" x2="14" y2="4"/><polyline points="10,1 14,4 10,7"/></svg>
       </a>
     </div>
     <div class="nuevo-thumbs reveal">
-      <img src="assets/rayadas/model-h-rayas-azul-marino.jpg" alt="Camisa rayada Azul Marino" loading="lazy"/>
-      <img src="assets/rayadas/model-h-rayas-cobalto.jpg"     alt="Camisa rayada Cobalto" loading="lazy"/>
-      <img src="assets/rayadas/model-h-rayas-rojo.jpg"        alt="Camisa rayada Rojo" loading="lazy"/>
-      <img src="assets/rayadas/model-h-rayas-verde-nilo.jpg"  alt="Camisa rayada Verde Nilo" loading="lazy"/>
+      <img src="assets/rayadas/model-m-rayas-azul-marino.jpg"  alt="Camisa rayada mujer Azul Marino" loading="lazy"/>
+      <img src="assets/rayadas/model-m-rayas-celeste-cielo.jpg" alt="Camisa rayada mujer Celeste Cielo" loading="lazy"/>
+      <img src="assets/rayadas/model-m-rayas-rosado.jpg"        alt="Camisa rayada mujer Rosado" loading="lazy"/>
+      <img src="assets/rayadas/model-m-rayas-verde-menta.jpg"   alt="Camisa rayada mujer Verde Menta" loading="lazy"/>
     </div>
   </div>
 </section>
@@ -618,12 +619,26 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
 
 <div class="section-divider"></div>
 
+<!-- ═══════════════ CAMISAS RAYADAS MUJER ═══════════════ -->
+<section class="section" id="rayadas-mujer">
+  <div class="section-head reveal">
+    <div>
+      <p class="section-label">✨ Recién llegadas</p>
+      <h2 class="section-title">Camisas <em>Rayadas</em> Mujer</h2>
+      <p class="section-desc">Camisa rayada premium para mujer. 11 colores disponibles, corte entallado con bordado decorativo. Ideal para oficina y ocasiones formales.</p>
+    </div>
+  </div>
+  <div class="grid" id="grid-rayadas-m"></div>
+</section>
+
+<div class="section-divider"></div>
+
 <!-- ═══════════════ CAMISAS RAYADAS ═══════════════ -->
 <section class="section" id="rayadas">
   <div class="section-head reveal">
     <div>
       <p class="section-label">✨ Recién llegadas</p>
-      <h2 class="section-title">Camisas <em>Rayadas</em></h2>
+      <h2 class="section-title">Camisas <em>Rayadas</em> Hombre</h2>
       <p class="section-desc">Camisa rayada premium para hombre. 8 colores disponibles, corte slim fit, tejido 100% algodón con bordado decorativo. Ideal para oficina y ocasiones formales.</p>
     </div>
   </div>
@@ -779,6 +794,7 @@ footer{background:var(--ink);color:var(--paper);padding:4rem 2.6rem 2rem}
       <a href="#mujer">Camisa Polos Mujer</a>
       <a href="#vestidos">Vestido Polo Mujer</a>
       <a href="#hombre">Camisa Polos Hombre</a>
+      <a href="#rayadas-mujer">Camisa Rayada Mujer</a>
       <a href="#rayadas">Camisa Rayada Hombre</a>
       <a href="#polo-rl">Polo Piqué Premium</a>
       <a href="#polo-lc">Polo Clásico</a>
@@ -885,6 +901,20 @@ const POLO_RL = [
   {color:'Verde Menta',   model:'assets/model-rl-16.jpg', flat:'assets/polo-rl-16.jpg'},
 ];
 
+/* Camisas rayadas mujer (2 oct 2026) — sin flat-lay por ahora (tarjeta sin flip) */
+const RAYADAS_M = [
+  {color:'Azul Marino',         hex:'#23305E', model:'assets/rayadas/model-m-rayas-azul-marino.jpg'},
+  {color:'Celeste Cielo',       hex:'#8FB4E8', model:'assets/rayadas/model-m-rayas-celeste-cielo.jpg'},
+  {color:'Rosado',              hex:'#E9A9C1', model:'assets/rayadas/model-m-rayas-rosado.jpg'},
+  {color:'Verde Menta',         hex:'#9ED9C8', model:'assets/rayadas/model-m-rayas-verde-menta.jpg'},
+  {color:'Rojo',                hex:'#C25A58', model:'assets/rayadas/model-m-rayas-rojo.jpg'},
+  {color:'Negro',               hex:'#1C1C22', model:'assets/rayadas/model-m-rayas-negro.jpg'},
+  {color:'Cobalto',             hex:'#3E5F94', model:'assets/rayadas/model-m-rayas-cobalto.jpg'},
+  {color:'Celeste',             hex:'#A9C3E6', model:'assets/rayadas/model-m-rayas-celeste.jpg'},
+  {color:'Gris Azulado',        hex:'#5E6B82', model:'assets/rayadas/model-m-rayas-gris-azulado.jpg'},
+  {color:'Blanco Raya Marino',  hex:'#F4F4F6', model:'assets/rayadas/model-m-rayas-blanco-raya-marino.jpg'},
+  {color:'Blanco Raya Celeste', hex:'#EEF2F8', model:'assets/rayadas/model-m-rayas-blanco-raya-celeste.jpg'},
+];
 /* Camisas rayadas hombre — sin flat-lay por ahora (tarjeta sin flip) */
 const RAYADAS_H = [
   {color:'Azul Marino', hex:'#23305E', model:'assets/rayadas/model-h-rayas-azul-marino.jpg'},
@@ -1224,13 +1254,13 @@ function makeBermudaCard(item){
 </article>`;
 }
 
-function makeRayadaCard(item){
-  const nombre = `Camisa Rayada Hombre`;
+function makeRayadaCard(item, genero='Hombre'){
+  const nombre = `Camisa Rayada ${genero}`;
   const base = 39.90;
   const dotBorder = '2px solid rgba(255,255,255,.6)';
   return `<article class="card no-flip reveal">
   <div class="card-img">
-    <img class="img-model" src="${item.model}" alt="Camisa Rayada Hombre ${item.color}" loading="lazy"/>
+    <img class="img-model" src="${item.model}" alt="${nombre} ${item.color}" loading="lazy"/>
     <span class="card-color-dot" style="background:${item.hex};border:${dotBorder}"></span>
   </div>
   <div class="card-body">
@@ -1266,6 +1296,7 @@ function renderGrids(){
   document.getElementById('grid-m').innerHTML = COLORES_M.map(c=>makeCard(c,'mujer')).join('');
   document.getElementById('grid-vestidos').innerHTML = VESTIDOS.map(v=>makeVestidoCard(v)).join('');
   document.getElementById('grid-h').innerHTML = COLORES_H.map(c=>makeCard(c,'hombre')).join('');
+  document.getElementById('grid-rayadas-m').innerHTML = RAYADAS_M.map(c=>makeRayadaCard(c,'Mujer')).join('');
   document.getElementById('grid-rayadas').innerHTML = RAYADAS_H.map(c=>makeRayadaCard(c)).join('');
   document.getElementById('grid-polo-rl').innerHTML = POLO_RL.map(c=>makePoloCard(c,"Premium","hombre")).join('');
   document.getElementById('grid-polo-lc').innerHTML = POLO_LC.map(c=>makePoloCard(c,"Clásico","hombre")).join('');
