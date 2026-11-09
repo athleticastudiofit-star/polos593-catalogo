@@ -292,8 +292,8 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
           <span class="door-txt"><span class="door-word cond">Mujer</span><span class="door-sub">Camisas y vestidos polo</span><span class="door-go">Ver mujer</span></span>
         </a>
         <a class="door wide" href="#/gorras">
-          <picture><source media="(min-width:800px)" srcset="img/m/assets/gorras/gorra-azul-2.webp"/><img src="img/m/assets/gorras/portada-gorras.webp" alt="Gorras café, vino, beige y azul" loading="lazy"/></picture>
-          <span class="door-txt"><span class="door-word cond">Gorras</span><span class="door-sub">7 colores, talla única, a $12</span><span class="door-go">Ver gorras</span></span>
+          <picture><source media="(min-width:800px)" srcset="img/m/assets/gorras/v2/gorra-verde-1.webp"/><img src="img/m/assets/gorras/v2/portada-gorras-v2.webp" alt="Gorras crema, verde y azul" loading="lazy"/></picture>
+          <span class="door-txt"><span class="door-word cond">Gorras</span><span class="door-sub">16 colores, talla única, a $12</span><span class="door-go">Ver gorras</span></span>
         </a>
       </div>
 
@@ -497,9 +497,13 @@ const TALLAS = ['S','M','L','XL','XXL','XXXL'], EXTRA = ['XXL','XXXL'];
 const PRECIO_GORRA = 12;
 P.push({ id:'gorra', seg:'gorras', cat:'Gorras', nombre:'Gorra', precio:PRECIO_GORRA, unica:true, porColor:true,
   detalles:['Talla única','Correa ajustable con hebilla','Bordado decorativo'],
-  colores:[['Vino','#872330','vino',3],['Café','#42322E','cafe',4],['Celeste','#989D9D','celeste',3],['Gris','#4F5050','gris',3],
-    ['Beige','#90856B','beige',3],['Rojo','#C23048','rojo',3],['Azul','#41485A','azul',3]]
-    .map(([c,h,s,n])=>({color:c,hex:h,pos:'center',img:`assets/gorras/gorra-${s}-1.jpg`,fotos:Array.from({length:n},(_,k)=>`assets/gorras/gorra-${s}-${k+1}.jpg`)})) });
+  // v2 (9 nov 2026): recortadas por Homero, frente / lateral / espalda. Las de osito son las del 28 oct.
+  colores:[['Verde','#2F6E4E','verde',3,'v2/'],['Azul','#5A6684','azul',3,'v2/'],['Crema','#EFE6CC','crema',3,'v2/'],['Blanco','#F2F1EC','blanco',3,'v2/'],
+    ['Lila','#B4ADD8','lila',3,'v2/'],['Rosado','#E1839E','rosado',3,'v2/'],['Celeste','#A9BCCF','celeste',3,'v2/'],['Verde salvia','#85938C','salvia',3,'v2/'],
+    ['Gris','#6F706F','gris',3,'v2/'],
+    ['Vino','#872330','vino',3,''],['Café osito','#42322E','cafe',4,''],['Celeste osito','#989D9D','celeste',3,''],['Gris osito','#4F5050','gris',3,''],
+    ['Beige','#90856B','beige',3,''],['Rojo','#C23048','rojo',3,''],['Azul osito','#41485A','azul',3,'']]
+    .map(([c,h,s,n,d])=>({color:c,hex:h,pos:'center',img:`assets/gorras/${d}gorra-${s}-1.jpg`,fotos:Array.from({length:n},(_,k)=>`assets/gorras/${d}gorra-${s}-${k+1}.jpg`)})) });
 const money = n => '$'+n.toFixed(2);
 const byId = id => P.find(p=>p.id===id);
 const $ = id => document.getElementById(id);
