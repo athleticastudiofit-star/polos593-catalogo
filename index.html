@@ -179,6 +179,8 @@ a{color:inherit}
 .thumbs button{width:64px;aspect-ratio:4/5;border-radius:var(--r-in);overflow:hidden;background:var(--studio-2);box-shadow:0 0 0 1px var(--line)}
 .thumbs button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
 .thumbs img{width:100%;height:100%;object-fit:cover}
+.thumbs button{position:relative}
+.thumbs .real{position:absolute;left:3px;right:3px;bottom:3px;font-size:9.5px;font-weight:700;line-height:1.3;background:rgba(21,33,59,.82);color:#FAFAF8;border-radius:5px;text-align:center}
 .pdp h1{font-size:clamp(48px,12vw,84px)}
 .pdp .price b{font-size:26px}
 .note{margin-top:12px;background:var(--butter);color:var(--navy-fixed);border-radius:var(--r-in);padding:10px 14px;font-size:15px}
@@ -456,7 +458,7 @@ const P = [
       ['Amarillo','#F2D33B','model-rl-09.jpg','polo-rl-09.png'],['Gris Jaspe','#9B9B9B','model-rl-10.png','polo-rl-10.jpg'],
       ['Verde Agua','#8FE0CF','model-rl-11.png','polo-rl-11.png'],['Azul Marino','#1C2A5A','model-rl-12.png','polo-rl-12.png'],
       ['Celeste 2','#B5CDEB','model-rl-13.png','polo-rl-13.png'],['Verde Lima','#9BE04A','model-rl-14.png','polo-rl-14.png'],
-      ['Gris Oscuro','#3D3D3F','model-rl-15.png','polo-rl-15.png'],['Verde Menta','#A8E6CF','model-rl-16.png','polo-rl-16.png'],
+      ['Gris Oscuro','#3D3D3F','model-rl-15.png','polo-rl-15.png'],['Beige','#D8CBB0','reales/2026-11/IMG_2379.jpg','reales/2026-11/IMG_2381.jpg'],['Verde Menta','#A8E6CF','model-rl-16.png','polo-rl-16.png'],
     ].map(([c,h,m,f])=>({color:c,hex:h,img:'assets/'+m,flat:'assets/'+f})) },
   { id:'polo-clasico', seg:'hombre', cat:'Polos', nombre:'Polo clásico', precio:24.99, antes:29.99, combo:'polo', portada:1,
     detalles:['Classic fit','Petit piqué','Bordado decorativo'],
@@ -489,6 +491,14 @@ const P = [
 ];
 const OX = [['Celeste claro','#AFC7F5','celeste-claro'],['Blanco','#F5F5F3','blanco'],['Negro','#111111','negro'],['Café','#8B4A2B','cafe'],['Navy','#0D2C6C','navy','navy-new'],['Verde oliva','#556B2F','verde-oliva'],['Turquesa','#7ED6D1','turquesa'],['Amarillo','#F3E37A','amarillo'],['Rosa pastel','#F6C1D0','rosa'],['Rojo','#C1121F','rojo']];
 P.filter(p=>p.base).forEach(p=>{ p.colores = OX.map(([c,h,s,f])=>({color:c,hex:h,img:`assets/model-${p.base}-${s}.png`,flat:`assets/camisa-prem-${p.base}-${f||s}.png`})); });
+// Fotos reales sin editar de las prendas que llegaron al local (préstamo de la proveedora, nov 2026)
+const REALES = { 'oxford-h':{'Celeste claro':['2335','2336'],'Rosa pastel':['2337'],'Negro':['2338']},
+  'oxford-m':{'Negro':['2357'],'Blanco':['2358'],'Navy':['2359'],'Verde oliva':['2360'],'Amarillo':['2361']},
+  'rayada-h':{'Rosado':['2340'],'Verde Nilo':['2343'],'Celeste':['2346'],'Azul Marino':['2348'],'Negro':['2350']},
+  'rayada-m':{'Celeste':['2352'],'Blanco Raya Marino':['2355']},
+  'bermuda':{'Blanco':['2362'],'Azul Marino':['2363']}, 'polo-clasico':{'Verde Agua':['2364']}, 'polo-pique':{'Gris Jaspe':['2366']} };
+Object.entries(REALES).forEach(([id,cols])=>Object.entries(cols).forEach(([color,ns])=>{
+  const c=(P.find(p=>p.id===id)||{colores:[]}).colores.find(x=>x.color===color); if(c) c.reales=ns.map(n=>`assets/reales/2026-11/IMG_${n}.jpg`); }));
 
 const SEG = { hombre:{nombre:'Hombre', cats:['Polos','Camisas','Playa']}, mujer:{nombre:'Mujer', cats:['Camisas','Vestidos']}, gorras:{nombre:'Gorras', cats:['Gorras']} };
 const TALLAS = ['S','M','L','XL','XXL','XXXL'], EXTRA = ['XXL','XXXL'];
@@ -573,7 +583,8 @@ function renderSeg(seg, cat){
 
 /* Ficha de producto */
 let cur={p:null,i:0,talla:null,foto:0};
-const fotos = () => { const c=cur.p.colores[cur.i]; return c.fotos || [c.img, c.flat].filter(Boolean); };
+const fotos = () => { const c=cur.p.colores[cur.i]; return c.fotos || [c.img, c.flat, ...(c.reales||[])].filter(Boolean); };
+const esReal = f => /\/reales\//.test(f);
 function renderPDP(p, i){
   cur={p, i:Math.min(i,p.colores.length-1), talla:p.unica?'Única':null, foto:0};
   document.title=p.nombre+' | Polos593';
@@ -593,7 +604,7 @@ function paintPDP(){
   if(cur.foto>=fs.length) cur.foto=0;
   const img=$('pdpImg'); img.src=A(fs[cur.foto]); img.alt=`${p.nombre} ${c.color}`;
   img.style.objectPosition = cur.foto===0 ? (c.pos||'center 22%') : 'center';
-  $('thumbs').innerHTML = fs.length>1 ? fs.map((f,n)=>`<button aria-pressed="${n===cur.foto}" aria-label="${c.fotos?'Foto '+(n+1):n===0?'Foto puesta':'Foto de la prenda'}" data-f="${n}"><img src="${T(f)}" alt="" loading="lazy"/></button>`).join('') : '';
+  $('thumbs').innerHTML = fs.length>1 ? fs.map((f,n)=>`<button aria-pressed="${n===cur.foto}" aria-label="${esReal(f)?'Foto real':c.fotos?'Foto '+(n+1):n===0?'Foto puesta':'Foto de la prenda'}" data-f="${n}"><img src="${T(f)}" alt="" loading="lazy"/>${esReal(f)?'<span class="real">Foto real</span>':''}</button>`).join('') : '';
   $('pdpColor').textContent=c.color;
   document.querySelectorAll('#pdpSw button').forEach(b=>{ const on=+b.dataset.i===i; b.setAttribute('aria-pressed',on); b.setAttribute('aria-checked',on); });
   $('addBtn').disabled=!cur.talla || p.precio==null;
