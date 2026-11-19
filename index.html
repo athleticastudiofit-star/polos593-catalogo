@@ -302,7 +302,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
         </a>
         <a class="door wide" href="#/gorras">
           <picture><source media="(min-width:800px)" srcset="img/m/assets/gorras/v2/gorra-verde-1.webp"/><img src="img/m/assets/gorras/v2/portada-gorras-v2.webp" alt="Gorras crema, verde y azul" loading="lazy"/></picture>
-          <span class="door-txt"><span class="door-word cond">Gorras</span><span class="door-sub">16 colores, talla única, a $12</span><span class="door-go">Ver gorras</span></span>
+          <span class="door-txt"><span class="door-word cond">Gorras</span><span class="door-sub">18 colores, talla única, a $12</span><span class="door-go">Ver gorras</span></span>
         </a>
         <a class="door wide door-perf" href="#/perfumes">
           <img src="img/m/assets/perfumes/perfume-sauvage-1.webp" alt="Perfume en el showroom" loading="lazy"/>
@@ -523,7 +523,8 @@ P.push({ id:'gorra', seg:'gorras', cat:'Gorras', nombre:'Gorra', precio:PRECIO_G
     ['Lila','#B4ADD8','lila',3,'v2/'],['Rosado','#E1839E','rosado',3,'v2/'],['Celeste','#A9BCCF','celeste',3,'v2/'],['Verde salvia','#85938C','salvia',3,'v2/'],
     ['Gris','#6F706F','gris',3,'v2/'],
     ['Vino','#872330','vino',3,''],['Café osito','#42322E','cafe',4,''],['Celeste osito','#989D9D','celeste',3,''],['Gris osito','#4F5050','gris',3,''],
-    ['Beige','#90856B','beige',3,''],['Rojo','#C23048','rojo',3,''],['Azul osito','#41485A','azul',3,'']]
+    ['Beige','#90856B','beige',3,''],['Rojo','#C23048','rojo',3,''],['Azul osito','#41485A','azul',3,''],
+    ['Azul logo rojo','#1F2A4A','azul-logo-rojo',1,'v2/'],['Café logo beige','#5A3E2B','cafe-logo-beige',1,'v2/']]
     .map(([c,h,s,n,d])=>({color:c,hex:h,pos:'center',img:`assets/gorras/${d}gorra-${s}-1.jpg`,fotos:Array.from({length:n},(_,k)=>`assets/gorras/${d}gorra-${s}-${k+1}.jpg`)})) });
 /* Perfumes (12 nov 2026): fotos reales del showroom. Precio por perfume según el original (regla en datos/perfumes.py; regenerar con datos/generar_perfumes.py) */
 const PERF_CAT = {H:'Para él', M:'Para ella', U:'Unisex'};
