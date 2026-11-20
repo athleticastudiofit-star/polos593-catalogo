@@ -325,10 +325,11 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
       <section class="combos" aria-label="Combos">
         <div><h2 class="cond" id="comboTit">Lleva 3 y paga menos</h2><p style="margin-top:8px;opacity:.85" id="comboSub">El descuento se aplica solo en tu pedido.</p></div>
         <div class="combo-list">
-          <div class="combo" data-bf hidden><div><b>Gorra de regalo</b><small>Llevando 2 productos (prendas o perfumes)</small></div><span class="p">Gratis</span></div>
           <div class="combo"><div><b>Envío gratis</b><small>Llevando 2 productos o más</small></div><span class="p">Gratis</span></div>
-          <div class="combo"><div><b>3 camisas Oxford</b><small>Mezcla colores y tallas</small></div><span class="p">$94.99</span></div>
+          <div class="combo"><div><b>3 camisas Oxford</b><small>Llanas, mezcla colores y tallas</small></div><span class="p">$95</span></div>
+          <div class="combo"><div><b>2 polos</b><small>Piqué o clásico, envío gratis</small></div><span class="p">$50</span></div>
           <div class="combo"><div><b>3 polos</b><small>Piqué o clásico</small></div><span class="p">$69.99</span></div>
+          <div class="combo"><div><b>3 gorras</b><small>Mezcla colores</small></div><span class="p">$25</span></div>
         </div>
       </section>
 
@@ -708,7 +709,7 @@ function renderPDP(p, i){
   $('pdpTallas').hidden=!!p.unica;
   $('pdpColores').hidden=!!p.perfume;
   const note=$('pdpNote');
-  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos: gorra de regalo y envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $94.99. Puedes mezclar colores.' : 'Lleva 3 polos por $69.99. Puedes mezclar piqué y clásico.') + (Date.now()<BF_HASTA ? ' Black Friday: gorra de regalo llevando 2 productos.' : '') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
+  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $95. Puedes mezclar colores.' : 'Lleva 2 polos por $50 o 3 por $69.99. Puedes mezclar piqué y clásico.') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
   $('pdpSw').innerHTML=p.colores.map((c,n)=>`<button role="radio" aria-checked="${n===cur.i}" aria-pressed="${n===cur.i}" aria-label="${c.color}" title="${c.color}" style="background:${c.hex}" data-i="${n}"></button>`).join('');
   $('pdpSizes').innerHTML=TALLAS.map(t=>`<button role="radio" aria-checked="false" aria-pressed="false" data-t="${t}">${t}${EXTRA.includes(t)?'<small>+$5</small>':''}</button>`).join('');
   $('pdpDetails').innerHTML=p.detalles.map(d=>`<span>${d}</span>`).join('');
@@ -820,40 +821,31 @@ $('addBtn').addEventListener('click',()=>{
   $('pdpHint').textContent= p.perfume ? `Agregado: perfume ${p.nombre}.` : `Agregado: ${p.nombre} ${c.color}, talla ${talla}.`;
   if(typeof fbq!=='undefined') fbq('track','AddToCart',{content_name:p.nombre+' '+c.color,value:precioCon(p.precio,talla),currency:'USD'});
 });
-// Combos: 3 camisas Oxford $94.99 y 3 polos $69.99 (siempre). El recargo de tallas grandes se mantiene.
-// Black Friday (hasta BF_HASTA, solo pedidos desde este catálogo): Kit camisa Oxford + polo $54.99,
-// 2 o más perfumes 10 % menos y Gorra Jinete de regalo llevando 2 productos (sin contar gorras).
+// Combos (21 nov 2026, pedido de Homero): 3 camisas Oxford (llanas) $95, 3 polos $69.99, 3 gorras $25.
+// Envío gratis desde 2 productos; con 1 solo producto $3.50 Quito / $5 provincia (retiro en showroom gratis).
+// Ya NO hay gorra de regalo ni 10 % en perfumes. El recargo de tallas grandes se mantiene.
 let ENVIO='quito';
 try{ ENVIO=sessionStorage.getItem('p593_envio')||'quito'; }catch(e){}
+const PRECIO_3_GORRAS=25, PRECIO_3_CAMISAS=95, PRECIO_3_POLOS=69.99;
 function total(){
-  const BF = Date.now() < BF_HASTA;
-  const g={camisa:{n:0,precio:34.99,combo:94.99}, polo:{n:0,precio:24.99,combo:69.99}};
-  let sin=0, suelto=0, recargo=0, perf=0, nPerf=0;
-  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; recargo+=it.precio-it.base; } else if(it.perfume){ perf+=it.precio; nPerf++; } else suelto+=it.precio; });
+  const g={camisa:{n:0,precio:34.99,combo:PRECIO_3_CAMISAS}, polo:{n:0,precio:24.99,combo:PRECIO_3_POLOS}};
+  let sin=0, suelto=0, recargo=0, nGor=0, pGor=0;
+  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; recargo+=it.precio-it.base; } else if(it.id==='gorra'){ nGor++; pGor=it.base||it.precio; } else suelto+=it.precio; });
   const promos=[], falta=[];
-  const tc=Math.floor(g.camisa.n/3), tp=Math.floor(g.polo.n/3), rc=g.camisa.n%3, rp=g.polo.n%3, kits=0;   // Kit camisa + polo desactivado (20 nov 2026, Homero: muy barato)
-  let t=suelto+recargo+tc*94.99+tp*69.99+kits*54.99+(rc-kits)*34.99+(rp-kits)*24.99;
-  if(tc) promos.push(`Combo 3 camisas Oxford${tc>1?' ×'+tc:''}`);
-  if(tp) promos.push(`Combo 3 polos${tp>1?' ×'+tp:''}`);
-  if(kits) promos.push(`Kit Black Friday camisa + polo${kits>1?' ×'+kits:''}`);
-  t+=perf;   // (20 nov 2026) sin 10 % en perfumes: con envío no dejaba margen
-  const elegibles=cart.filter(it=>it.id!=='gorra').length; let regalo=null;
-  if(BF && elegibles>=2){
-    const gor=cart.filter(it=>it.id==='gorra');
-    if(gor.length){ t-=Math.min(...gor.map(x=>x.precio)); regalo='Una de tus gorras va de regalo'; }
-    else regalo='Gorra Jinete de regalo (elige el color por WhatsApp)';
-    promos.push('🎁 '+regalo);
-  }
-  if(rc-kits>0) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más para el combo de 3.`);
-  if(rp-kits>0) falta.push(`Agrega ${3-rp} ${3-rp>1?'polos':'polo'} más para el combo de 3.`);
-  // Envío (20 nov 2026): con 1 solo producto se cobra $3.50 Quito / $5 provincia; retiro en showroom gratis; con 2 o más, gratis.
+  const tc=Math.floor(g.camisa.n/3), tp=Math.floor(g.polo.n/3), rc=g.camisa.n%3, rp=g.polo.n%3, tg=Math.floor(nGor/3), rg=nGor%3;
+  let t=suelto+recargo+tc*PRECIO_3_CAMISAS+tp*PRECIO_3_POLOS+rc*34.99+rp*24.99+tg*PRECIO_3_GORRAS+rg*pGor;
+  if(tc) promos.push(`3 camisas Oxford por $95${tc>1?' ×'+tc:''}`);
+  if(tp) promos.push(`3 polos por $69.99${tp>1?' ×'+tp:''}`);
+  if(tg) promos.push(`3 gorras por $25${tg>1?' ×'+tg:''}`);
+  if(rc) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más: 3 por $95.`);
+  if(rp===1 && !tp) falta.push('Agrega 1 polo más: 2 polos por $50 con envío gratis.');
+  else if(rp) falta.push(`Agrega ${3-rp} ${3-rp>1?'polos':'polo'} más: 3 por $69.99.`);
+  if(rg) falta.push(`Agrega ${3-rg} ${3-rg>1?'gorras':'gorra'} más: 3 por $25.`);
   const ahorro=Math.max(0,Math.round((sin-t)*100)/100);
   let envio=0;
-  if(cart.length===1){ envio = ENVIO==='quito'?3.5:ENVIO==='provincia'?5:0; t+=envio; }
+  if(cart.length===1){ envio = ENVIO==='quito'?3.5:ENVIO==='provincia'?5:0; t+=envio; if(ENVIO!=='retiro' && !(rp===1)) falta.push('Agrega 1 producto más y el envío es gratis.'); }
   else if(cart.length>=2) promos.push('Envío gratis');
-  if(elegibles===1) falta.push(BF ? `Agrega 1 producto más: te regalamos una gorra${ENVIO!=='retiro'?' y el envío es gratis':''}.` : (ENVIO!=='retiro'?'Agrega 1 producto más y el envío es gratis.':''));
-  else if(cart.length===1 && ENVIO!=='retiro') falta.push('Agrega 1 producto más y el envío es gratis.');
-  return {t:Math.round(t*100)/100, ahorro, falta, promos, regalo, envio};
+  return {t:Math.round(t*100)/100, ahorro, falta, promos, envio};
 }
 function paintCart(){
   const {t,ahorro,falta,promos,envio}=total();
@@ -892,7 +884,7 @@ $('waFoot').href=waLink('Hola! Quisiera más información sobre sus prendas.');
 ['askBtn','waFoot'].forEach(id=>$(id).addEventListener('click',()=>{ if(typeof fbq!=='undefined') fbq('track','Contact'); }));
 if(Date.now() < BF_HASTA){
   document.querySelectorAll('[data-bf]').forEach(e=>e.hidden=false);
-  $('comboTit').textContent='Black Friday en el catálogo'; $('comboSub').textContent='Solo pedidos hechos desde este catálogo, hasta el 30 de noviembre. Se aplica solo en tu pedido.';
+  $('comboTit').textContent='Black Friday: combos'; $('comboSub').textContent='Envío gratis llevando 2 productos o más. El descuento se aplica solo en tu pedido.';
 }
 paintCart(); route();
 </script>
