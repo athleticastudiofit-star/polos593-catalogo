@@ -323,8 +323,11 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
       </section>
 
       <section class="combos" aria-label="Combos">
-        <div><h2 class="cond">Lleva 3 y paga menos</h2><p style="margin-top:8px;opacity:.85">El descuento se aplica solo en tu pedido.</p></div>
+        <div><h2 class="cond" id="comboTit">Lleva 3 y paga menos</h2><p style="margin-top:8px;opacity:.85" id="comboSub">El descuento se aplica solo en tu pedido.</p></div>
         <div class="combo-list">
+          <div class="combo" data-bf hidden><div><b>Kit Black Friday</b><small>Camisa Oxford + polo, con gorra de regalo</small></div><span class="p">$54.99</span></div>
+          <div class="combo" data-bf hidden><div><b>Gorra de regalo</b><small>Llevando 2 productos (prendas o perfumes)</small></div><span class="p">Gratis</span></div>
+          <div class="combo" data-bf hidden><div><b>2 perfumes o más</b><small>Sobre el precio Black Friday</small></div><span class="p" style="white-space:nowrap">−10&nbsp;%</span></div>
           <div class="combo"><div><b>3 camisas Oxford</b><small>Mezcla colores y tallas</small></div><span class="p">$94.99</span></div>
           <div class="combo"><div><b>3 polos</b><small>Piqué o clásico</small></div><span class="p">$69.99</span></div>
         </div>
@@ -530,82 +533,82 @@ P.push({ id:'gorra', seg:'gorras', cat:'Gorras', nombre:'Gorra', precio:PRECIO_G
 const PERF_CAT = {H:'Para él', M:'Para ella', U:'Unisex'};
 const BF_HASTA = new Date('2026-12-01T00:00:00-05:00').getTime();   // desde el 1 dic ya no se muestra el precio regular tachado
 [
-  ["sauvage", "Sauvage", "Dior", "H", 1, "Fresco y especiado", 2, 64.99, 97.99],
-  ["bleu-de-chanel", "Bleu de Chanel", "Chanel", "H", 1, "Fresco, amaderado y elegante", 3, 71.99, 114.99],
-  ["acqua-di-gio-profumo", "Acqua di Giò Profumo", "Giorgio Armani", "H", 1, "Marino con incienso", 1, 66.99, 102.99],
-  ["212-vip-black", "212 VIP Black", "Carolina Herrera", "H", 1, "Dulce y nocturno", 1, 61.99, 87.99],
-  ["invictus-victory-elixir", "Invictus Victory Elixir", "Paco Rabanne", "H", 1, "Intenso, ámbar y vainilla", 1, 64.99, 95.99],
-  ["le-male-elixir", "Le Male Elixir", "Jean Paul Gaultier", "H", 1, "Lavanda, miel y tabaco", 1, 68.99, 107.99],
-  ["le-male-le-parfum", "Le Male Le Parfum", "Jean Paul Gaultier", "H", 0, "Lavanda y vainilla, elegante", 2, 66.99, 102.99],
-  ["le-male", "Le Male", "Jean Paul Gaultier", "H", 0, "Lavanda y menta, el clásico", 1, 63.99, 92.99],
-  ["le-beau-le-parfum", "Le Beau Le Parfum", "Jean Paul Gaultier", "H", 0, "Coco y haba tonka", 1, 66.99, 102.99],
-  ["acqua-di-gio-parfum", "Acqua di Giò Parfum", "Giorgio Armani", "H", 0, "Marino y amaderado", 1, 69.99, 109.99],
-  ["acqua-di-gio", "Acqua di Giò", "Giorgio Armani", "H", 0, "Fresco y cítrico, para el día", 1, 61.99, 87.99],
-  ["212-vip-men", "212 VIP Men", "Carolina Herrera", "H", 0, "Fresco y especiado, de fiesta", 1, 59.99, 82.99],
-  ["212-men", "212 Men", "Carolina Herrera", "H", 0, "Verde y fresco", 2, 57.99, 77.99],
-  ["212-men-blanco", "212 Men edición blanca", "Carolina Herrera", "H", 0, "Limpio y fresco", 1, 57.99, 77.99],
-  ["212-heroes", "212 Heroes", "Carolina Herrera", "H", 0, "Frutal y fresco, juvenil", 1, 58.99, 80.99],
-  ["212-heroes-dorado", "212 Heroes edición dorada", "Carolina Herrera", "H", 0, "Frutal y especiado", 1, 58.99, 80.99],
-  ["invictus-victory", "Invictus Victory", "Paco Rabanne", "H", 0, "Ámbar y vainilla", 1, 62.99, 90.99],
-  ["eros", "Eros", "Versace", "H", 0, "Menta y vainilla, dulce", 1, 62.99, 90.99],
-  ["eros-flame", "Eros Flame", "Versace", "H", 0, "Cítrico y especiado", 1, 62.99, 90.99],
-  ["versace-oud-noir", "Pour Homme Oud Noir", "Versace", "H", 0, "Oud y especias, intenso", 1, 64.99, 95.99],
-  ["stronger-with-you", "Stronger With You", "Emporio Armani", "H", 0, "Castaña y vainilla", 2, 61.99, 87.99],
-  ["y-ysl", "Y", "Yves Saint Laurent", "H", 0, "Fresco y amaderado", 1, 67.99, 104.99],
-  ["born-in-roma-uomo", "Born in Roma Uomo", "Valentino", "H", 0, "Vetiver y especias", 1, 64.99, 97.99],
-  ["the-one", "The One", "Dolce & Gabbana", "H", 0, "Tabaco y ámbar, cálido", 1, 63.99, 92.99],
-  ["polo-red", "Polo Red", "Ralph Lauren", "H", 0, "Cítrico y café", 1, 60.99, 85.99],
-  ["allure-homme-sport", "Allure Homme Sport", "Chanel", "H", 0, "Fresco y deportivo", 1, 64.99, 97.99],
-  ["gentleman", "Gentleman", "Givenchy", "H", 0, "Iris y amaderado", 1, 63.99, 92.99],
-  ["gentleman-society", "Gentleman Society", "Givenchy", "H", 0, "Amaderado y floral", 1, 66.99, 102.99],
-  ["light-blue-pour-homme", "Light Blue Pour Homme", "Dolce & Gabbana", "H", 0, "Cítrico y marino", 1, 59.99, 82.99],
-  ["good-girl", "Good Girl", "Carolina Herrera", "M", 1, "Tuberosa, cacao y café", 2, 65.99, 99.99],
-  ["very-good-girl", "Very Good Girl", "Carolina Herrera", "M", 1, "Frutos rojos y rosa", 2, 66.99, 102.99],
-  ["212-vip-rose", "212 VIP Rosé", "Carolina Herrera", "M", 1, "Espumoso y frutal", 1, 62.99, 90.99],
-  ["la-vie-est-belle", "La Vie Est Belle", "Lancôme", "M", 1, "Dulce, iris y praliné", 1, 69.99, 109.99],
-  ["light-blue", "Light Blue", "Dolce & Gabbana", "M", 1, "Cítrico y fresco", 2, 61.99, 87.99],
-  ["chance-eau-tendre", "Chance Eau Tendre", "Chanel", "M", 1, "Floral y frutal, suave", 2, 68.99, 107.99],
-  ["good-girl-blush", "Good Girl Blush", "Carolina Herrera", "M", 0, "Floral y empolvado", 1, 66.99, 102.99],
-  ["good-girl-blush-elixir", "Good Girl Blush Elixir", "Carolina Herrera", "M", 0, "Floral y vainilla", 2, 69.99, 109.99],
-  ["good-girl-midnight", "Good Girl Midnight", "Carolina Herrera", "M", 0, "Floral y amaderado", 1, 66.99, 102.99],
-  ["good-girl-fantastic-pink", "Good Girl Fantastic Pink", "Carolina Herrera", "M", 0, "Frutal y dulce", 1, 66.99, 102.99],
-  ["very-good-girl-glam", "Very Good Girl Glam", "Carolina Herrera", "M", 0, "Rosa y frutos rojos", 1, 68.99, 107.99],
-  ["good-girl-brillos", "Good Girl edición brillos", "Carolina Herrera", "M", 0, "Tuberosa y cacao", 1, 66.99, 102.99],
-  ["212-vip-rose-elixir", "212 VIP Rosé Elixir", "Carolina Herrera", "M", 0, "Frutal y cálido", 1, 63.99, 92.99],
-  ["212-vip-rose-ny", "212 VIP Rosé I Love NY", "Carolina Herrera", "M", 0, "Espumoso y frutal", 1, 62.99, 90.99],
-  ["212-vip", "212 VIP", "Carolina Herrera", "M", 0, "Dulce y de fiesta", 1, 60.99, 85.99],
-  ["212-sexy", "212 Sexy", "Carolina Herrera", "M", 0, "Dulce y almizclado", 1, 59.99, 82.99],
-  ["212-mujer", "212", "Carolina Herrera", "M", 0, "Floral y limpio", 1, 58.99, 80.99],
-  ["212-heroes-her", "212 Heroes For Her", "Carolina Herrera", "M", 0, "Frutal y floral", 1, 59.99, 82.99],
-  ["ch", "CH", "Carolina Herrera", "M", 0, "Floral y cálido", 1, 60.99, 85.99],
-  ["chic", "Chic", "Carolina Herrera", "M", 0, "Frutal y floral", 1, 59.99, 82.99],
-  ["jadore", "J'adore", "Dior", "M", 0, "Floral y luminoso", 1, 71.99, 114.99],
-  ["poison-girl", "Poison Girl", "Dior", "M", 0, "Dulce y avainillado", 1, 64.99, 97.99],
-  ["light-blue-capri", "Light Blue Capri in Love", "Dolce & Gabbana", "M", 0, "Cítrico y floral", 1, 63.99, 92.99],
-  ["devotion", "Devotion", "Dolce & Gabbana", "M", 0, "Dulce y cremoso", 1, 66.99, 102.99],
-  ["fame", "Fame", "Paco Rabanne", "M", 0, "Mango, jazmín e incienso", 1, 64.99, 95.99],
-  ["si-passione", "Sì Passione", "Giorgio Armani", "M", 0, "Frutal y floral, intenso", 1, 68.99, 107.99],
-  ["my-way", "My Way", "Giorgio Armani", "M", 0, "Floral y luminoso", 1, 67.99, 104.99],
-  ["acqua-di-gio-mujer", "Acqua di Giò mujer", "Giorgio Armani", "M", 0, "Fresco y floral", 1, 55.99, 72.99],
-  ["divine", "Divine Le Parfum", "Jean Paul Gaultier", "M", 0, "Floral y salado", 1, 68.99, 107.99],
-  ["classique", "Classique", "Jean Paul Gaultier", "M", 0, "Floral y avainillado", 1, 61.99, 87.99],
-  ["classique-i-love", "Classique I Love Gaultier", "Jean Paul Gaultier", "M", 0, "Floral y avainillado", 1, 63.99, 92.99],
-  ["la-belle", "La Belle", "Jean Paul Gaultier", "M", 0, "Pera y vainilla", 1, 64.99, 97.99],
-  ["the-scent-for-her", "The Scent For Her", "Hugo Boss", "M", 0, "Frutal y floral", 1, 61.99, 87.99],
-  ["i-want-choo", "I Want Choo Le Parfum", "Jimmy Choo", "M", 0, "Dulce y floral", 1, 63.99, 92.99],
-  ["bombshell-santorini", "Bombshell Santorini", "Victoria's Secret", "M", 0, "Fresco y frutal", 1, 56.99, 75.99],
-  ["bombshell-bouquet", "Bombshell Bouquet", "Victoria's Secret", "M", 0, "Floral y frutal", 1, 56.99, 75.99],
-  ["angel-gold", "Angel Gold", "Victoria's Secret", "M", 0, "Dulce y cálido", 1, 56.99, 75.99],
-  ["daisy-paradise", "Daisy Eau So Fresh Paradise", "Marc Jacobs", "M", 0, "Frutal y fresco", 1, 61.99, 87.99],
-  ["dot", "Dot", "Marc Jacobs", "M", 0, "Frutal y dulce", 1, 61.99, 87.99],
-  ["bright-crystal-absolu", "Bright Crystal Absolu", "Versace", "M", 0, "Granada y peonía", 1, 60.99, 85.99],
-  ["dylan-turquoise", "Dylan Turquoise", "Versace", "M", 0, "Cítrico y fresco", 1, 62.99, 90.99],
-  ["la-nuit-tresor", "La Nuit Trésor", "Lancôme", "M", 0, "Rosa y praliné", 1, 66.99, 102.99],
-  ["flower", "Flower", "Kenzo", "M", 0, "Floral y empolvado", 1, 61.99, 87.99],
-  ["amarige", "Amarige", "Givenchy", "M", 0, "Floral intenso", 1, 57.99, 77.99],
+  ["sauvage", "Sauvage", "Dior", "H", 1, "Fresco y especiado", 2, 69.99, 100.99, 64.99, 97.99],
+  ["bleu-de-chanel", "Bleu de Chanel", "Chanel", "H", 1, "Fresco, amaderado y elegante", 3, 76.99, 118.99, 71.99, 114.99],
+  ["acqua-di-gio-profumo", "Acqua di Giò Profumo", "Giorgio Armani", "H", 1, "Marino con incienso", 1, 71.99, 105.99],
+  ["212-vip-black", "212 VIP Black", "Carolina Herrera", "H", 1, "Dulce y nocturno", 1, 66.99, 91.99],
+  ["invictus-victory-elixir", "Invictus Victory Elixir", "Paco Rabanne", "H", 1, "Intenso, ámbar y vainilla", 1, 69.99, 99.99],
+  ["le-male-elixir", "Le Male Elixir", "Jean Paul Gaultier", "H", 1, "Lavanda, miel y tabaco", 1, 73.99, 110.99],
+  ["le-male-le-parfum", "Le Male Le Parfum", "Jean Paul Gaultier", "H", 0, "Lavanda y vainilla, elegante", 2, 71.99, 105.99],
+  ["le-male", "Le Male", "Jean Paul Gaultier", "H", 0, "Lavanda y menta, el clásico", 1, 68.99, 96.99],
+  ["le-beau-le-parfum", "Le Beau Le Parfum", "Jean Paul Gaultier", "H", 0, "Coco y haba tonka", 1, 71.99, 105.99],
+  ["acqua-di-gio-parfum", "Acqua di Giò Parfum", "Giorgio Armani", "H", 0, "Marino y amaderado", 1, 74.99, 113.99],
+  ["acqua-di-gio", "Acqua di Giò", "Giorgio Armani", "H", 0, "Fresco y cítrico, para el día", 1, 66.99, 91.99],
+  ["212-vip-men", "212 VIP Men", "Carolina Herrera", "H", 0, "Fresco y especiado, de fiesta", 1, 64.99, 86.99],
+  ["212-men", "212 Men", "Carolina Herrera", "H", 0, "Verde y fresco", 2, 62.99, 81.99],
+  ["212-men-blanco", "212 Men edición blanca", "Carolina Herrera", "H", 0, "Limpio y fresco", 1, 62.99, 81.99],
+  ["212-heroes", "212 Heroes", "Carolina Herrera", "H", 0, "Frutal y fresco, juvenil", 1, 63.99, 84.99],
+  ["212-heroes-dorado", "212 Heroes edición dorada", "Carolina Herrera", "H", 0, "Frutal y especiado", 1, 63.99, 84.99],
+  ["invictus-victory", "Invictus Victory", "Paco Rabanne", "H", 0, "Ámbar y vainilla", 1, 67.99, 94.99],
+  ["eros", "Eros", "Versace", "H", 0, "Menta y vainilla, dulce", 1, 67.99, 94.99],
+  ["eros-flame", "Eros Flame", "Versace", "H", 0, "Cítrico y especiado", 1, 67.99, 94.99],
+  ["versace-oud-noir", "Pour Homme Oud Noir", "Versace", "H", 0, "Oud y especias, intenso", 1, 69.99, 99.99],
+  ["stronger-with-you", "Stronger With You", "Emporio Armani", "H", 0, "Castaña y vainilla", 2, 66.99, 91.99],
+  ["y-ysl", "Y", "Yves Saint Laurent", "H", 0, "Fresco y amaderado", 1, 72.99, 108.99],
+  ["born-in-roma-uomo", "Born in Roma Uomo", "Valentino", "H", 0, "Vetiver y especias", 1, 69.99, 100.99],
+  ["the-one", "The One", "Dolce & Gabbana", "H", 0, "Tabaco y ámbar, cálido", 1, 68.99, 96.99],
+  ["polo-red", "Polo Red", "Ralph Lauren", "H", 0, "Cítrico y café", 1, 65.99, 89.99],
+  ["allure-homme-sport", "Allure Homme Sport", "Chanel", "H", 0, "Fresco y deportivo", 1, 69.99, 100.99],
+  ["gentleman", "Gentleman", "Givenchy", "H", 0, "Iris y amaderado", 1, 68.99, 96.99],
+  ["gentleman-society", "Gentleman Society", "Givenchy", "H", 0, "Amaderado y floral", 1, 71.99, 105.99],
+  ["light-blue-pour-homme", "Light Blue Pour Homme", "Dolce & Gabbana", "H", 0, "Cítrico y marino", 1, 64.99, 86.99],
+  ["good-girl", "Good Girl", "Carolina Herrera", "M", 1, "Tuberosa, cacao y café", 2, 70.99, 103.99, 65.99, 99.99],
+  ["very-good-girl", "Very Good Girl", "Carolina Herrera", "M", 1, "Frutos rojos y rosa", 2, 71.99, 105.99, 66.99, 102.99],
+  ["212-vip-rose", "212 VIP Rosé", "Carolina Herrera", "M", 1, "Espumoso y frutal", 1, 67.99, 94.99],
+  ["la-vie-est-belle", "La Vie Est Belle", "Lancôme", "M", 1, "Dulce, iris y praliné", 1, 74.99, 113.99],
+  ["light-blue", "Light Blue", "Dolce & Gabbana", "M", 1, "Cítrico y fresco", 2, 66.99, 91.99],
+  ["chance-eau-tendre", "Chance Eau Tendre", "Chanel", "M", 1, "Floral y frutal, suave", 2, 73.99, 110.99],
+  ["good-girl-blush", "Good Girl Blush", "Carolina Herrera", "M", 0, "Floral y empolvado", 1, 71.99, 105.99],
+  ["good-girl-blush-elixir", "Good Girl Blush Elixir", "Carolina Herrera", "M", 0, "Floral y vainilla", 2, 74.99, 113.99],
+  ["good-girl-midnight", "Good Girl Midnight", "Carolina Herrera", "M", 0, "Floral y amaderado", 1, 71.99, 105.99],
+  ["good-girl-fantastic-pink", "Good Girl Fantastic Pink", "Carolina Herrera", "M", 0, "Frutal y dulce", 1, 71.99, 105.99],
+  ["very-good-girl-glam", "Very Good Girl Glam", "Carolina Herrera", "M", 0, "Rosa y frutos rojos", 1, 73.99, 110.99],
+  ["good-girl-brillos", "Good Girl edición brillos", "Carolina Herrera", "M", 0, "Tuberosa y cacao", 1, 71.99, 105.99],
+  ["212-vip-rose-elixir", "212 VIP Rosé Elixir", "Carolina Herrera", "M", 0, "Frutal y cálido", 1, 68.99, 96.99],
+  ["212-vip-rose-ny", "212 VIP Rosé I Love NY", "Carolina Herrera", "M", 0, "Espumoso y frutal", 1, 67.99, 94.99],
+  ["212-vip", "212 VIP", "Carolina Herrera", "M", 0, "Dulce y de fiesta", 1, 65.99, 89.99],
+  ["212-sexy", "212 Sexy", "Carolina Herrera", "M", 0, "Dulce y almizclado", 1, 64.99, 86.99],
+  ["212-mujer", "212", "Carolina Herrera", "M", 0, "Floral y limpio", 1, 63.99, 84.99],
+  ["212-heroes-her", "212 Heroes For Her", "Carolina Herrera", "M", 0, "Frutal y floral", 1, 64.99, 86.99],
+  ["ch", "CH", "Carolina Herrera", "M", 0, "Floral y cálido", 1, 65.99, 89.99],
+  ["chic", "Chic", "Carolina Herrera", "M", 0, "Frutal y floral", 1, 64.99, 86.99],
+  ["jadore", "J'adore", "Dior", "M", 0, "Floral y luminoso", 1, 76.99, 118.99],
+  ["poison-girl", "Poison Girl", "Dior", "M", 0, "Dulce y avainillado", 1, 69.99, 100.99],
+  ["light-blue-capri", "Light Blue Capri in Love", "Dolce & Gabbana", "M", 0, "Cítrico y floral", 1, 68.99, 96.99],
+  ["devotion", "Devotion", "Dolce & Gabbana", "M", 0, "Dulce y cremoso", 1, 71.99, 105.99],
+  ["fame", "Fame", "Paco Rabanne", "M", 0, "Mango, jazmín e incienso", 1, 69.99, 99.99],
+  ["si-passione", "Sì Passione", "Giorgio Armani", "M", 0, "Frutal y floral, intenso", 1, 73.99, 110.99],
+  ["my-way", "My Way", "Giorgio Armani", "M", 0, "Floral y luminoso", 1, 72.99, 108.99],
+  ["acqua-di-gio-mujer", "Acqua di Giò mujer", "Giorgio Armani", "M", 0, "Fresco y floral", 1, 60.99, 76.99],
+  ["divine", "Divine Le Parfum", "Jean Paul Gaultier", "M", 0, "Floral y salado", 1, 73.99, 110.99],
+  ["classique", "Classique", "Jean Paul Gaultier", "M", 0, "Floral y avainillado", 1, 66.99, 91.99],
+  ["classique-i-love", "Classique I Love Gaultier", "Jean Paul Gaultier", "M", 0, "Floral y avainillado", 1, 68.99, 96.99],
+  ["la-belle", "La Belle", "Jean Paul Gaultier", "M", 0, "Pera y vainilla", 1, 69.99, 100.99],
+  ["the-scent-for-her", "The Scent For Her", "Hugo Boss", "M", 0, "Frutal y floral", 1, 66.99, 91.99],
+  ["i-want-choo", "I Want Choo Le Parfum", "Jimmy Choo", "M", 0, "Dulce y floral", 1, 68.99, 96.99],
+  ["bombshell-santorini", "Bombshell Santorini", "Victoria's Secret", "M", 0, "Fresco y frutal", 1, 61.99, 79.99],
+  ["bombshell-bouquet", "Bombshell Bouquet", "Victoria's Secret", "M", 0, "Floral y frutal", 1, 61.99, 79.99],
+  ["angel-gold", "Angel Gold", "Victoria's Secret", "M", 0, "Dulce y cálido", 1, 61.99, 79.99],
+  ["daisy-paradise", "Daisy Eau So Fresh Paradise", "Marc Jacobs", "M", 0, "Frutal y fresco", 1, 66.99, 91.99],
+  ["dot", "Dot", "Marc Jacobs", "M", 0, "Frutal y dulce", 1, 66.99, 91.99],
+  ["bright-crystal-absolu", "Bright Crystal Absolu", "Versace", "M", 0, "Granada y peonía", 1, 65.99, 89.99],
+  ["dylan-turquoise", "Dylan Turquoise", "Versace", "M", 0, "Cítrico y fresco", 1, 67.99, 94.99],
+  ["la-nuit-tresor", "La Nuit Trésor", "Lancôme", "M", 0, "Rosa y praliné", 1, 71.99, 105.99],
+  ["flower", "Flower", "Kenzo", "M", 0, "Floral y empolvado", 1, 66.99, 91.99],
+  ["amarige", "Amarige", "Givenchy", "M", 0, "Floral intenso", 1, 62.99, 81.99],
   ["kaif", "Kaif", "Matai", "U", 0, "Árabe, dulce y especiado", 1, 57.99, null]
-].forEach(([s,n,m,g,top,nota,k,precio,antes])=>P.push({ id:'perfume-'+s, seg:'perfumes', cat:PERF_CAT[g], nombre:n, marca:m, nota, top:!!top, perfume:true, unica:true,
-  precio, antes: (antes && Date.now() < BF_HASTA) ? antes : undefined, detalles:[PERF_CAT[g], nota, 'Foto real en nuestro showroom'],
+].forEach(([s,n,m,g,top,nota,k,precioN,antesN,precioBF,antesBF])=>P.push({ id:'perfume-'+s, seg:'perfumes', cat:PERF_CAT[g], nombre:n, marca:m, nota, top:!!top, perfume:true, unica:true,
+  precio: (precioBF && Date.now() < BF_HASTA) ? precioBF : precioN, antes: Date.now() < BF_HASTA ? ((precioBF ? antesBF : antesN) || undefined) : undefined, detalles:[PERF_CAT[g], nota, 'Foto real en nuestro showroom'],
   colores:[{color:m, hex:'#2A2320', pos:'center', img:`assets/perfumes/perfume-${s}-1.jpg`, fotos:Array.from({length:k},(_,j)=>`assets/perfumes/perfume-${s}-${j+1}.jpg`)}] }));
 const money = n => '$'+n.toFixed(2);
 const byId = id => P.find(p=>p.id===id);
@@ -697,7 +700,7 @@ function renderPDP(p, i){
   $('pdpTallas').hidden=!!p.unica;
   $('pdpColores').hidden=!!p.perfume;
   const note=$('pdpNote');
-  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado.'; } else if(p.combo){ note.hidden=false; note.textContent = p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $94.99. Puedes mezclar colores.' : 'Lleva 3 polos por $69.99. Puedes mezclar piqué y clásico.'; } else note.hidden=true;
+  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 perfumes, 10 % menos; con 2 productos, gorra de regalo.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $94.99. Puedes mezclar colores.' : 'Lleva 3 polos por $69.99. Puedes mezclar piqué y clásico.') + (Date.now()<BF_HASTA ? ' Black Friday: camisa Oxford + polo por $54.99 y gorra de regalo llevando 2 productos.' : ''); } else note.hidden=true;
   $('pdpSw').innerHTML=p.colores.map((c,n)=>`<button role="radio" aria-checked="${n===cur.i}" aria-pressed="${n===cur.i}" aria-label="${c.color}" title="${c.color}" style="background:${c.hex}" data-i="${n}"></button>`).join('');
   $('pdpSizes').innerHTML=TALLAS.map(t=>`<button role="radio" aria-checked="false" aria-pressed="false" data-t="${t}">${t}${EXTRA.includes(t)?'<small>+$5</small>':''}</button>`).join('');
   $('pdpDetails').innerHTML=p.detalles.map(d=>`<span>${d}</span>`).join('');
@@ -809,20 +812,40 @@ $('addBtn').addEventListener('click',()=>{
   $('pdpHint').textContent= p.perfume ? `Agregado: perfume ${p.nombre}.` : `Agregado: ${p.nombre} ${c.color}, talla ${talla}.`;
   if(typeof fbq!=='undefined') fbq('track','AddToCart',{content_name:p.nombre+' '+c.color,value:precioCon(p.precio,talla),currency:'USD'});
 });
-// Combos solo para camisas Oxford (3 x $94.99) y polos (3 x $69.99). El recargo de tallas grandes se mantiene.
+// Combos: 3 camisas Oxford $94.99 y 3 polos $69.99 (siempre). El recargo de tallas grandes se mantiene.
+// Black Friday (hasta BF_HASTA, solo pedidos desde este catálogo): Kit camisa Oxford + polo $54.99,
+// 2 o más perfumes 10 % menos y Gorra Jinete de regalo llevando 2 productos (sin contar gorras).
 function total(){
+  const BF = Date.now() < BF_HASTA;
   const g={camisa:{n:0,precio:34.99,combo:94.99}, polo:{n:0,precio:24.99,combo:69.99}};
-  let sin=0, suelto=0, recargo=0;
-  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; recargo+=it.precio-it.base; } else suelto+=it.precio; });
-  let t=suelto+recargo; const falta=[];
-  for(const [k,v] of Object.entries(g)){ t+=Math.floor(v.n/3)*v.combo+(v.n%3)*v.precio; const f=v.n%3?3-v.n%3:0;
-    if(f) falta.push(`Agrega ${f} ${k==='camisa'?(f>1?'camisas Oxford':'camisa Oxford'):(f>1?'polos':'polo')} más para el combo de 3.`); }
-  return {t, ahorro:Math.max(0,sin-t), falta};
+  let sin=0, suelto=0, recargo=0, perf=0, nPerf=0;
+  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; recargo+=it.precio-it.base; } else if(it.perfume){ perf+=it.precio; nPerf++; } else suelto+=it.precio; });
+  const promos=[], falta=[];
+  const tc=Math.floor(g.camisa.n/3), tp=Math.floor(g.polo.n/3), rc=g.camisa.n%3, rp=g.polo.n%3, kits=BF?Math.min(rc,rp):0;
+  let t=suelto+recargo+tc*94.99+tp*69.99+kits*54.99+(rc-kits)*34.99+(rp-kits)*24.99;
+  if(tc) promos.push(`Combo 3 camisas Oxford${tc>1?' ×'+tc:''}`);
+  if(tp) promos.push(`Combo 3 polos${tp>1?' ×'+tp:''}`);
+  if(kits) promos.push(`Kit Black Friday camisa + polo${kits>1?' ×'+kits:''}`);
+  if(BF && nPerf>=2){ t+=Math.round(perf*0.9*100)/100; promos.push('2 o más perfumes: 10 % menos'); } else t+=perf;
+  const elegibles=cart.filter(it=>it.id!=='gorra').length; let regalo=null;
+  if(BF && elegibles>=2){
+    const gor=cart.filter(it=>it.id==='gorra');
+    if(gor.length){ t-=Math.min(...gor.map(x=>x.precio)); regalo='Una de tus gorras va de regalo'; }
+    else regalo='Gorra Jinete de regalo (elige el color por WhatsApp)';
+    promos.push('🎁 '+regalo);
+  }
+  if(rc-kits>0 && !(BF && rp===0)) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más para el combo de 3.`);
+  if(rp-kits>0 && !(BF && rc===0)) falta.push(`Agrega ${3-rp} ${3-rp>1?'polos':'polo'} más para el combo de 3.`);
+  if(BF && rc-kits>0 && rp===0) falta.push('Black Friday: agrega un polo y la camisa Oxford + polo te quedan en $54.99.');
+  if(BF && rp-kits>0 && rc===0) falta.push('Black Friday: agrega una camisa Oxford y el polo + camisa te quedan en $54.99.');
+  if(BF && nPerf===1) falta.push('Black Friday: con 2 perfumes tienes 10 % menos.');
+  if(BF && elegibles===1) falta.push('Black Friday: agrega 1 producto más y te regalamos una gorra.');
+  return {t:Math.round(t*100)/100, ahorro:Math.max(0,Math.round((sin-t)*100)/100), falta, promos, regalo};
 }
 function paintCart(){
-  const {t,ahorro,falta}=total();
+  const {t,ahorro,falta,promos}=total();
   $('cartN').textContent=cart.length; $('cartTot').textContent=money(t); $('sendBtn').disabled=!cart.length;
-  $('cartSave').innerHTML=(ahorro>0?`<div class="save">Ahorras ${money(ahorro)} con los combos.</div>`:'')+(falta.length&&cart.length?`<div class="save soft">${falta.join('<br/>')}</div>`:'');
+  $('cartSave').innerHTML=(promos.length&&cart.length?`<div class="save">${promos.join('<br/>')}${ahorro>0?`<br/><b>Ahorras ${money(ahorro)}</b>`:''}</div>`:'')+(falta.length&&cart.length?`<div class="save soft">${falta.join('<br/>')}</div>`:'');
   $('cartItems').innerHTML = cart.length ? cart.map(it=>`<div class="ci"><img src="${T(it.img)}" alt=""/><div><b>${it.nombre}</b><span>${it.perfume?it.color:`${it.color}, talla ${it.talla}`}</span></div><div class="r"><b>${money(it.precio)}</b><button data-k="${it.key}">Quitar</button></div></div>`).join('')
     : '<p class="cart-empty">Tu pedido está vacío. Elige una prenda, su color y talla, y toca "Agregar al pedido".</p>';
 }
@@ -835,10 +858,11 @@ addEventListener('keydown',e=>{
   if(e.key==='Escape' && cartEl.classList.contains('on')) cerrarCapa('cart');
 });
 $('sendBtn').addEventListener('click',()=>{
-  if(!cart.length) return; const {t,ahorro}=total();
+  if(!cart.length) return; const {t,ahorro,promos}=total();
   let msg='Hola! Quiero hacer el siguiente pedido 🛒\n\n';
   cart.forEach((it,n)=>{ msg+= it.perfume ? `${n+1}. ${it.nombre} (${it.color}): ${money(it.precio)}\n` : `${n+1}. ${it.nombre}, color ${it.color}, talla ${it.talla}: ${money(it.precio)}\n`; });
-  if(ahorro>0) msg+=`\nCombo aplicado, ahorro de ${money(ahorro)}`;
+  if(promos.length) msg+=`\nPromos del catálogo: ${promos.join(' · ')}`;
+  if(ahorro>0) msg+=`\nAhorro: ${money(ahorro)}`;
   msg+=`\n*Total estimado: ${money(t)}*\n\n¿Tienen disponibilidad? Pago por transferencia.`;
   const q=new URLSearchParams(location.search), urlPhone=q.get('phone');
   if(urlPhone){ fetch('https://polos593-bot.up.railway.app/catalog-order',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -849,6 +873,10 @@ $('sendBtn').addEventListener('click',()=>{
 
 $('waFoot').href=waLink('Hola! Quisiera más información sobre sus prendas.');
 ['askBtn','waFoot'].forEach(id=>$(id).addEventListener('click',()=>{ if(typeof fbq!=='undefined') fbq('track','Contact'); }));
+if(Date.now() < BF_HASTA){
+  document.querySelectorAll('[data-bf]').forEach(e=>e.hidden=false);
+  $('comboTit').textContent='Black Friday en el catálogo'; $('comboSub').textContent='Solo pedidos hechos desde este catálogo, hasta el 30 de noviembre. Se aplica solo en tu pedido.';
+}
 paintCart(); route();
 </script>
 </body>
