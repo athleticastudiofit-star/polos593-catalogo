@@ -326,7 +326,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
         <div><h2 class="cond" id="comboTit">Lleva 3 y paga menos</h2><p style="margin-top:8px;opacity:.85" id="comboSub">El descuento se aplica solo en tu pedido.</p></div>
         <div class="combo-list">
           <div class="combo" data-bf hidden><div><b>Gorra de regalo</b><small>Llevando 2 productos (prendas o perfumes)</small></div><span class="p">Gratis</span></div>
-          <div class="combo" data-bf hidden><div><b>2 perfumes o más</b><small>Sobre el precio Black Friday</small></div><span class="p" style="white-space:nowrap">−10&nbsp;%</span></div>
+          <div class="combo"><div><b>Envío gratis</b><small>Llevando 2 productos o más</small></div><span class="p">Gratis</span></div>
           <div class="combo"><div><b>3 camisas Oxford</b><small>Mezcla colores y tallas</small></div><span class="p">$94.99</span></div>
           <div class="combo"><div><b>3 polos</b><small>Piqué o clásico</small></div><span class="p">$69.99</span></div>
         </div>
@@ -348,8 +348,8 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
             <li>Despachamos tu pedido con el pago acreditado.</li>
           </ol>
           <div class="where">
-            <div><h3>En Quito</h3><p>Entrega a domicilio o retiro en el showroom, con pago previo.</p></div>
-            <div><h3>En provincias</h3><p>Enviamos por Servientrega a todo el país, con pago previo.</p></div>
+            <div><h3>En Quito</h3><p>Entrega a domicilio ($3.50 con un solo producto; gratis desde 2) o retiro gratis en el showroom, con pago previo.</p></div>
+            <div><h3>En provincias</h3><p>Enviamos por Servientrega a todo el país ($5 con un solo producto; gratis desde 2), con pago previo.</p></div>
           </div>
         </div>
       </section>
@@ -427,6 +427,15 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-f">
     <div id="cartSave"></div>
+    <div id="cartEnvio" hidden style="margin:8px 0 4px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px">¿Dónde lo recibes?</div>
+      <div class="envio-opts" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button type="button" class="chip" data-envio="quito" aria-pressed="true">Quito $3.50</button>
+        <button type="button" class="chip" data-envio="provincia" aria-pressed="false">Provincia $5.00</button>
+        <button type="button" class="chip" data-envio="retiro" aria-pressed="false">Retiro en showroom</button>
+      </div>
+      <div style="font-size:13px;opacity:.75;margin-top:6px">Llevando 2 productos o más, el envío es gratis.</div>
+    </div>
     <p class="cart-pay"><svg class="ph" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Pago previo por transferencia. Al confirmar tu pedido te enviamos los datos bancarios por WhatsApp.</span></p>
     <div class="tot"><span>Total estimado</span><span id="cartTot">$0.00</span></div>
     <button class="btn btn-main press" id="sendBtn" disabled><svg class="ph" aria-hidden="true"><use href="#i-whatsapp-logo"/></svg>Enviar pedido</button>
@@ -699,7 +708,7 @@ function renderPDP(p, i){
   $('pdpTallas').hidden=!!p.unica;
   $('pdpColores').hidden=!!p.perfume;
   const note=$('pdpNote');
-  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 perfumes, 10 % menos; con 2 productos, gorra de regalo.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $94.99. Puedes mezclar colores.' : 'Lleva 3 polos por $69.99. Puedes mezclar piqué y clásico.') + (Date.now()<BF_HASTA ? ' Black Friday: gorra de regalo llevando 2 productos.' : ''); } else note.hidden=true;
+  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos: gorra de regalo y envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $94.99. Puedes mezclar colores.' : 'Lleva 3 polos por $69.99. Puedes mezclar piqué y clásico.') + (Date.now()<BF_HASTA ? ' Black Friday: gorra de regalo llevando 2 productos.' : '') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
   $('pdpSw').innerHTML=p.colores.map((c,n)=>`<button role="radio" aria-checked="${n===cur.i}" aria-pressed="${n===cur.i}" aria-label="${c.color}" title="${c.color}" style="background:${c.hex}" data-i="${n}"></button>`).join('');
   $('pdpSizes').innerHTML=TALLAS.map(t=>`<button role="radio" aria-checked="false" aria-pressed="false" data-t="${t}">${t}${EXTRA.includes(t)?'<small>+$5</small>':''}</button>`).join('');
   $('pdpDetails').innerHTML=p.detalles.map(d=>`<span>${d}</span>`).join('');
@@ -814,6 +823,8 @@ $('addBtn').addEventListener('click',()=>{
 // Combos: 3 camisas Oxford $94.99 y 3 polos $69.99 (siempre). El recargo de tallas grandes se mantiene.
 // Black Friday (hasta BF_HASTA, solo pedidos desde este catálogo): Kit camisa Oxford + polo $54.99,
 // 2 o más perfumes 10 % menos y Gorra Jinete de regalo llevando 2 productos (sin contar gorras).
+let ENVIO='quito';
+try{ ENVIO=sessionStorage.getItem('p593_envio')||'quito'; }catch(e){}
 function total(){
   const BF = Date.now() < BF_HASTA;
   const g={camisa:{n:0,precio:34.99,combo:94.99}, polo:{n:0,precio:24.99,combo:69.99}};
@@ -825,7 +836,7 @@ function total(){
   if(tc) promos.push(`Combo 3 camisas Oxford${tc>1?' ×'+tc:''}`);
   if(tp) promos.push(`Combo 3 polos${tp>1?' ×'+tp:''}`);
   if(kits) promos.push(`Kit Black Friday camisa + polo${kits>1?' ×'+kits:''}`);
-  if(BF && nPerf>=2){ t+=Math.round(perf*0.9*100)/100; promos.push('2 o más perfumes: 10 % menos'); } else t+=perf;
+  t+=perf;   // (20 nov 2026) sin 10 % en perfumes: con envío no dejaba margen
   const elegibles=cart.filter(it=>it.id!=='gorra').length; let regalo=null;
   if(BF && elegibles>=2){
     const gor=cart.filter(it=>it.id==='gorra');
@@ -835,17 +846,25 @@ function total(){
   }
   if(rc-kits>0) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más para el combo de 3.`);
   if(rp-kits>0) falta.push(`Agrega ${3-rp} ${3-rp>1?'polos':'polo'} más para el combo de 3.`);
-  if(BF && nPerf===1) falta.push('Black Friday: con 2 perfumes tienes 10 % menos.');
-  if(BF && elegibles===1) falta.push('Black Friday: agrega 1 producto más y te regalamos una gorra.');
-  return {t:Math.round(t*100)/100, ahorro:Math.max(0,Math.round((sin-t)*100)/100), falta, promos, regalo};
+  // Envío (20 nov 2026): con 1 solo producto se cobra $3.50 Quito / $5 provincia; retiro en showroom gratis; con 2 o más, gratis.
+  const ahorro=Math.max(0,Math.round((sin-t)*100)/100);
+  let envio=0;
+  if(cart.length===1){ envio = ENVIO==='quito'?3.5:ENVIO==='provincia'?5:0; t+=envio; }
+  else if(cart.length>=2) promos.push('Envío gratis');
+  if(elegibles===1) falta.push(BF ? `Agrega 1 producto más: te regalamos una gorra${ENVIO!=='retiro'?' y el envío es gratis':''}.` : (ENVIO!=='retiro'?'Agrega 1 producto más y el envío es gratis.':''));
+  else if(cart.length===1 && ENVIO!=='retiro') falta.push('Agrega 1 producto más y el envío es gratis.');
+  return {t:Math.round(t*100)/100, ahorro, falta, promos, regalo, envio};
 }
 function paintCart(){
-  const {t,ahorro,falta,promos}=total();
+  const {t,ahorro,falta,promos,envio}=total();
   $('cartN').textContent=cart.length; $('cartTot').textContent=money(t); $('sendBtn').disabled=!cart.length;
+  $('cartEnvio').hidden = cart.length!==1;
+  document.querySelectorAll('#cartEnvio [data-envio]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.envio===ENVIO));
   $('cartSave').innerHTML=(promos.length&&cart.length?`<div class="save">${promos.join('<br/>')}${ahorro>0?`<br/><b>Ahorras ${money(ahorro)}</b>`:''}</div>`:'')+(falta.length&&cart.length?`<div class="save soft">${falta.join('<br/>')}</div>`:'');
   $('cartItems').innerHTML = cart.length ? cart.map(it=>`<div class="ci"><img src="${T(it.img)}" alt=""/><div><b>${it.nombre}</b><span>${it.perfume?it.color:`${it.color}, talla ${it.talla}`}</span></div><div class="r"><b>${money(it.precio)}</b><button data-k="${it.key}">Quitar</button></div></div>`).join('')
     : '<p class="cart-empty">Tu pedido está vacío. Elige una prenda, su color y talla, y toca "Agregar al pedido".</p>';
 }
+$('cartEnvio').addEventListener('click',e=>{ const b=e.target.closest('[data-envio]'); if(!b) return; ENVIO=b.dataset.envio; try{ sessionStorage.setItem('p593_envio',ENVIO); }catch(_){} paintCart(); });
 $('cartItems').addEventListener('click',e=>{ const b=e.target.closest('button[data-k]'); if(!b) return; cart=cart.filter(x=>x.key!=+b.dataset.k); save(); paintCart(); });
 const cartEl=$('cart'), scrim=$('scrim');
 function openCart(on){ cartEl.classList.toggle('on',on); scrim.classList.toggle('on',on); cartEl.setAttribute('aria-hidden',!on); if(on){ $('cartX').focus(); abrirCapa('cart'); } else if(capa==='cart') capa=null; }
@@ -855,11 +874,12 @@ addEventListener('keydown',e=>{
   if(e.key==='Escape' && cartEl.classList.contains('on')) cerrarCapa('cart');
 });
 $('sendBtn').addEventListener('click',()=>{
-  if(!cart.length) return; const {t,ahorro,promos}=total();
+  if(!cart.length) return; const {t,ahorro,promos,envio}=total();
   let msg='Hola! Quiero hacer el siguiente pedido 🛒\n\n';
   cart.forEach((it,n)=>{ msg+= it.perfume ? `${n+1}. ${it.nombre} (${it.color}): ${money(it.precio)}\n` : `${n+1}. ${it.nombre}, color ${it.color}, talla ${it.talla}: ${money(it.precio)}\n`; });
   if(promos.length) msg+=`\nPromos del catálogo: ${promos.join(' · ')}`;
   if(ahorro>0) msg+=`\nAhorro: ${money(ahorro)}`;
+  if(cart.length===1) msg+= ENVIO==='retiro' ? `\nRetiro en el showroom` : `\nEnvío a ${ENVIO==='quito'?'Quito':'provincia'}: ${money(envio)}`;
   msg+=`\n*Total estimado: ${money(t)}*\n\n¿Tienen disponibilidad? Pago por transferencia.`;
   const q=new URLSearchParams(location.search), urlPhone=q.get('phone');
   if(urlPhone){ fetch('https://polos593-bot.up.railway.app/catalog-order',{method:'POST',headers:{'Content-Type':'application/json'},
