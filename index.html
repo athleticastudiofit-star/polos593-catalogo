@@ -328,7 +328,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
           <div class="combo"><div><b>Envío gratis</b><small>Llevando 2 productos o más</small></div><span class="p">Gratis</span></div>
           <div class="combo"><div><b>3 camisas Oxford</b><small>Llanas, mezcla colores y tallas</small></div><span class="p">$95</span></div>
           <div class="combo"><div><b>2 polos</b><small>Piqué o clásico, envío gratis</small></div><span class="p">$50</span></div>
-          <div class="combo"><div><b>3 polos</b><small>Piqué o clásico</small></div><span class="p">$69.99</span></div>
+          <div class="combo"><div><b>3 polos</b><small>Cualquier modelo o marca</small></div><span class="p">$69.99</span></div>
           <div class="combo"><div><b>3 gorras</b><small>Mezcla colores</small></div><span class="p">$25</span></div>
         </div>
       </section>
@@ -513,14 +513,14 @@ const P = [
       .map(([c,h,s,f])=>({color:c,hex:h,img:`assets/vestidos/vestido-tommy-${s}.jpg`,flat:f?`assets/vestidos/vestido-tommy-${f}.jpg`:null,pos:'center'})) },
 ];
 /* Polos piqué Tommy Hilfiger (24 nov 2026): $25. Hombre = foto real sobre blanco. Mujer = la prenda real (rosado) con el tono de cada color + foto real del grupo. Faltan más fotos de Homero. */
-P.push({ id:'polo-tommy-h', seg:'hombre', cat:'Polos', nombre:'Polo piqué Tommy Hilfiger', precio:25, nuevo:true, portada:2,
+P.push({ id:'polo-tommy-h', seg:'hombre', cat:'Polos', nombre:'Polo piqué Tommy Hilfiger', precio:25, combo:'polo', nuevo:true, portada:2,
   detalles:['Piqué de algodón','Cuello tejido','Logo bordado en el pecho'],
   colores:[['Beige','#C9BFA6','beige'],['Rosa Pastel','#EFCBD0','rosado'],['Celeste Claro','#A9C4EA','celeste']]
     .map(([c,h,s])=>({color:c,hex:h,pos:'center',img:`assets/tommy/polo-tommy-h-${s}.jpg`})) });
-P.push({ id:'polo-tommy-m', seg:'mujer', cat:'Polos', nombre:'Polo piqué Tommy Hilfiger', precio:25, nuevo:true, portada:8, tallas:['S','M','L','XL'],
+P.push({ id:'polo-tommy-m', seg:'mujer', cat:'Polos', nombre:'Polo piqué Tommy Hilfiger', precio:25, combo:'polo', nuevo:true, portada:8, tallas:['S','M','L','XL'],
   detalles:['Corte de mujer','Piqué de algodón','Logo bordado en el pecho'],
   colores:[['Azul Marino','#1E2130','azul-marino',1],['Coral','#E26254','coral',1],['Celeste','#70ACEE','celeste',1],['Verde Oliva','#404626','verde-oliva',1],
-    ['Verde','#629670','verde',2],['Rojo','#D0121A','rojo',2],['Blanco','#F2F2F0','blanco',2],['Negro','#1E1D1E','negro',2],['Rosado','#EC9FB0','rosado',0]]
+    ['Verde','#629670','verde',2],['Rojo','#D0121A','rojo',2],['Blanco','#F2F2F0','blanco',2],['Negro','#1E1D1E','negro',2],['Rosado','#EC9FB0','rosado',3],['Amarillo','#F4E04A','amarillo',3]]
     .map(([c,h,s,g])=>({color:c,hex:h,pos:'center',img:`assets/tommy/polo-tommy-m-${s}.jpg`,reales:g?[`assets/reales/2026-11-tommy/mujer-${g}.jpg`]:[]})) });
 const OX = [['Celeste claro','#AFC7F5','celeste-claro'],['Blanco','#F5F5F3','blanco'],['Negro','#111111','negro'],['Café','#8B4A2B','cafe'],['Navy','#0D2C6C','navy','navy-new'],['Verde oliva','#556B2F','verde-oliva'],['Turquesa','#7ED6D1','turquesa'],['Amarillo','#F3E37A','amarillo'],['Rosa pastel','#F6C1D0','rosa'],['Rojo','#C1121F','rojo']];
 P.filter(p=>p.base).forEach(p=>{ p.colores = OX.map(([c,h,s,f])=>({color:c,hex:h,img:`assets/model-${p.base}-${s}.png`,flat:`assets/camisa-prem-${p.base}-${f||s}.png`})); });
@@ -719,7 +719,7 @@ function renderPDP(p, i){
   $('pdpTallas').hidden=!!p.unica; $('pdpExtra').style.visibility = (p.tallas||TALLAS).some(t=>EXTRA.includes(t)) ? '' : 'hidden';
   $('pdpColores').hidden=!!p.perfume;
   const note=$('pdpNote');
-  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $95. Puedes mezclar colores.' : 'Lleva 2 polos por $50 o 3 por $69.99. Puedes mezclar piqué y clásico.') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
+  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $95. Puedes mezclar colores.' : 'Lleva 2 polos por $50 o 3 por $69.99. Puedes mezclar modelos y marcas.') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
   $('pdpSw').innerHTML=p.colores.map((c,n)=>`<button role="radio" aria-checked="${n===cur.i}" aria-pressed="${n===cur.i}" aria-label="${c.color}" title="${c.color}" style="background:${c.hex}" data-i="${n}"></button>`).join('');
   $('pdpSizes').innerHTML=(p.tallas||TALLAS).map(t=>`<button role="radio" aria-checked="false" aria-pressed="false" data-t="${t}">${t}${EXTRA.includes(t)?'<small>+$5</small>':''}</button>`).join('');
   $('pdpDetails').innerHTML=p.detalles.map(d=>`<span>${d}</span>`).join('');
@@ -839,11 +839,11 @@ try{ ENVIO=sessionStorage.getItem('p593_envio')||'quito'; }catch(e){}
 const PRECIO_3_GORRAS=25, PRECIO_3_CAMISAS=95, PRECIO_3_POLOS=69.99;
 function total(){
   const g={camisa:{n:0,precio:34.99,combo:PRECIO_3_CAMISAS}, polo:{n:0,precio:24.99,combo:PRECIO_3_POLOS}};
-  let sin=0, suelto=0, recargo=0, nGor=0, pGor=0;
-  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; recargo+=it.precio-it.base; } else if(it.id==='gorra'){ nGor++; pGor=it.base||it.precio; } else suelto+=it.precio; });
+  let sin=0, suelto=0, recargo=0, nGor=0, pGor=0; const polos=[];
+  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; if(it.combo==='polo') polos.push(it.base); recargo+=it.precio-it.base; } else if(it.id==='gorra'){ nGor++; pGor=it.base||it.precio; } else suelto+=it.precio; });
   const promos=[], falta=[];
   const tc=Math.floor(g.camisa.n/3), tp=Math.floor(g.polo.n/3), rc=g.camisa.n%3, rp=g.polo.n%3, tg=Math.floor(nGor/3), rg=nGor%3;
-  let t=suelto+recargo+tc*PRECIO_3_CAMISAS+tp*PRECIO_3_POLOS+rc*34.99+rp*24.99+tg*PRECIO_3_GORRAS+rg*pGor;
+  let t=suelto+recargo+tc*PRECIO_3_CAMISAS+tp*PRECIO_3_POLOS+rc*34.99+polos.sort((a,b)=>a-b).slice(0,rp).reduce((x,y)=>x+y,0)+tg*PRECIO_3_GORRAS+rg*pGor;
   if(tc) promos.push(`3 camisas Oxford por $95${tc>1?' ×'+tc:''}`);
   if(tp) promos.push(`3 polos por $69.99${tp>1?' ×'+tp:''}`);
   if(tg) promos.push(`3 gorras por $25${tg>1?' ×'+tg:''}`);
