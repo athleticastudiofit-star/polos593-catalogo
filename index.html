@@ -312,8 +312,8 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
 
       <section class="trust" aria-label="Cómo pagas">
         <div class="trust-pay">
-          <h2 class="cond">Pago previo por transferencia</h2>
-          <p>Confirmas tu pedido por WhatsApp, te enviamos los datos de pago y despachamos en cuanto se acredita. Así sabes siempre a quién le pagas.</p>
+          <h2 class="cond">Elige cómo pagar</h2>
+          <p>Transferencia: te enviamos los datos por WhatsApp y despachamos en cuanto se acredita. También contra entrega ($7 de envío) o tarjeta con link de pago (5 % de recargo).</p>
           <div class="banks"><span><svg class="ph" aria-hidden="true"><use href="#i-bank"/></svg>Banco Pichincha</span><span><svg class="ph" aria-hidden="true"><use href="#i-bank"/></svg>Produbanco</span><span><svg class="ph" aria-hidden="true"><use href="#i-bank"/></svg>Banco Guayaquil</span></div>
         </div>
         <div class="trust-more">
@@ -345,18 +345,18 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
           <ol class="steps">
             <li>Elige prenda, color y talla y agrégala a tu pedido.</li>
             <li>Envía el pedido por WhatsApp y te confirmamos disponibilidad.</li>
-            <li>Paga por transferencia con los datos que te enviamos.</li>
-            <li>Despachamos tu pedido con el pago acreditado.</li>
+            <li>Paga por transferencia, contra entrega o tarjeta con link de pago (5 % de recargo).</li>
+            <li>Despachamos tu pedido y te enviamos la guía.</li>
           </ol>
           <div class="where">
-            <div><h3>En Quito</h3><p>Entrega a domicilio ($3.50 con un solo producto; gratis desde 2) o retiro gratis en el showroom, con pago previo.</p></div>
-            <div><h3>En provincias</h3><p>Enviamos por Servientrega a todo el país ($5 con un solo producto; gratis desde 2), con pago previo.</p></div>
+            <div><h3>Envíos a todo el Ecuador</h3><p>Por Servientrega: $5 con un solo producto, gratis desde 2 hasta el 30 de noviembre. Llega en 24 horas. Contra entrega: $7, entre 24 y 48 horas según el lugar; no se puede probar antes de pagar. Retiro gratis en el showroom.</p></div>
+            <div><h3>Cambios</h3><p>Sí hacemos cambios. Los envíos del cambio los paga el cliente. Escríbenos por WhatsApp y te indicamos cómo.</p></div>
           </div>
         </div>
       </section>
 
       <section class="visit" aria-label="Showroom">
-        <div><h2 class="cond">Visítanos en Quito</h2><p class="lead" style="color:var(--ink-soft);margin-top:6px">Pruébate las prendas en nuestro showroom antes de llevarlas.</p><p style="margin-top:8px"><svg class="ph" aria-hidden="true"><use href="#i-clock"/></svg> Abierto de <span class="hours" data-horario></span></p></div>
+        <div><h2 class="cond">Visítanos en Quito</h2><p class="lead" style="color:var(--ink-soft);margin-top:6px">Pruébate las prendas en nuestro showroom antes de llevarlas. Pomasqui: entrada a La Pampa, E1225 y Manuel Córdova Galarza.</p><p style="margin-top:8px"><svg class="ph" aria-hidden="true"><use href="#i-clock"/></svg> Abierto todos los días de <span class="hours" data-horario></span></p></div>
         <div class="socials">
           <a class="btn btn-ghost press" href="https://maps.app.goo.gl/yyaN8XU8v29xfQPJ6" target="_blank" rel="noopener"><svg class="ph" aria-hidden="true"><use href="#i-map-pin"/></svg>Abrir en Maps</a>
           <a class="btn btn-ghost press" href="https://www.instagram.com/sportclub593_/" target="_blank" rel="noopener" aria-label="Instagram @sportclub593_"><svg class="ph" aria-hidden="true"><use href="#i-instagram-logo"/></svg>Instagram</a>
@@ -402,7 +402,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
             <a class="btn btn-ghost press" id="askBtn" href="#" target="_blank" rel="noopener"><svg class="ph" aria-hidden="true"><use href="#i-whatsapp-logo"/></svg>Escríbenos por WhatsApp</a>
           </div>
           <p class="hint" id="pdpHint" role="status">Elige una talla para agregar.</p>
-          <p class="pay-line"><svg class="ph" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Pago previo por transferencia (Pichincha, Produbanco o Guayaquil). Envíos a todo Ecuador y showroom en Quito.</span></p>
+          <p class="pay-line"><svg class="ph" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Transferencia (Pichincha, Produbanco o Guayaquil), contra entrega o tarjeta con link de pago (5 % de recargo). Envíos a todo Ecuador y showroom en Pomasqui, Quito.</span></p>
           <div class="details" id="pdpDetails"></div>
         </div>
       </div>
@@ -431,13 +431,12 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
     <div id="cartEnvio" hidden style="margin:8px 0 4px">
       <div style="font-size:14px;font-weight:700;margin-bottom:6px">¿Dónde lo recibes?</div>
       <div class="envio-opts" style="display:flex;gap:6px;flex-wrap:wrap">
-        <button type="button" class="chip" data-envio="quito" aria-pressed="true">Quito $3.50</button>
-        <button type="button" class="chip" data-envio="provincia" aria-pressed="false">Provincia $5.00</button>
+        <button type="button" class="chip" data-envio="envio" aria-pressed="true">Envío $5.00</button>
         <button type="button" class="chip" data-envio="retiro" aria-pressed="false">Retiro en showroom</button>
       </div>
-      <div style="font-size:13px;opacity:.75;margin-top:6px">Llevando 2 productos o más, el envío es gratis.</div>
+      <div style="font-size:13px;opacity:.75;margin-top:6px">Llevando 2 productos o más, el envío es gratis hasta el 30 de noviembre. Contra entrega: el envío es de $7 y se coordina por WhatsApp.</div>
     </div>
-    <p class="cart-pay"><svg class="ph" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Pago previo por transferencia. Al confirmar tu pedido te enviamos los datos bancarios por WhatsApp.</span></p>
+    <p class="cart-pay"><svg class="ph" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Transferencia, contra entrega o tarjeta (5 % de recargo). Al confirmar tu pedido te enviamos los datos por WhatsApp.</span></p>
     <div class="tot"><span>Total estimado</span><span id="cartTot">$0.00</span></div>
     <button class="btn btn-main press" id="sendBtn" disabled><svg class="ph" aria-hidden="true"><use href="#i-whatsapp-logo"/></svg>Enviar pedido</button>
   </div>
@@ -445,7 +444,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
 
 <footer>
   <div class="wrap f-in">
-    <div><div class="cond" style="font-size:44px">Polos593</div><p class="f-small">Envíos a todo Ecuador con pago previo por transferencia. Showroom en Quito de <span data-horario></span>.</p>
+    <div><div class="cond" style="font-size:44px">Polos593</div><p class="f-small">Envíos a todo Ecuador. Showroom en Pomasqui, Quito: entrada a La Pampa, E1225 y Manuel Córdova Galarza. Todos los días de <span data-horario></span>.</p>
       <div class="f-soc"><a href="https://www.instagram.com/sportclub593_/" target="_blank" rel="noopener"><svg class="ph" aria-hidden="true"><use href="#i-instagram-logo"/></svg>@sportclub593_</a><a href="https://www.facebook.com/109343994720709" target="_blank" rel="noopener"><svg class="ph" aria-hidden="true"><use href="#i-facebook-logo"/></svg>Sport club 593_</a></div></div>
     <div class="f-links"><a href="#/hombre">Hombre</a><a href="#/mujer">Mujer</a><a href="#/gorras">Gorras</a><a href="#/perfumes">Perfumes</a><a href="#/comprar">Cómo comprar</a></div>
     <div><a id="waFoot" href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a><p class="f-small" style="margin-top:6px">© 2026 Polos593 Ecuador</p></div>
@@ -832,10 +831,10 @@ $('addBtn').addEventListener('click',()=>{
   if(typeof fbq!=='undefined') fbq('track','AddToCart',{content_name:p.nombre+' '+c.color,value:precioCon(p.precio,talla),currency:'USD'});
 });
 // Combos (21 nov 2026, pedido de Homero): 3 camisas Oxford (llanas) $95, 3 polos $69.99, 3 gorras $25.
-// Envío gratis desde 2 productos; con 1 solo producto $3.50 Quito / $5 provincia (retiro en showroom gratis).
+// Envío gratis desde 2 productos; con 1 solo producto $5 a todo el país (24 nov 2026); retiro en showroom gratis.
 // Ya NO hay gorra de regalo ni 10 % en perfumes. El recargo de tallas grandes se mantiene.
-let ENVIO='quito';
-try{ ENVIO=sessionStorage.getItem('p593_envio')||'quito'; }catch(e){}
+let ENVIO='envio';
+try{ ENVIO=sessionStorage.getItem('p593_envio')==='retiro'?'retiro':'envio'; }catch(e){}
 const PRECIO_3_GORRAS=25, PRECIO_3_CAMISAS=95, PRECIO_3_POLOS=69.99;
 function total(){
   const g={camisa:{n:0,precio:34.99,combo:PRECIO_3_CAMISAS}, polo:{n:0,precio:24.99,combo:PRECIO_3_POLOS}};
@@ -853,7 +852,7 @@ function total(){
   if(rg) falta.push(`Agrega ${3-rg} ${3-rg>1?'gorras':'gorra'} más: 3 por $25.`);
   const ahorro=Math.max(0,Math.round((sin-t)*100)/100);
   let envio=0;
-  if(cart.length===1){ envio = ENVIO==='quito'?3.5:ENVIO==='provincia'?5:0; t+=envio; if(ENVIO!=='retiro' && !(rp===1)) falta.push('Agrega 1 producto más y el envío es gratis.'); }
+  if(cart.length===1){ envio = ENVIO==='retiro'?0:5; t+=envio; if(ENVIO!=='retiro' && !(rp===1)) falta.push('Agrega 1 producto más y el envío es gratis.'); }
   else if(cart.length>=2) promos.push('Envío gratis');
   return {t:Math.round(t*100)/100, ahorro, falta, promos, envio};
 }
@@ -881,8 +880,8 @@ $('sendBtn').addEventListener('click',()=>{
   cart.forEach((it,n)=>{ msg+= it.perfume ? `${n+1}. ${it.nombre} (${it.color}): ${money(it.precio)}\n` : `${n+1}. ${it.nombre}, color ${it.color}, talla ${it.talla}: ${money(it.precio)}\n`; });
   if(promos.length) msg+=`\nPromos del catálogo: ${promos.join(' · ')}`;
   if(ahorro>0) msg+=`\nAhorro: ${money(ahorro)}`;
-  if(cart.length===1) msg+= ENVIO==='retiro' ? `\nRetiro en el showroom` : `\nEnvío a ${ENVIO==='quito'?'Quito':'provincia'}: ${money(envio)}`;
-  msg+=`\n*Total estimado: ${money(t)}*\n\n¿Tienen disponibilidad? Pago por transferencia.`;
+  if(cart.length===1) msg+= ENVIO==='retiro' ? `\nRetiro en el showroom` : `\nEnvío: ${money(envio)}`;
+  msg+=`\n*Total estimado: ${money(t)}*\n\n¿Tienen disponibilidad?`;
   const q=new URLSearchParams(location.search), urlPhone=q.get('phone');
   if(urlPhone){ fetch('https://polos593-bot.up.railway.app/catalog-order',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({phone:urlPhone,name:q.get('name')||'Cliente',items:cart.map(i=>({nombre:i.nombre,color:i.color,talla:i.talla,precio:i.precio.toFixed(2)})),total:t.toFixed(2)})}).catch(()=>{}); }
