@@ -335,7 +335,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
 
       <section class="band" aria-label="Lo nuevo">
         <h2 class="cond">Perfumes en Black Friday</h2>
-        <p class="lead">Los más pedidos, con precio rebajado hasta el 30 de noviembre. <a href="#/perfumes">Ver los 74</a></p>
+        <p class="lead">Testers con el frasco completo: los más pedidos, con precio rebajado hasta el 30 de noviembre. <a href="#/perfumes">Ver los 74</a></p>
         <div class="rail" id="railNuevo"></div>
       </section>
 
@@ -627,7 +627,7 @@ const BF_HASTA = new Date('2026-12-01T00:00:00-05:00').getTime();   // desde el 
   ["amarige", "Amarige", "Givenchy", "M", 0, "Floral intenso", 1, 62.99, 81.99],
   ["kaif", "Kaif", "Matai", "U", 0, "Árabe, dulce y especiado", 1, 57.99, null]
 ].forEach(([s,n,m,g,top,nota,k,precioN,antesN,precioBF,antesBF])=>P.push({ id:'perfume-'+s, seg:'perfumes', cat:PERF_CAT[g], nombre:n, marca:m, nota, top:!!top, perfume:true, unica:true,
-  precio: (precioBF && Date.now() < BF_HASTA) ? precioBF : precioN, antes: Date.now() < BF_HASTA ? ((precioBF ? antesBF : antesN) || undefined) : undefined, detalles:[PERF_CAT[g], nota, 'Foto real en nuestro showroom'],
+  precio: (precioBF && Date.now() < BF_HASTA) ? precioBF : precioN, antes: Date.now() < BF_HASTA ? ((precioBF ? antesBF : antesN) || undefined) : undefined, detalles:['Tester: frasco completo', PERF_CAT[g], nota, 'Foto real en nuestro showroom'],
   colores:[{color:m, hex:'#2A2320', pos:'center', img:`assets/perfumes/perfume-${s}-1.jpg`, fotos:Array.from({length:k},(_,j)=>`assets/perfumes/perfume-${s}-${j+1}.jpg`)}] }));
 const money = n => '$'+n.toFixed(2);
 const byId = id => P.find(p=>p.id===id);
@@ -682,7 +682,7 @@ function cardPerfume(p){
   return `<a class="pcard" href="#/p/${p.id}">
     <div class="pcard-img"><img src="${A(c.img)}" alt="Perfume ${p.nombre}" loading="lazy" style="object-position:center"/></div>
     <div class="pcard-b"><div class="pcard-n">${p.nombre}${p.top?'<span class="new">Más pedido</span>':''}</div>
-      <div class="pcard-c"><small style="margin-left:0">${p.marca} · ${p.nota}</small></div>
+      <div class="pcard-c"><small style="margin-left:0">Tester · ${p.marca} · ${p.nota}</small></div>
       <div class="price">${precioHTML(p)}</div></div></a>`;
 }
 function card(p){
@@ -702,7 +702,7 @@ function renderSeg(seg, cat){
   const una = S.cats.length===1;
   $('chips').hidden = una;
   $('chips').innerHTML = una ? '' : chip('Todo','#/'+seg,!cat)+S.cats.map(c=>chip(c,`#/${seg}/${c}`,cat===c)).join('');
-  const promo = seg==='perfumes' && Date.now()<BF_HASTA ? '<p class="seg-promo">Black Friday: precios rebajados hasta el 30 de noviembre.</p>' : '';
+  const promo = seg==='perfumes' ? '<p class="seg-promo">Todos los perfumes son tester, con el frasco completo.'+(Date.now()<BF_HASTA ? ' Black Friday: precios rebajados hasta el 30 de noviembre.' : '')+'</p>' : '';
   $('segBody').innerHTML = promo + (cat?[cat]:S.cats).map(c=>`${una?'':`<h2 class="cat-title cond">${c}</h2>`}<div class="grid">${P.filter(p=>p.seg===seg&&(c==='Más pedidos'?p.top:p.cat===c&&!(p.top&&!cat))).map(card).join('')}</div>`).join('');
 }
 
@@ -719,7 +719,7 @@ function renderPDP(p, i){
   $('pdpTallas').hidden=!!p.unica; $('pdpExtra').style.visibility = (p.tallas||TALLAS).some(t=>EXTRA.includes(t)) ? '' : 'hidden';
   $('pdpColores').hidden=!!p.perfume;
   const note=$('pdpNote');
-  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $95. Puedes mezclar colores.' : 'Lleva 2 polos por $50 o 3 por $69.99. Puedes mezclar modelos y marcas.') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
+  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Es un tester, con el frasco completo. Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $95. Puedes mezclar colores.' : 'Lleva 2 polos por $50 o 3 por $69.99. Puedes mezclar modelos y marcas.') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
   $('pdpSw').innerHTML=p.colores.map((c,n)=>`<button role="radio" aria-checked="${n===cur.i}" aria-pressed="${n===cur.i}" aria-label="${c.color}" title="${c.color}" style="background:${c.hex}" data-i="${n}"></button>`).join('');
   $('pdpSizes').innerHTML=(p.tallas||TALLAS).map(t=>`<button role="radio" aria-checked="false" aria-pressed="false" data-t="${t}">${t}${EXTRA.includes(t)?'<small>+$5</small>':''}</button>`).join('');
   $('pdpDetails').innerHTML=p.detalles.map(d=>`<span>${d}</span>`).join('');
@@ -734,8 +734,8 @@ function paintPDP(){
   $('pdpColor').textContent=c.color;
   document.querySelectorAll('#pdpSw button').forEach(b=>{ const on=+b.dataset.i===i; b.setAttribute('aria-pressed',on); b.setAttribute('aria-checked',on); });
   $('addBtn').disabled=!cur.talla || p.precio==null;
-  $('pdpHint').textContent = p.perfume ? `Perfume ${p.nombre}, ${p.marca}: ${money(p.precio)}` : p.precio==null ? 'Pregúntanos el precio por WhatsApp.' : cur.talla ? `${c.color}${p.unica?'':', talla '+cur.talla}: ${money(precioCon(p.precio,cur.talla))}` : 'Elige una talla para agregar.';
-  $('askBtn').href = waLink(p.perfume ? `Hola! Me interesa el perfume ${p.nombre} (${p.marca}). ¿Está disponible?` : `Hola! Me interesa ${p.nombre} en color ${c.color}${cur.talla&&!p.unica?', talla '+cur.talla:''}. ¿Está disponible?`);
+  $('pdpHint').textContent = p.perfume ? `Perfume tester ${p.nombre}, ${p.marca}: ${money(p.precio)}` : p.precio==null ? 'Pregúntanos el precio por WhatsApp.' : cur.talla ? `${c.color}${p.unica?'':', talla '+cur.talla}: ${money(precioCon(p.precio,cur.talla))}` : 'Elige una talla para agregar.';
+  $('askBtn').href = waLink(p.perfume ? `Hola! Me interesa el perfume tester ${p.nombre} (${p.marca}). ¿Está disponible?` : `Hola! Me interesa ${p.nombre} en color ${c.color}${cur.talla&&!p.unica?', talla '+cur.talla:''}. ¿Está disponible?`);
   history.replaceState(null,'',`#/p/${p.id}/${i}`);
 }
 $('pdpSw').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; cur.i=+b.dataset.i; cur.foto=0; paintPDP(); });
@@ -826,7 +826,7 @@ try{ cart=JSON.parse(sessionStorage.getItem('p593_cart')||'[]'); }catch(e){}
 const save=()=>{ try{ sessionStorage.setItem('p593_cart',JSON.stringify(cart)); }catch(e){} };
 $('addBtn').addEventListener('click',()=>{
   const {p,i,talla}=cur, c=p.colores[i];
-  cart.push({key:Date.now(), id:p.id, perfume:!!p.perfume, nombre:p.perfume?'Perfume '+p.nombre:p.nombre+(p.seg==='mujer'?' mujer':p.seg==='hombre'?' hombre':''), color:c.color, talla, precio:precioCon(p.precio,talla), base:p.precio, combo:p.combo||null, img:c.img});
+  cart.push({key:Date.now(), id:p.id, perfume:!!p.perfume, nombre:p.perfume?'Perfume tester '+p.nombre:p.nombre+(p.seg==='mujer'?' mujer':p.seg==='hombre'?' hombre':''), color:c.color, talla, precio:precioCon(p.precio,talla), base:p.precio, combo:p.combo||null, img:c.img});
   save(); paintCart();
   $('pdpHint').textContent= p.perfume ? `Agregado: perfume ${p.nombre}.` : `Agregado: ${p.nombre} ${c.color}, talla ${talla}.`;
   if(typeof fbq!=='undefined') fbq('track','AddToCart',{content_name:p.nombre+' '+c.color,value:precioCon(p.precio,talla),currency:'USD'});
