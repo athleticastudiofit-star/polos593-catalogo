@@ -453,7 +453,9 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
 
 <script>
 /* WhatsApp, atribución de pauta (?src=ads) y código de vendedor (?ref=): igual que el catálogo actual */
-const WA = "593982265740";
+// Quien llega desde el enlace del bot de Cierra (?wa=bot) escribe al número del bot; todos los demás, al de siempre.
+const WA_BOT = (function(){ try{ const p=new URLSearchParams(location.search).get('wa'); if(p){ sessionStorage.setItem('p593_wa',p); return p==='bot'; } return sessionStorage.getItem('p593_wa')==='bot'; }catch(e){ return /[?&]wa=bot(&|$)/.test(location.search); } })();
+const WA = WA_BOT ? "593986612178" : "593982265740";
 /* Horario del showroom: se muestra en la portada, la sección de visita y el pie */
 const HORARIO = '10:00 a 18:00';
 document.querySelectorAll('[data-horario]').forEach(el=>{ el.textContent = HORARIO || 'Horario por confirmar'; if(!HORARIO) el.classList.add('pend'); });
