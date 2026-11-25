@@ -325,11 +325,11 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
       <section class="combos" aria-label="Combos">
         <div><h2 class="cond" id="comboTit">Lleva 3 y paga menos</h2><p style="margin-top:8px;opacity:.85" id="comboSub">El descuento se aplica solo en tu pedido.</p></div>
         <div class="combo-list">
-          <div class="combo"><div><b>Envío gratis</b><small>Llevando 2 productos o más</small></div><span class="p">Gratis</span></div>
+          <div class="combo"><div><b>Envío gratis</b><small>Llevando 2 productos o más (sin contar gorras)</small></div><span class="p">Gratis</span></div>
           <div class="combo"><div><b>3 camisas Oxford</b><small>Llanas, mezcla colores y tallas</small></div><span class="p">$95</span></div>
           <div class="combo"><div><b>2 polos</b><small>Piqué o clásico, envío gratis</small></div><span class="p">$50</span></div>
           <div class="combo"><div><b>3 polos</b><small>Cualquier modelo o marca</small></div><span class="p">$69.99</span></div>
-          <div class="combo"><div><b>3 gorras</b><small>Mezcla colores</small></div><span class="p">$25</span></div>
+          <div class="combo"><div><b>3 gorras</b><small>Mezcla colores, envío aparte</small></div><span class="p">$25</span></div>
         </div>
       </section>
 
@@ -349,7 +349,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
             <li>Despachamos tu pedido y te enviamos la guía.</li>
           </ol>
           <div class="where">
-            <div><h3>Envíos a todo el Ecuador</h3><p>Por Servientrega: $5 con un solo producto, gratis desde 2 hasta el 30 de noviembre. Llega en 24 horas. Contra entrega: $7, entre 24 y 48 horas según el lugar; no se puede probar antes de pagar. Retiro gratis en el showroom.</p></div>
+            <div><h3>Envíos a todo el Ecuador</h3><p>Por Servientrega: $5 con un solo producto o solo gorras, gratis desde 2 productos (sin contar gorras) hasta el 30 de noviembre. Llega en 24 horas. Contra entrega: $7, entre 24 y 48 horas según el lugar; no se puede probar antes de pagar. Retiro gratis en el showroom.</p></div>
             <div><h3>Cambios</h3><p>Sí hacemos cambios. Los envíos del cambio los paga el cliente. Escríbenos por WhatsApp y te indicamos cómo.</p></div>
           </div>
         </div>
@@ -434,7 +434,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
         <button type="button" class="chip" data-envio="envio" aria-pressed="true">Envío $5.00</button>
         <button type="button" class="chip" data-envio="retiro" aria-pressed="false">Retiro en showroom</button>
       </div>
-      <div style="font-size:13px;opacity:.75;margin-top:6px">Llevando 2 productos o más, el envío es gratis hasta el 30 de noviembre. Contra entrega: el envío es de $7 y se coordina por WhatsApp.</div>
+      <div style="font-size:13px;opacity:.75;margin-top:6px">Llevando 2 productos o más (sin contar gorras), el envío es gratis hasta el 30 de noviembre. Contra entrega: el envío es de $7 y se coordina por WhatsApp.</div>
     </div>
     <p class="cart-pay"><svg class="ph" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Transferencia, contra entrega o tarjeta (5 % de recargo). Al confirmar tu pedido te enviamos los datos por WhatsApp.</span></p>
     <div class="tot"><span>Total estimado</span><span id="cartTot">$0.00</span></div>
@@ -833,7 +833,8 @@ $('addBtn').addEventListener('click',()=>{
   if(typeof fbq!=='undefined') fbq('track','AddToCart',{content_name:p.nombre+' '+c.color,value:precioCon(p.precio,talla),currency:'USD'});
 });
 // Combos (21 nov 2026, pedido de Homero): 3 camisas Oxford (llanas) $95, 3 polos $69.99, 3 gorras $25.
-// Envío gratis desde 2 productos; con 1 solo producto $5 a todo el país (24 nov 2026); retiro en showroom gratis.
+// Envío gratis desde 2 productos SIN contar gorras (25 nov 2026, pedido de Homero: el 3 por $25 paga envío aparte); si no, $5 a todo el país; retiro en showroom gratis.
+const pagaEnvio = () => cart.length>0 && cart.filter(it=>it.id!=='gorra').length<2;
 // Ya NO hay gorra de regalo ni 10 % en perfumes. El recargo de tallas grandes se mantiene.
 let ENVIO='envio';
 try{ ENVIO=sessionStorage.getItem('p593_envio')==='retiro'?'retiro':'envio'; }catch(e){}
@@ -854,14 +855,15 @@ function total(){
   if(rg) falta.push(`Agrega ${3-rg} ${3-rg>1?'gorras':'gorra'} más: 3 por $25.`);
   const ahorro=Math.max(0,Math.round((sin-t)*100)/100);
   let envio=0;
-  if(cart.length===1){ envio = ENVIO==='retiro'?0:5; t+=envio; if(ENVIO!=='retiro' && !(rp===1)) falta.push('Agrega 1 producto más y el envío es gratis.'); }
-  else if(cart.length>=2) promos.push('Envío gratis');
+  if(pagaEnvio()){ envio = ENVIO==='retiro'?0:5; t+=envio; const nOtros=cart.length-nGor;
+    if(ENVIO!=='retiro' && !(rp===1)) falta.push(nOtros===1 ? 'Agrega 1 producto más y el envío es gratis (las gorras no cuentan).' : 'Envío gratis llevando 2 productos que no sean gorras.'); }
+  else if(cart.length) promos.push('Envío gratis');
   return {t:Math.round(t*100)/100, ahorro, falta, promos, envio};
 }
 function paintCart(){
   const {t,ahorro,falta,promos,envio}=total();
   $('cartN').textContent=cart.length; $('cartTot').textContent=money(t); $('sendBtn').disabled=!cart.length;
-  $('cartEnvio').hidden = cart.length!==1;
+  $('cartEnvio').hidden = !pagaEnvio();
   document.querySelectorAll('#cartEnvio [data-envio]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.envio===ENVIO));
   $('cartSave').innerHTML=(promos.length&&cart.length?`<div class="save">${promos.join('<br/>')}${ahorro>0?`<br/><b>Ahorras ${money(ahorro)}</b>`:''}</div>`:'')+(falta.length&&cart.length?`<div class="save soft">${falta.join('<br/>')}</div>`:'');
   $('cartItems').innerHTML = cart.length ? cart.map(it=>`<div class="ci"><img src="${T(it.img)}" alt=""/><div><b>${it.nombre}</b><span>${it.perfume?it.color:`${it.color}, talla ${it.talla}`}</span></div><div class="r"><b>${money(it.precio)}</b><button data-k="${it.key}">Quitar</button></div></div>`).join('')
@@ -882,7 +884,7 @@ $('sendBtn').addEventListener('click',()=>{
   cart.forEach((it,n)=>{ msg+= it.perfume ? `${n+1}. ${it.nombre} (${it.color}): ${money(it.precio)}\n` : `${n+1}. ${it.nombre}, color ${it.color}, talla ${it.talla}: ${money(it.precio)}\n`; });
   if(promos.length) msg+=`\nPromos del catálogo: ${promos.join(' · ')}`;
   if(ahorro>0) msg+=`\nAhorro: ${money(ahorro)}`;
-  if(cart.length===1) msg+= ENVIO==='retiro' ? `\nRetiro en el showroom` : `\nEnvío: ${money(envio)}`;
+  if(pagaEnvio()) msg+= ENVIO==='retiro' ? `\nRetiro en el showroom` : `\nEnvío: ${money(envio)}`;
   msg+=`\n*Total estimado: ${money(t)}*\n\n¿Tienen disponibilidad?`;
   const q=new URLSearchParams(location.search), urlPhone=q.get('phone');
   if(urlPhone){ fetch('https://polos593-bot.up.railway.app/catalog-order',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -895,7 +897,7 @@ $('waFoot').href=waLink('Hola! Quisiera más información sobre sus prendas.');
 ['askBtn','waFoot'].forEach(id=>$(id).addEventListener('click',()=>{ if(typeof fbq!=='undefined') fbq('track','Contact'); }));
 if(Date.now() < BF_HASTA){
   document.querySelectorAll('[data-bf]').forEach(e=>e.hidden=false);
-  $('comboTit').textContent='Black Friday: combos'; $('comboSub').textContent='Envío gratis llevando 2 productos o más. El descuento se aplica solo en tu pedido.';
+  $('comboTit').textContent='Black Friday: combos'; $('comboSub').textContent='Envío gratis llevando 2 productos o más (sin contar gorras). El descuento se aplica solo en tu pedido.';
 }
 paintCart(); route();
 </script>
