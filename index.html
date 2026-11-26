@@ -329,7 +329,7 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
           <div class="combo"><div><b>3 camisas Oxford</b><small>Llanas, mezcla colores y tallas</small></div><span class="p">$95</span></div>
           <div class="combo"><div><b>2 polos</b><small>Piqué o clásico, envío gratis</small></div><span class="p">$50</span></div>
           <div class="combo"><div><b>3 polos</b><small>Cualquier modelo o marca</small></div><span class="p">$69.99</span></div>
-          <div class="combo"><div><b>3 gorras</b><small>Mezcla colores, envío aparte</small></div><span class="p">$25</span></div>
+          <div class="combo"><div><b>3 gorras</b><small>Mezcla colores, envío aparte</small></div><span class="p">$30</span></div>
         </div>
       </section>
 
@@ -832,13 +832,13 @@ $('addBtn').addEventListener('click',()=>{
   $('pdpHint').textContent= p.perfume ? `Agregado: perfume ${p.nombre}.` : `Agregado: ${p.nombre} ${c.color}, talla ${talla}.`;
   if(typeof fbq!=='undefined') fbq('track','AddToCart',{content_name:p.nombre+' '+c.color,value:precioCon(p.precio,talla),currency:'USD'});
 });
-// Combos (21 nov 2026, pedido de Homero): 3 camisas Oxford (llanas) $95, 3 polos $69.99, 3 gorras $25.
+// Combos (21 nov 2026, pedido de Homero): 3 camisas Oxford (llanas) $95, 3 polos $69.99, 3 gorras $30 (desde 26 nov; antes $25).
 // Envío gratis desde 2 productos SIN contar gorras (25 nov 2026, pedido de Homero: el 3 por $25 paga envío aparte); si no, $5 a todo el país; retiro en showroom gratis.
 const pagaEnvio = () => cart.length>0 && cart.filter(it=>it.id!=='gorra').length<2;
 // Ya NO hay gorra de regalo ni 10 % en perfumes. El recargo de tallas grandes se mantiene.
 let ENVIO='envio';
 try{ ENVIO=sessionStorage.getItem('p593_envio')==='retiro'?'retiro':'envio'; }catch(e){}
-const PRECIO_3_GORRAS=25, PRECIO_3_CAMISAS=95, PRECIO_3_POLOS=69.99;
+const PRECIO_3_GORRAS=30, PRECIO_3_CAMISAS=95, PRECIO_3_POLOS=69.99;
 function total(){
   const g={camisa:{n:0,precio:34.99,combo:PRECIO_3_CAMISAS}, polo:{n:0,precio:24.99,combo:PRECIO_3_POLOS}};
   let sin=0, suelto=0, recargo=0, nGor=0, pGor=0; const polos=[];
@@ -848,11 +848,11 @@ function total(){
   let t=suelto+recargo+tc*PRECIO_3_CAMISAS+tp*PRECIO_3_POLOS+rc*34.99+polos.sort((a,b)=>a-b).slice(0,rp).reduce((x,y)=>x+y,0)+tg*PRECIO_3_GORRAS+rg*pGor;
   if(tc) promos.push(`3 camisas Oxford por $95${tc>1?' ×'+tc:''}`);
   if(tp) promos.push(`3 polos por $69.99${tp>1?' ×'+tp:''}`);
-  if(tg) promos.push(`3 gorras por $25${tg>1?' ×'+tg:''}`);
+  if(tg) promos.push(`3 gorras por $30${tg>1?' ×'+tg:''}`);
   if(rc) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más: 3 por $95.`);
   if(rp===1 && !tp) falta.push('Agrega 1 polo más: 2 polos por $50 con envío gratis.');
   else if(rp) falta.push(`Agrega ${3-rp} ${3-rp>1?'polos':'polo'} más: 3 por $69.99.`);
-  if(rg) falta.push(`Agrega ${3-rg} ${3-rg>1?'gorras':'gorra'} más: 3 por $25.`);
+  if(rg) falta.push(`Agrega ${3-rg} ${3-rg>1?'gorras':'gorra'} más: 3 por $30.`);
   const ahorro=Math.max(0,Math.round((sin-t)*100)/100);
   let envio=0;
   if(pagaEnvio()){ envio = ENVIO==='retiro'?0:5; t+=envio; const nOtros=cart.length-nGor;
