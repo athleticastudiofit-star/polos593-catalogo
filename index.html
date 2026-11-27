@@ -327,7 +327,9 @@ fbq('track','ViewContent',{content_name:'Catalogo Polos593',content_category:'Fa
         <div class="combo-list">
           <div class="combo"><div><b>Envío gratis</b><small>Llevando 2 productos o más (sin contar gorras)</small></div><span class="p">Gratis</span></div>
           <div class="combo"><div><b>3 camisas Oxford</b><small>Llanas, mezcla colores y tallas</small></div><span class="p">$95</span></div>
-          <div class="combo"><div><b>2 polos</b><small>Piqué o clásico, envío gratis</small></div><span class="p">$50</span></div>
+          <div class="combo"><div><b>Camisa + polo</b><small>Camisa Oxford y cualquier polo</small></div><span class="p">$58</span></div>
+          <div class="combo"><div><b>2 camisas rayadas</b><small>Mezcla colores</small></div><span class="p">$79</span></div>
+          <div class="combo"><div><b>2 polos</b><small>Cualquier modelo o marca</small></div><span class="p">$53</span></div>
           <div class="combo"><div><b>3 polos</b><small>Cualquier modelo o marca</small></div><span class="p">$69.99</span></div>
           <div class="combo"><div><b>3 gorras</b><small>Mezcla colores, envío aparte</small></div><span class="p">$30</span></div>
         </div>
@@ -490,7 +492,7 @@ const P = [
       .map(([c,h,n])=>({color:c,hex:h,img:`assets/model-lc-${n}.png`,flat:`assets/polo-lc-${n}.png`})) },
   { id:'oxford-h', seg:'hombre', cat:'Camisas', nombre:'Camisa Oxford', precio:34.99, antes:39.99, combo:'camisa', base:'h',
     detalles:['Classic fit','100% algodón de alto gramaje','Bordado decorativo'] },
-  { id:'rayada-h', seg:'hombre', cat:'Camisas', nombre:'Camisa rayada', precio:39.90, nuevo:true,
+  { id:'rayada-h', seg:'hombre', cat:'Camisas', nombre:'Camisa rayada', precio:39.90, nuevo:true, combo:'rayada',
     detalles:['Slim fit','100% algodón','Para oficina y ocasiones formales'],
     colores:[['Azul Marino','#23305E','azul-marino'],['Cobalto','#3E5F94','cobalto'],['Celeste','#A9C3E6','celeste'],['Verde Agua','#3FC3DC','verde-agua'],['Verde Nilo','#8FAF92','verde-nilo'],['Rosado','#E9A9C1','rosado'],['Rojo','#C25A58','rojo'],['Negro','#1C1C22','negro']]
       .map(([c,h,s])=>({color:c,hex:h,img:`assets/rayadas/model-h-rayas-${s}.jpg`})) },
@@ -500,7 +502,7 @@ const P = [
       .map(([c,h,s])=>({color:c,hex:h,img:`assets/bermudas/bermuda-lc-${s}.jpg`,pos:'center'})) },
   { id:'oxford-m', seg:'mujer', cat:'Camisas', nombre:'Camisa Oxford', precio:34.99, antes:39.99, combo:'camisa', base:'m',
     detalles:['Slim fit','100% algodón de alto gramaje','Bordado decorativo'] },
-  { id:'rayada-m', seg:'mujer', cat:'Camisas', nombre:'Camisa rayada', precio:39.90, nuevo:true,
+  { id:'rayada-m', seg:'mujer', cat:'Camisas', nombre:'Camisa rayada', precio:39.90, nuevo:true, combo:'rayada',
     detalles:['Corte entallado','Bordado decorativo','Para oficina y ocasiones formales'],
     colores:[['Azul Marino','#23305E','azul-marino'],['Celeste Cielo','#8FB4E8','celeste-cielo'],['Rosado','#E9A9C1','rosado'],['Verde Menta','#9ED9C8','verde-menta'],['Rojo','#C25A58','rojo'],['Negro','#1C1C22','negro'],['Cobalto','#3E5F94','cobalto'],['Celeste','#A9C3E6','celeste'],['Gris Azulado','#5E6B82','gris-azulado'],['Blanco Raya Marino','#F4F4F6','blanco-raya-marino'],['Blanco Raya Celeste','#EEF2F8','blanco-raya-celeste']]
       .map(([c,h,s])=>({color:c,hex:h,img:`assets/rayadas/model-m-rayas-${s}.jpg`})) },
@@ -720,7 +722,7 @@ function renderPDP(p, i){
   $('pdpTallas').hidden=!!p.unica; $('pdpExtra').style.visibility = (p.tallas||TALLAS).some(t=>EXTRA.includes(t)) ? '' : 'hidden';
   $('pdpColores').hidden=!!p.perfume;
   const note=$('pdpNote');
-  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Es un tester, con el frasco completo. Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = (p.combo==='camisa' ? 'Lleva 3 camisas Oxford por $95. Puedes mezclar colores.' : 'Lleva 2 polos por $50 o 3 por $69.99. Puedes mezclar modelos y marcas.') + ' Envío gratis llevando 2 productos.'; } else note.hidden=true;
+  if(p.perfume&&p.antes){ note.hidden=false; note.textContent='Es un tester, con el frasco completo. Precio Black Friday hasta el 30 de noviembre. Precio regular tachado. Llevando 2 productos, envío gratis.'; } else if(p.combo){ note.hidden=false; note.textContent = ({camisa:'Lleva 3 camisas Oxford por $95, o camisa + polo por $58. Puedes mezclar colores.', rayada:'Lleva 2 camisas rayadas por $79. Puedes mezclar colores.', polo:'Lleva 2 polos por $53, 3 por $69.99 o camisa + polo por $58. Puedes mezclar modelos y marcas.'}[p.combo]) + ' Envío gratis llevando 2 productos, hasta el lunes 30.'; } else note.hidden=true;
   $('pdpSw').innerHTML=p.colores.map((c,n)=>`<button role="radio" aria-checked="${n===cur.i}" aria-pressed="${n===cur.i}" aria-label="${c.color}" title="${c.color}" style="background:${c.hex}" data-i="${n}"></button>`).join('');
   $('pdpSizes').innerHTML=(p.tallas||TALLAS).map(t=>`<button role="radio" aria-checked="false" aria-pressed="false" data-t="${t}">${t}${EXTRA.includes(t)?'<small>+$5</small>':''}</button>`).join('');
   $('pdpDetails').innerHTML=p.detalles.map(d=>`<span>${d}</span>`).join('');
@@ -839,24 +841,38 @@ const pagaEnvio = () => cart.length>0 && cart.filter(it=>it.id!=='gorra').length
 let ENVIO='envio';
 try{ ENVIO=sessionStorage.getItem('p593_envio')==='retiro'?'retiro':'envio'; }catch(e){}
 const PRECIO_3_GORRAS=30, PRECIO_3_CAMISAS=95, PRECIO_3_POLOS=69.99;
+// Black weekend (27 nov 2026, pedido de Homero): camisa + polo $58, 2 polos $53 (los $3 del envío van adentro), 2 rayadas $79. Hasta el lunes 30 (BF_HASTA).
+const PRECIO_CAMISA_POLO=58, PRECIO_2_POLOS=53, PRECIO_2_RAYADAS=79;
 function total(){
-  const g={camisa:{n:0,precio:34.99,combo:PRECIO_3_CAMISAS}, polo:{n:0,precio:24.99,combo:PRECIO_3_POLOS}};
+  const g={camisa:{n:0}, polo:{n:0}, rayada:{n:0}};
   let sin=0, suelto=0, recargo=0, nGor=0, pGor=0; const polos=[];
-  cart.forEach(it=>{ sin+=it.precio; if(it.combo){ g[it.combo].n++; if(it.combo==='polo') polos.push(it.base); recargo+=it.precio-it.base; } else if(it.id==='gorra'){ nGor++; pGor=it.base||it.precio; } else suelto+=it.precio; });
-  const promos=[], falta=[];
-  const tc=Math.floor(g.camisa.n/3), tp=Math.floor(g.polo.n/3), rc=g.camisa.n%3, rp=g.polo.n%3, tg=Math.floor(nGor/3), rg=nGor%3;
-  let t=suelto+recargo+tc*PRECIO_3_CAMISAS+tp*PRECIO_3_POLOS+rc*34.99+polos.sort((a,b)=>a-b).slice(0,rp).reduce((x,y)=>x+y,0)+tg*PRECIO_3_GORRAS+rg*pGor;
+  cart.forEach(it=>{ sin+=it.precio; if(it.combo && g[it.combo]){ g[it.combo].n++; if(it.combo==='polo') polos.push(it.base); recargo+=it.precio-it.base; } else if(it.id==='gorra'){ nGor++; pGor=it.base||it.precio; } else suelto+=it.precio; });
+  const promos=[], falta=[], bf=Date.now()<BF_HASTA;
+  polos.sort((a,b)=>a-b);
+  const tc=Math.floor(g.camisa.n/3), tp=Math.floor(g.polo.n/3), tg=Math.floor(nGor/3), rg=nGor%3;
+  let rc=g.camisa.n%3, rp=g.polo.n%3;
+  const sueltos=polos.slice(0,rp);            // los polos fuera del 3x: los más baratos
+  const cp = bf ? Math.min(rc,rp) : 0;        // camisa + polo
+  rc-=cp; const restoPolos=sueltos.slice(cp); rp=restoPolos.length;
+  const dosPolos = bf && rp===2;
+  const tr = bf ? Math.floor(g.rayada.n/2) : 0, rr = g.rayada.n - tr*2;
+  let t=suelto+recargo+tc*PRECIO_3_CAMISAS+tp*PRECIO_3_POLOS+cp*PRECIO_CAMISA_POLO+rc*34.99
+       +(dosPolos?PRECIO_2_POLOS:restoPolos.reduce((x,y)=>x+y,0))+tr*PRECIO_2_RAYADAS+rr*39.90+tg*PRECIO_3_GORRAS+rg*pGor;
   if(tc) promos.push(`3 camisas Oxford por $95${tc>1?' ×'+tc:''}`);
   if(tp) promos.push(`3 polos por $69.99${tp>1?' ×'+tp:''}`);
+  if(cp) promos.push(`Camisa + polo por $58${cp>1?' ×'+cp:''}`);
+  if(dosPolos) promos.push('2 polos por $53');
+  if(tr) promos.push(`2 camisas rayadas por $79${tr>1?' ×'+tr:''}`);
   if(tg) promos.push(`3 gorras por $30${tg>1?' ×'+tg:''}`);
-  if(rc) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más: 3 por $95.`);
-  if(rp===1 && !tp) falta.push('Agrega 1 polo más: 2 polos por $50 con envío gratis.');
-  else if(rp) falta.push(`Agrega ${3-rp} ${3-rp>1?'polos':'polo'} más: 3 por $69.99.`);
+  if(rc) falta.push(`Agrega ${3-rc} ${3-rc>1?'camisas Oxford':'camisa Oxford'} más: 3 por $95.`+(bf&&rc===1?' O agrega un polo: camisa + polo $58.':''));
+  if(rp===1) falta.push(bf ? 'Agrega 1 polo más: 2 por $53, o una camisa Oxford: camisa + polo $58.' : 'Agrega 2 polos más: 3 por $69.99.');
+  else if(rp===2) falta.push('Agrega 1 polo más: 3 por $69.99.');
+  if(bf && rr) falta.push('Agrega 1 camisa rayada más: 2 por $79.');
   if(rg) falta.push(`Agrega ${3-rg} ${3-rg>1?'gorras':'gorra'} más: 3 por $30.`);
   const ahorro=Math.max(0,Math.round((sin-t)*100)/100);
   let envio=0;
   if(pagaEnvio()){ envio = ENVIO==='retiro'?0:5; t+=envio; const nOtros=cart.length-nGor;
-    if(ENVIO!=='retiro' && !(rp===1)) falta.push(nOtros===1 ? 'Agrega 1 producto más y el envío es gratis (las gorras no cuentan).' : 'Envío gratis llevando 2 productos que no sean gorras.'); }
+    if(ENVIO!=='retiro' && !(rp===1 && bf)) falta.push(nOtros===1 ? 'Agrega 1 producto más y el envío es gratis (las gorras no cuentan).' : 'Envío gratis llevando 2 productos que no sean gorras.'); }
   else if(cart.length) promos.push('Envío gratis');
   return {t:Math.round(t*100)/100, ahorro, falta, promos, envio};
 }
